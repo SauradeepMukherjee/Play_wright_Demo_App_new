@@ -78,6 +78,34 @@ Validate that a logged-in customer can complete the checkout flow from product s
    - Priority: Medium
    - Automation Feasibility: High
 
+5. TC-005 Empty cart checkout prevention
+   - Objective: Verify the user cannot proceed to checkout with no items in the cart.
+   - Preconditions: User is logged in and cart is empty.
+   - Expected Results: Checkout action is disabled or unavailable.
+   - Priority: Medium
+   - Automation Feasibility: High
+
+6. TC-006 Partial fill validation
+   - Objective: Verify validation when one required field is omitted.
+   - Preconditions: User is on the checkout information page with an item in cart.
+   - Expected Results: The specific missing field error is displayed.
+   - Priority: High
+   - Automation Feasibility: High
+
+7. TC-007 Continue shopping from cart
+   - Objective: Ensure the user can return to the inventory page from the cart.
+   - Preconditions: User has one item in the cart.
+   - Expected Results: The inventory page is displayed.
+   - Priority: Medium
+   - Automation Feasibility: High
+
+8. TC-008 Checkout overview validation
+   - Objective: Confirm the overview page shows payment, shipping, and totals before finishing.
+   - Preconditions: User has entered valid personal information.
+   - Expected Results: Overview page displays expected summary sections.
+   - Priority: High
+   - Automation Feasibility: High
+
 ## Notes
 - Tests should use accessible selectors where possible.
 - Screenshots should be captured on failure.
