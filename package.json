@@ -2,13 +2,22 @@
   "name": "playwrightdemo",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:e2e": "playwright test tests/saucedemo-checkout",
+    "test:e2e:history": "set REPORT_HISTORY=true&& playwright test tests/saucedemo-checkout",
+    "test:ci": "playwright test tests/saucedemo-checkout",
+    "report:pdf": "node scripts/generate-report.js",
+    "report:excel": "node scripts/generate-test-case-workbook.js",
+    "dashboard": "node qa-workflow-dashboard/server.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.61.1",
-    "@types/node": "^26.1.0"
+    "@types/node": "^26.1.0",
+    "exceljs": "^4.4.0",
+    "puppeteer": "^25.3.0"
   }
 }

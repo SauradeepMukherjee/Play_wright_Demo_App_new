@@ -1,42 +1,131 @@
-# End-to-End QA Workflow Using Natural Language and MCP Servers
-
-## Overview
-
-This document demonstrates a complete end-to-end Quality Assurance (QA) workflow powered by Natural Language prompts, Playwright MCP browser tools, and AI-assisted agents.
-
-The purpose of this workflow is to show how a QA Engineer can move from a business requirement (User Story) to a fully automated and documented testing solution by using AI agents to:
-
-1. Understand the business requirements.
-2. Generate a comprehensive test plan.
-3. Perform exploratory testing.
-4. Create Playwright automation scripts.
-5. Execute and self-heal failed tests.
-6. Generate detailed execution reports.
-7. Commit all deliverables to a Git repository.
-
-The workflow is designed to simulate a real-world software testing lifecycle and demonstrate how modern AI tools can accelerate test analysis, automation development, execution, reporting, and collaboration.
-
----
-
-# Step 1: Read and Understand the User Story
+# End-to-End QA Workflow Using Multiple Agents and MCP Servers
 
 ## Objective
 
-The first activity is to understand the business requirement before creating any test cases or automation scripts.
+I would like to perform a complete end-to-end QA workflow using GitHub Copilot as the primary orchestration agent and the specialized agents and MCP servers configured in this workspace.
 
-The AI agent should read the user story file and extract all relevant information that will be required during testing activities.
+The workflow should simulate a real-world QA lifecycle starting from requirement analysis and ending with automated test execution, reporting, documentation, and Git repository updates.
 
-## User Story Location
+Execute the workflow sequentially and do not skip any steps.
 
-```text
+---
+
+# Primary Orchestrator
+
+## GitHub Copilot
+
+Responsibilities:
+
+- Understand natural language instructions.
+- Coordinate all workflow phases.
+- Maintain context throughout execution.
+- Delegate work to specialized agents.
+- Consolidate outputs from all agents.
+- Generate summaries and reports.
+- Coordinate Git operations.
+- Ensure all deliverables are generated successfully.
+
+---
+
+# Specialized Agents
+
+## Agent: playwright-test-planner
+
+Responsibilities:
+
+- Analyze requirements
+- Extract acceptance criteria
+- Identify business workflows
+- Generate test scenarios
+- Generate test plans
+- Perform coverage analysis
+- Create requirement traceability matrix
+
+---
+
+## Agent: Playwright MCP Browser Tools
+
+Responsibilities:
+
+- Launch browsers
+- Navigate applications
+- Execute exploratory testing
+- Inspect DOM elements
+- Discover selectors
+- Capture screenshots
+- Record evidence
+- Validate application behavior
+- Collect execution artifacts
+
+---
+
+## Agent: playwright-test-generator
+
+Responsibilities:
+
+- Generate Playwright automation scripts
+- Create reusable test suites
+- Generate assertions
+- Configure hooks
+- Generate reporting configuration
+- Support multi-browser execution
+- Configure screenshots, videos, and traces
+
+---
+
+## Agent: playwright-test-healer
+
+Responsibilities:
+
+- Execute tests
+- Analyze failures
+- Repair selectors
+- Improve synchronization
+- Stabilize automation suites
+- Re-run tests
+- Generate healing reports
+
+---
+
+## Agent: qa-documentation-agent
+
+Responsibilities:
+
+- Generate requirement summaries
+- Generate test plans
+- Generate execution reports
+- Generate defect reports
+- Generate coverage reports
+- Generate dashboards
+- Generate recommendations
+- Maintain project documentation
+- Generate Markdown, HTML, and PDF reports
+
+---
+
+## Agent: GitHub MCP Server
+
+Responsibilities:
+
+- Initialize repositories
+- Stage changes
+- Create commits
+- Push changes
+- Generate repository summaries
+
+---
+
+# STEP 1: Read and Understand the User Story
+
+## Input
+
 user-stories/SCRUM-101-ecommerce-checkout.md
-```
 
-## Instructions
+## Activities
 
 Read the user story and identify:
 
-- Business objective of the feature
+- Business objective
 - Functional requirements
 - Acceptance criteria
 - Application URL
@@ -44,218 +133,227 @@ Read the user story and identify:
 - User roles
 - Dependencies
 - Business rules
-- Features that require testing
-- Workflows that need validation
+- Features requiring testing
+- Workflows requiring validation
 - Assumptions and constraints
+- Test environment requirements
 
 ## Deliverables
 
-Generate a concise requirement summary containing:
+Generate:
 
-### Business Summary
-A high-level explanation of the feature and its purpose.
-
-### Acceptance Criteria
-A complete list of all acceptance criteria defined in the user story.
-
+### Requirement Summary
+### Acceptance Criteria List
+### Business Rules
+### Dependencies
 ### Test Scope
-Identification of:
-- Features included in testing
-- Features excluded from testing
-- Dependencies and assumptions
-
-### Test Environment Information
-- Application URL
-- User credentials
-- Environment details
-- Special configuration requirements
+### Environment Information
+### Requirement Traceability Information
 
 ---
 
-# Step 2: Create a Comprehensive Test Plan
-
-## Objective
-
-After understanding the requirements, the next step is to prepare a detailed test plan that ensures complete coverage of the user story.
-
-The test plan should serve as the single source of truth for all manual and automated testing activities.
+# STEP 2: Create Comprehensive Test Plan
 
 ## Output File
 
-```text
 specs/saucedemo-checkout-test-plan.md
-```
 
-## Instructions
+## Requirements
 
-Use the information extracted from the user story and perform application exploration.
+Generate a comprehensive test plan containing a minimum of 20 well-structured test cases.
 
-Understand:
+The test scenarios must include:
 
-- Complete application workflow
-- User navigation paths
-- Data validations
-- Error handling mechanisms
-- Business rules
-- Dependencies between screens
+---
 
-Create test scenarios covering:
-
-### Happy Path Scenarios
-Validate all expected user journeys.
+## Positive Test Cases
 
 Examples:
+
 - Successful login
-- Successful checkout
+- Successful product selection
+- Successful cart operations
+- Successful checkout completion
 - Successful order confirmation
 
-### Negative Test Scenarios
-Validate invalid inputs and error handling.
+---
+
+## Negative Test Cases
 
 Examples:
-- Empty fields
+
+- Empty mandatory fields
 - Invalid credentials
-- Invalid payment details
-- Missing mandatory information
+- Invalid checkout information
+- Invalid user inputs
+- Invalid navigation attempts
+- Session failures
+- Invalid combinations of data
 
-### Edge Cases
-Validate uncommon situations and system boundaries.
+---
+
+## Functional Test Cases
 
 Examples:
-- Maximum character limits
-- Minimum values
-- Invalid combinations
-- Session expiration
-- Browser refresh during transactions
 
-### Navigation Testing
-Validate:
+- Login functionality
+- Product listing functionality
+- Product sorting functionality
+- Cart functionality
+- Checkout functionality
+- Order confirmation functionality
+- Navigation functionality
+- Validation functionality
+
+---
+
+## Smoke Test Cases
+
+Examples:
+
+- Application launch verification
+- Login verification
+- Product page verification
+- Cart verification
+- Checkout verification
+- Order completion verification
+
+---
+
+## Edge Case Test Cases
+
+Examples:
+
+- Boundary values
+- Browser refresh scenarios
+- Session expiration scenarios
+- Multiple navigation actions
+- Invalid data combinations
+- Unexpected user actions
+
+---
+
+## Navigation Test Cases
+
+Examples:
+
 - Page navigation
 - Browser back button
 - Deep linking
 - Redirect behavior
+- Continue shopping workflow
+- Cancel checkout workflow
 
-### User Interface Validation
-Validate:
+---
+
+## UI Validation Test Cases
+
+Examples:
+
 - Labels
 - Buttons
 - Messages
 - Layouts
 - Error notifications
-- Field validations
+- Mandatory field validations
+- Page rendering
 
-## Test Case Structure
+---
 
-Every test case should include:
+## Every Test Case Must Include
 
 - Test Case ID
-- Test Scenario
+- Test Case Title
 - Objective
 - Preconditions
 - Test Data
-- Test Steps
-- Expected Results
+- Detailed Test Steps
+- Expected Results for every step
 - Priority
+- Test Type
 - Automation Feasibility
 
-## Deliverables
-
-Produce a detailed markdown document containing all test scenarios in a structured format.
+Generate sufficient scenarios to ensure complete requirement coverage.
 
 ---
 
-# Step 3: Perform Exploratory Testing
-
-## Objective
-
-The purpose of exploratory testing is to manually interact with the application and validate real application behavior.
-
-This phase allows discovery of issues that may not be explicitly documented in requirements.
+# STEP 3: Perform Exploratory Testing
 
 ## Input
 
-```text
 specs/saucedemo-checkout-test-plan.md
-```
 
-## Instructions
+## Activities
 
 Using Playwright MCP browser tools:
 
-1. Execute each scenario manually.
+1. Execute every test scenario manually.
 2. Follow all documented test steps.
-3. Compare expected results with actual behavior.
-4. Explore additional workflows that may expose hidden defects.
+3. Compare actual and expected behavior.
+4. Explore additional workflows.
+5. Discover hidden defects.
+6. Discover selectors and DOM behavior.
+7. Capture screenshots and evidence.
 
-During execution:
+Capture screenshots for:
 
-- Capture screenshots of important screens
-- Capture screenshots of failures
-- Capture screenshots of validations
-- Capture screenshots of success messages
-- Capture screenshots of unexpected behavior
-
-Document:
-
-### Execution Results
-- Pass
-- Fail
-- Blocked
-
-### Findings
-- UI inconsistencies
-- Functional defects
-- Missing validations
-- Navigation issues
-- Data issues
-- Performance observations
-
-### Evidence
-Attach screenshots and observations.
+- Login page
+- Product inventory page
+- Product details page
+- Cart page
+- Checkout information page
+- Checkout overview page
+- Order confirmation page
+- Validation error messages
+- Failed scenarios
+- Unexpected application behavior
 
 ## Deliverables
 
-Create a manual execution summary containing:
+Generate:
 
-- Execution results
+- Manual execution results
 - Screenshots
+- Observations
+- Findings
 - Defect observations
-- Additional recommendations
+- Selector information
+- Recommendations
+- Execution evidence
 
 ---
 
-# Step 4: Generate Playwright Automation Scripts
-
-## Objective
-
-Transform manual test scenarios into maintainable and reliable Playwright automation scripts.
-
-Automation should leverage knowledge gained during exploratory testing.
+# STEP 4: Generate Playwright Automation Scripts
 
 ## Inputs
 
-### Test Plan
-
-```text
 specs/saucedemo-checkout-test-plan.md
-```
 
-### Exploratory Testing Results
+Exploratory testing results including:
+
 - Actual selectors
 - UI behavior
-- Timing observations
 - Navigation patterns
-- Identified workarounds
+- Timing observations
+- Workarounds
+- Evidence
 
-## Instructions
+## Output Folder
 
-Generate Playwright JavaScript automation scripts.
-
-Store scripts under:
-
-```text
 tests/saucedemo-checkout/
-```
+
+## Generate
+
+- Login automation tests
+- Checkout automation tests
+- Validation tests
+- Navigation tests
+- Smoke tests
+- Edge case tests
+- Negative tests
+- Positive tests
+
+## Requirements
 
 Use:
 
@@ -265,185 +363,328 @@ Use:
 - Accessible selectors
 
 Avoid:
+
 - Dynamic XPath
 - Fragile selectors
 - Hard-coded waits
 
-## Requirements
-
-Scripts should:
+Scripts must:
 
 - Follow Playwright best practices
 - Use descriptive names
 - Include assertions
 - Use reusable components
 - Use proper hooks
-- Support multiple browsers
+- Support Chromium
+- Support Firefox
+- Support WebKit
+- Capture screenshots on failures
+- Capture screenshots on important checkpoints
+- Generate traces
+- Generate videos
+- Generate logs
+- Generate reports
 
-Add:
+Implement:
 
-- Screenshots on failure
-- Tracing
-- Logging
-- Reporting
+- beforeAll
+- beforeEach
+- afterEach
+- afterAll
 
-## Deliverables
-
-Generate:
-
-- Login tests
-- Checkout tests
-- Validation tests
-- Navigation tests
-- Edge case tests
+Organize scripts into reusable suites and page objects.
 
 ---
 
-# Step 5: Execute and Heal Automation Tests
+# STEP 5: Execute and Heal Tests
 
-## Objective
+## Execute
 
-Execute all generated automation scripts and automatically heal unstable tests.
-
-## Instructions
-
-Run:
-
-```text
 tests/saucedemo-checkout/
-```
 
-For failures:
+## Analyze Failures
 
-### Analyze
 - Selector failures
-- Timing issues
-- Assertion issues
-- Navigation issues
-- Synchronization issues
+- Timing failures
+- Assertion failures
+- Navigation failures
+- Synchronization failures
+- Browser-specific failures
 
-### Heal
-- Update locators
+## Heal
+
+- Repair selectors
 - Add synchronization
 - Improve assertions
 - Refactor unstable code
+- Re-run tests until stable
 
-### Validate
-Re-execute tests until stability is achieved.
+## Generate Execution Artifacts
 
-## Deliverables
+Generate:
+
+### Playwright HTML Report
+Location:
+
+reports/html/
+
+### JSON Report
+Location:
+
+reports/json/
+
+### JUnit Report
+Location:
+
+reports/junit/
+
+### Execution Evidence
+
+Generate:
+
+- Screenshots
+- Videos
+- Trace files
+- Execution logs
 
 Generate:
 
 ### Initial Execution Summary
+
 - Total tests
 - Passed tests
 - Failed tests
+- Skipped tests
 
 ### Healing Summary
-- Issues detected
+
+- Root causes
 - Fixes applied
-- Scripts updated
+- Updated scripts
 
 ### Final Execution Summary
+
 - Final pass count
 - Final fail count
 - Remaining issues
 
 ---
 
-# Step 6: Create Test Execution Report
+# STEP 6: Generate Comprehensive Test Reports
 
-## Objective
+## Output Directory
 
-Create a comprehensive testing report that combines manual testing, automation execution, and healing activities.
+test-results/
 
-## Output File
+Generate:
 
-```text
+### Markdown Report
+
 test-results/SCRUM-101-checkout-test-report.md
-```
 
-## Report Sections
+### HTML Dashboard
 
-### Executive Summary
-- Total scenarios planned
-- Total executed
-- Pass percentage
-- Fail percentage
-- Blocked scenarios
+test-results/execution-report.html
 
-### Manual Test Results
-- Scenario execution details
+### PDF Report
+
+test-results/execution-report.pdf
+
+### Charts Directory
+
+test-results/charts/
+
+Generate charts for:
+
+- Pass vs Fail Pie Chart
+- Browser-wise Execution Bar Chart
+- Test Type Distribution Chart
+- Defect Severity Chart
+- Automation Coverage Chart
+- Healing Success Rate Chart
+- Execution Trend Chart
+
+Use:
+
+- Pie Charts
+- Bar Charts
+- Summary Cards
+- Metrics Dashboard
+
+---
+
+# Screenshot and Evidence Requirements
+
+All generated reports must include screenshots and execution evidence.
+
+## Manual Testing Screenshots
+
+Include screenshots for:
+
+- Login page
+- Product inventory page
+- Cart page
+- Checkout information page
+- Checkout overview page
+- Order confirmation page
+- Validation errors
+- Failed scenarios
+- Unexpected application behavior
+
+## Automated Testing Screenshots
+
+Include screenshots for:
+
+- Successful execution checkpoints
+- Failed test cases
+- Assertion failures
+- Validation failures
+- Browser errors
+- Healed test executions
+
+---
+
+# Executive Summary
+
+Include:
+
+- Project Name
+- User Story ID
+- Environment
+- Execution Date
+- Browser Information
+- Total Test Cases Planned
+- Total Test Cases Executed
+- Passed Test Cases
+- Failed Test Cases
+- Skipped Test Cases
+- Blocked Test Cases
+- Pass Percentage
+- Fail Percentage
+- Execution Duration
+
+---
+
+# Manual Test Results
+
+For every test case include:
+
+- Test Case ID
+- Test Case Name
+- Execution Status
+- Execution Date
+- Browser
+- Expected Result
+- Actual Result
 - Screenshots
 - Observations
-- Issues discovered
+- Issues Found
 
-### Automated Test Results
-- Initial execution results
-- Final execution results
-- Execution duration
-- Suite summaries
+---
 
-### Healing Activities
-- Root causes
-- Actions taken
-- Script updates
-- Remaining issues
+# Automated Test Results
 
-### Defect Details
-For each defect include:
+Include:
 
+- Total Automation Suites
+- Total Automated Tests
+- Pass Count
+- Fail Count
+- Skipped Count
+- Browser-wise Results
+- Execution Duration
+- Retry Information
+
+Attach:
+
+- Playwright HTML Report
+- Screenshots
+- Videos
+- Traces
+- Logs
+
+---
+
+# Healing Report
+
+Include:
+
+- Test Name
+- Root Cause
+- Failure Type
+- Fixes Applied
+- Updated Scripts
+- Remaining Issues
+
+---
+
+# Defect Report
+
+For every defect include:
+
+- Defect ID
 - Title
 - Description
 - Severity
 - Priority
 - Environment
-- Steps to reproduce
-- Expected result
-- Actual result
-- Evidence
-
-### Test Coverage Analysis
-- Acceptance criteria coverage
-- Manual coverage
-- Automated coverage
-- Coverage gaps
-- Risk assessment
-
-### Recommendations
-- Release recommendation
-- Risk areas
-- Future improvements
-- Additional testing suggestions
+- Preconditions
+- Steps to Reproduce
+- Expected Result
+- Actual Result
+- Screenshot of the defect
+- Browser Information
+- Timestamp
+- Logs
+- Supporting Evidence
+- Suggested Fix
+- Current Status
 
 ---
 
-# Step 7: Commit All Artifacts to Git Repository
+# Coverage Analysis
+
+Include:
+
+- Requirement Coverage
+- Functional Coverage
+- Smoke Coverage
+- Positive Coverage
+- Negative Coverage
+- Automation Coverage
+- Coverage Gaps
+- Risk Areas
+
+---
+
+# Recommendations
+
+Include:
+
+- Release Recommendation
+- Go / No-Go Decision
+- Risks
+- Open Issues
+- Future Improvements
+- Additional Testing Suggestions
+
+---
+
+# STEP 7: Commit All Artifacts to Git Repository
 
 ## Repository
 
-```text
 https://github.com/SauradeepMukherjee/Play_wright_Demo_App_new.git
-```
 
-## Objective
+## Activities
 
-Store all testing artifacts in source control for traceability, collaboration, and version management.
+- Initialize repository if necessary.
+- Stage all generated artifacts.
+- Create commit.
+- Push changes.
 
-## Instructions
+## Commit Message
 
-### Repository Setup
-Initialize Git if required.
-
-### Stage Changes
-Add all newly created and modified files.
-
-### Commit
-
-Use the following commit message:
-
-```text
 feat(tests): Add complete Playwright test suite and QA workflow
 
 - Add user story documentation
@@ -451,43 +692,47 @@ feat(tests): Add complete Playwright test suite and QA workflow
 - Add exploratory testing results and screenshots
 - Add automated test scripts
 - Add execution and healing reports
-- Include validation, navigation, and edge-case tests
+- Include validation, navigation, smoke, positive, negative, and edge-case tests
 - Add Playwright configuration and supporting files
 
 Resolves SCRUM-101
-```
-
-### Push Changes
-Push all artifacts to:
-
-```text
-https://github.com/SauradeepMukherjee/Play_wright_Demo_App_new.git
-```
 
 ## Deliverables
 
-Provide:
+Generate:
 
 - Files added
 - Files modified
 - Commit SHA
 - Branch name
 - Push status
-- Summary of generated artifacts
+- Repository summary
 
 ---
 
-# Final Outcome
+# Final Deliverables
 
-The workflow should demonstrate a complete AI-assisted QA lifecycle:
+The workflow must generate:
 
-User Story
-→ Test Planning
-→ Exploratory Testing
-→ Automation Generation
-→ Test Execution
-→ Self-Healing
-→ Reporting
-→ Git Version Control
+- Minimum 20 well-structured test cases
+- Positive test cases
+- Negative test cases
+- Functional test cases
+- Smoke test cases
+- Edge case scenarios
+- Manual execution evidence
+- Automation suites
+- Self-healing reports
+- Markdown reports
+- HTML reports
+- PDF reports
+- Pie charts and dashboards
+- Screenshots embedded in reports
+- Videos
+- Trace files
+- Logs
+- Defect reports
+- Coverage reports
+- Git repository artifacts
 
-The final repository should contain requirements, test plans, manual execution evidence, Playwright automation scripts, execution reports, and version-controlled deliverables that together represent a complete end-to-end QA solution.
+Execute all steps sequentially and do not skip any phase of the workflow.

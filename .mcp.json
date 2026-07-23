@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "playwright-test": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["playwright", "run-test-mcp-server"]
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${env:GITHUB_MCP_PAT}"
+      }
+    }
+    ,
+    "claude": {
+      "type": "http",
+      "url": "https://api.anthropic.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${env:CLAUDE_API_KEY}"
+      }
+    }
+  }
+}

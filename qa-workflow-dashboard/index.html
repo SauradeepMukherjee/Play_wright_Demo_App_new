@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QA Flow Control Room</title><link rel="stylesheet" href="styles.css"></head>
+<body><aside><div class="brand"><b>Q</b><span>QA Flow<br><strong>Control Room</strong></span></div><nav><a href="#flow">▦ Flow overview</a><a href="#directory">◉ Component directory</a><a href="#help">◫ How it works</a></nav><div class="source"><small>LIVE SOURCE</small><strong id="count">Loading…</strong><p>Reads your agent and skill folders automatically.</p></div></aside>
+<main><header><div><small>PLAYWRIGHTDEMO / AUTOMATION MAP</small><h1>QA workflow, at a glance.</h1></div><p><i class="skill"></i> Skill &nbsp; <i class="agent"></i> Agent</p></header>
+<section class="hero"><span>Auto-discovered components</span><h2>From requirement to reliable release evidence.</h2><p>Refreshes from your <code>.claude</code> folders every five seconds.</p></section>
+<section id="flow"><div class="heading"><div><small>PRIMARY FLOW</small><h2>QA automation lifecycle</h2></div><p>Click a card for details</p></div><div id="cards" class="cards"></div></section>
+<section class="details"><article><span id="type">COMPONENT</span><h2 id="title">Loading workflow…</h2><p id="description">The dashboard is reading your components.</p><div><b>INPUT</b><strong id="input">—</strong><b>OUTPUT</b><strong id="output">—</strong></div></article><article class="rule"><small>HANDOFF RULE</small><h2>One owner per responsibility.</h2><p>Each stage receives a concrete artifact, works within its scope, then passes a clear output forward.</p></article></section>
+<section id="directory"><div class="heading"><div><small>DIRECTORY</small><h2>Discovered components</h2></div></div><div id="list" class="list"></div></section>
+<section id="help" class="help"><small>ADDING A COMPONENT</small><p>Add a Markdown file under <code>.claude/agents</code> or <code>.claude/skills</code>. It will appear automatically. Add optional <code>flow_stage</code> and <code>flow_order</code> frontmatter to position it in the flow.</p></section>
+</main><script src="app.js"></script></body></html>
