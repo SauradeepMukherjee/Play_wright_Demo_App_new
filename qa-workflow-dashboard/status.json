@@ -20,14 +20,14 @@
     "note": "Generated 5 spec files / 28 automated tests under tests/saucedemo-checkout/."
   },
   ".claude/agents/playwright-test-healer.md": {
-    "status": "running",
-    "lastRun": "2026-07-23T18:10:00Z",
-    "note": "Executing the generated suite; healing any failures."
+    "status": "completed",
+    "lastRun": "2026-07-23T18:20:00Z",
+    "note": "Diagnosed 9 failures (wrong quantity selector, strict-mode locator violation); fixes applied, suite now 84/84 passing across chromium/firefox/webkit."
   },
   ".claude/skills/run-qa-pipeline": {
-    "status": "running",
+    "status": "completed",
     "lastRun": "2026-07-23T10:45:00Z",
-    "note": "Orchestrating the end-to-end SCRUM-101 workflow."
+    "note": "SCRUM-101 workflow complete: requirement analysis -> test plan -> test cases -> automation -> healing -> reports -> committed (a06e16e, push pending approval)."
   },
   ".claude/skills/test-case-generation": {
     "status": "completed",
@@ -35,8 +35,8 @@
     "note": "Invoked by testcase-generator-agent."
   },
   ".claude/skills/generate-qa-report": {
-    "status": "pending",
-    "lastRun": null,
-    "note": "Runs after test execution completes."
+    "status": "completed",
+    "lastRun": "2026-07-23T18:45:00Z",
+    "note": "PDF, Excel, HTML dashboard, and Markdown report generated in test-results/."
   }
 }
