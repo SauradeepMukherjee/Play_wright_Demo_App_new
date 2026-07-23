@@ -216,6 +216,13 @@ Responsible for:
   - requirement-analysis-report.md
   - requirement-analysis-report.json
 
+Supporting files:
+
+```
+SKILL.md
+extract-requirements.md
+```
+
 ---
 
 ## Test Case Generation
@@ -235,7 +242,7 @@ Supporting files:
 ```
 SKILL.md
 testcase-generation.md
-output-generation.md
+output-format.md
 ```
 
 ---

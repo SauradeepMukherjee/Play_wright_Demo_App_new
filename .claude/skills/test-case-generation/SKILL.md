@@ -67,7 +67,7 @@ Responsibilities:
 
 Invoke:
 
-**output-generation.md**
+**output-format.md**
 
 Generate:
 
@@ -81,7 +81,7 @@ Generate:
 | Skill | Responsibility |
 |--------|----------------|
 | testcase-generation.md | Generate manual test cases |
-| output-generation.md | Generate Markdown and Excel outputs |
+| output-format.md | Generate Markdown and Excel outputs |
 
 ---
 

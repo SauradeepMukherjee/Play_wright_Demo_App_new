@@ -1,5 +1,5 @@
 {
-  ".claude/agents/qa_requirement_analysis agent.md": {
+  ".claude/agents/requirement-analysis-agent.md": {
     "status": "completed",
     "lastRun": "2026-07-23T10:45:00Z",
     "note": "Requirement Analysis Report generated and approved for SCRUM-101."
