@@ -1,32 +1,35 @@
 # SCRUM-101 Checkout Test Report
 
 ## Execution Metadata
-- Execution Identifier: 2026-07-23_18-40-31
-- Execution Start Time: 2026-07-23T13:10:31.697Z
-- Execution End Time: 2026-07-23T13:15:43.524Z
-- Total Execution Duration: 5m 12s
+- Execution Identifier: 2026-07-23_19-55-59
+- Execution Start Time: 2026-07-23T14:25:59.672Z
+- Execution End Time: 2026-07-23T14:30:41.201Z
+- Total Execution Duration: 4m 42s
 - Historical Mode: Enabled
 
 ## Execution Summary
 - Documented Test Cases: 20
 - Automated Scenarios: 28
 - Browser Executions: 84
-- Passed: 84
-- Failed/Timed Out/Interrupted: 0
+- Passed: 80
+- Failed/Timed Out/Interrupted: 4
 - Skipped: 0
-- Pass Rate: 100%
+- Pass Rate: 95%
 
 ## Browser-wise Results
 | Browser | Total | Passed | Failed | Skipped | Pass Rate |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | chromium | 28 | 28 | 0 | 0 | 100% |
-| firefox | 28 | 28 | 0 | 0 | 100% |
+| firefox | 28 | 24 | 4 | 0 | 86% |
 | webkit | 28 | 28 | 0 | 0 | 100% |
 
 ## Defect Summary
 | Defect | Test Case | Browser | Status | Failure Detail |
 | --- | --- | --- | --- | --- |
-| n/a | n/a | n/a | n/a | No defects detected in this execution. |
+| DEF-001 | TC-022 | firefox | timedOut | [31mTest timeout of 60000ms exceeded while running "beforeEach" hook.[39m  Error: locator.click: Test timeout of 60000ms exceeded. Call log: [2m  - waiting f |
+| DEF-002 | TC-021 | firefox | timedOut | [31mTest timeout of 60000ms exceeded.[39m  Error: locator.click: Test timeout of 60000ms exceeded. Call log: [2m  - waiting for locator('[data-test="login-bu |
+| DEF-003 | Unmapped | firefox | timedOut | [31mTest timeout of 60000ms exceeded while running "beforeEach" hook.[39m  Error: locator.click: Test timeout of 60000ms exceeded. Call log: [2m  - waiting f |
+| DEF-004 | Unmapped | firefox | timedOut | [31mTest timeout of 60000ms exceeded while running "beforeEach" hook.[39m  Error: locator.click: Test timeout of 60000ms exceeded. Call log: [2m  - waiting f |
 
 ## Coverage Summary
 | AC | Area | Executed | Status |
@@ -40,21 +43,21 @@
 ## Unmapped Automated Scenarios
 | Scenario | File | Browsers |
 | --- | --- | --- |
-| Cart displays item name, description, price, quantity (FR-01) | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Cart displays correct total price (FR-02) | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Cart provides Continue Shopping and Checkout options (FR-03) | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Continue Shopping returns to inventory | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Checkout button redirects to checkout info page (FR-04) | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Checkout info form accepts valid data and proceeds (FR-07) | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Overview page shows item summary, payment/shipping info, subtotal/tax/total (FR-08) | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Overview page offers Cancel and Finish (FR-09) | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Finish completes the order and shows confirmation (FR-10) | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Back Home returns to products page (FR-10) | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Product sort — Name A to Z / Z to A / Price low-high / high-low | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Multi-item cart totals (FR-02 boundary) | saucedemo-checkout/positive.spec.js | chromium, firefox, webkit |
-| Application launches and login page renders | saucedemo-checkout/smoke.spec.js | chromium, firefox, webkit |
-| Standard user can log in | saucedemo-checkout/smoke.spec.js | chromium, firefox, webkit |
-| End-to-end happy-path checkout (primary regression) | saucedemo-checkout/smoke.spec.js | chromium, firefox, webkit |
+| Cart displays item name, description, price, quantity (FR-01) | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Cart displays correct total price (FR-02) | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Cart provides Continue Shopping and Checkout options (FR-03) | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Continue Shopping returns to inventory | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Checkout button redirects to checkout info page (FR-04) | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Checkout info form accepts valid data and proceeds (FR-07) | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Overview page shows item summary, payment/shipping info, subtotal/tax/total (FR-08) | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Overview page offers Cancel and Finish (FR-09) | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Finish completes the order and shows confirmation (FR-10) | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Back Home returns to products page (FR-10) | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Product sort — Name A to Z / Z to A / Price low-high / high-low | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Multi-item cart totals (FR-02 boundary) | saucedemo-checkout\positive.spec.js | chromium, firefox, webkit |
+| Application launches and login page renders | saucedemo-checkout\smoke.spec.js | chromium, firefox, webkit |
+| Standard user can log in | saucedemo-checkout\smoke.spec.js | chromium, firefox, webkit |
+| End-to-end happy-path checkout (primary regression) | saucedemo-checkout\smoke.spec.js | chromium, firefox, webkit |
 
 ## Generated Artifacts
 - PDF: test-results/execution-report.pdf

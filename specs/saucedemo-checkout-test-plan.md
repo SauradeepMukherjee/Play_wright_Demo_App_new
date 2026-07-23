@@ -96,6 +96,6 @@ There is no payment-method-selection UI anywhere in the app (only a static `paym
 
 ## 4. Coverage Summary
 
-- Total test cases: 28 (minimum 20 met)
+**Total Test Cases Documented: 28** (exceeds minimum requirement of 20)
 - Smoke: 3 | Positive/Functional: 12 | Negative: 7 | Navigation: 3 | UI Validation: 3
 - All 11 FRs and all 5 ACs have at least one covering test case; BR1, BR5 covered; BR2 covered via TC-002/TC-016; BR3/BR4 gaps explicitly flagged per Requirement Analysis Report rather than silently assumed.

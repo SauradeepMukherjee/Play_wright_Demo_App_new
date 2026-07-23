@@ -1,6 +1,6 @@
 ---
 name: run-qa-pipeline
-description: Run the full user-story-to-shipped-suite QA workflow for this repo (requirement read, test plan, exploratory pass, automation, healing, reporting, git delivery), pausing at the two human checkpoints. Use when asked to "run the QA pipeline", "process a user story end to end", or "do the full Prompt_E2E workflow".
+description: Run the full user-story-to-shipped-suite QA workflow for this repo (requirement read, test plan, exploratory pass, automation, healing, reporting, git delivery), pausing at the test plan checkpoint and auto-pushing to GitHub at the end. Use when asked to "run the QA pipeline", "process a user story end to end", or "do the full Prompt_E2E workflow".
 ---
 
 Execute the 7-step workflow defined in [Prompt_E2E.md](../../../Prompt_E2E.md), acting as the primary orchestrator
@@ -22,8 +22,6 @@ prompt script doesn't itself enforce (per [PROJECT_VISION.md](../../../PROJECT_V
 
 6. **Generate reports** — run the `generate-qa-report` skill (or invoke it directly: `npm run report:pdf` and `npm run report:excel`), then summarize the HTML dashboard already produced under `test-results/` by the custom reporter during the test run.
 
-7. **Git delivery** — stage and commit the generated artifacts using the commit message template in Prompt_E2E.md Step 7.
+7. **Git delivery** — stage and commit the generated artifacts using the commit message template in Prompt_E2E.md Step 7, then run `git push` automatically. No approval checkpoint gates this push — the user has pre-authorized it for this workflow specifically so the pipeline can run end-to-end unattended. Before pushing, print the list of staged files and the exact commit message being used, so the push is visible rather than silent. This auto-push applies only to the full `run-qa-pipeline` run; standalone use of the `generate-qa-report` skill does not push on its own.
 
-   **CHECKPOINT — ask for explicit approval before running `git push`.** Never push without the user confirming. This is a hard-to-reverse, shared-state action; see the "Executing actions with care" guidance this session already operates under.
-
-At the end, report: files added/modified, final pass/fail counts, what was healed vs. left as `test.fixme()`, and whether the push happened or is pending approval.
+At the end, report: files added/modified, final pass/fail counts, what was healed vs. left as `test.fixme()`, the commit SHA, and confirmation that the push completed (or the error, if it failed).
