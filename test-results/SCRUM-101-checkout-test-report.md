@@ -1,35 +1,32 @@
 # SCRUM-101 Checkout Test Report
 
 ## Execution Metadata
-- Execution Identifier: 2026-07-23_19-55-59
-- Execution Start Time: 2026-07-23T14:25:59.672Z
-- Execution End Time: 2026-07-23T14:30:41.201Z
-- Total Execution Duration: 4m 42s
+- Execution Identifier: 2026-07-24_08-47-10
+- Execution Start Time: 2026-07-24T03:17:10.014Z
+- Execution End Time: 2026-07-24T03:18:37.127Z
+- Total Execution Duration: 1m 27s
 - Historical Mode: Enabled
 
 ## Execution Summary
 - Documented Test Cases: 20
 - Automated Scenarios: 28
 - Browser Executions: 84
-- Passed: 80
-- Failed/Timed Out/Interrupted: 4
+- Passed: 84
+- Failed/Timed Out/Interrupted: 0
 - Skipped: 0
-- Pass Rate: 95%
+- Pass Rate: 100%
 
 ## Browser-wise Results
 | Browser | Total | Passed | Failed | Skipped | Pass Rate |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | chromium | 28 | 28 | 0 | 0 | 100% |
-| firefox | 28 | 24 | 4 | 0 | 86% |
+| firefox | 28 | 28 | 0 | 0 | 100% |
 | webkit | 28 | 28 | 0 | 0 | 100% |
 
 ## Defect Summary
 | Defect | Test Case | Browser | Status | Failure Detail |
 | --- | --- | --- | --- | --- |
-| DEF-001 | TC-022 | firefox | timedOut | [31mTest timeout of 60000ms exceeded while running "beforeEach" hook.[39m  Error: locator.click: Test timeout of 60000ms exceeded. Call log: [2m  - waiting f |
-| DEF-002 | TC-021 | firefox | timedOut | [31mTest timeout of 60000ms exceeded.[39m  Error: locator.click: Test timeout of 60000ms exceeded. Call log: [2m  - waiting for locator('[data-test="login-bu |
-| DEF-003 | Unmapped | firefox | timedOut | [31mTest timeout of 60000ms exceeded while running "beforeEach" hook.[39m  Error: locator.click: Test timeout of 60000ms exceeded. Call log: [2m  - waiting f |
-| DEF-004 | Unmapped | firefox | timedOut | [31mTest timeout of 60000ms exceeded while running "beforeEach" hook.[39m  Error: locator.click: Test timeout of 60000ms exceeded. Call log: [2m  - waiting f |
+| n/a | n/a | n/a | n/a | No defects detected in this execution. |
 
 ## Coverage Summary
 | AC | Area | Executed | Status |

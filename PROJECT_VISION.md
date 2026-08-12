@@ -5,10 +5,12 @@
 An agent-driven QA automation pipeline that takes a single user story
 ([SCRUM-101](user_stories/SCRUM-101-ecommerce-checkout.md), the SauceDemo checkout flow) all the way from
 requirements to a committed, multi-browser, self-healing Playwright suite with generated reports. The lifecycle
-is defined in [Prompt_E2E.md](Prompt_E2E.md) and executed by three specialized agents
-([planner](.github/agents/playwright-test-planner.agent.md), [generator](.github/agents/playwright-test-generator.agent.md),
-[healer](.github/agents/playwright-test-healer.agent.md)) talking to the app through MCP servers, orchestrated
-by a primary agent (currently GitHub Copilot).
+is defined in [CLAUDE.md](CLAUDE.md) and orchestrated by Claude Code via the
+[`run-qa-pipeline`](.claude/skills/run-qa-pipeline/SKILL.md) skill, which dispatches five specialized agents in
+[`.claude/agents/`](.claude/agents/) — requirement analysis, test planning, manual test case generation, test
+automation generation, and healing — three of which (planner, generator, healer) talk to the app through the
+`playwright-test` MCP server; the other two (requirement analysis, test case generation) are pure read/write
+agents with no browser access. Reporting and git delivery are handled as skill steps, not separate agents.
 
 It currently proves the model on exactly one target application and one user story.
 
@@ -44,12 +46,16 @@ Concretely, "done" looks like:
 
 ## Guiding principles
 
-1. **One agent, one responsibility.** The planner never writes test code, the generator never invents scenarios,
-   the healer never expands scope — each stays inside the boundary already established by the existing agent
-   definitions. New capabilities get new agents, not fatter existing ones.
-2. **MCP is the integration boundary.** Agents reach the browser, the test runner, and the repository only
-   through MCP servers (`playwright-test`, `playwright`, `github`). Anything an agent needs to do should be
-   expressible as an MCP tool call, not a one-off script it shells out to.
+1. **One agent, one responsibility.** The requirement analysis agent never plans tests, the planner never writes
+   test code, the test case generator never touches automation, the generator never invents scenarios, the
+   healer never expands scope — each stays inside the boundary already established in
+   [CLAUDE.md](CLAUDE.md) and the existing agent definitions. New capabilities get new agents or new skills, not
+   fatter existing ones — see Phase 3 of [ROADMAP.md](ROADMAP.md) for a case where a skill, not a new agent, was
+   the right fit.
+2. **MCP is the integration boundary for browser-facing work.** The planner, generator, and healer reach the
+   browser and the test runner only through the `playwright-test` MCP server. Anything they need to do there
+   should be expressible as an MCP tool call, not a one-off script. The requirement analysis and test case
+   generator agents don't touch a browser at all and work directly against files (Read/Write) instead.
 3. **Live truth over assumptions.** Plans and tests are derived from actually driving a real browser session,
    not guessed from static markup. This is why the generator replays each step live instead of templating code.
 4. **Structured data first, formatted reports second.** JSON execution results are the source of truth

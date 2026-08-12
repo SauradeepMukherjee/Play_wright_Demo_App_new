@@ -34,7 +34,6 @@ Generate:
 - Scenario Mapping
 
 ---
-
 # Workflow
 
 ## Step 1

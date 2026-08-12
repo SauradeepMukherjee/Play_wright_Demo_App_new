@@ -145,6 +145,9 @@ Execution is successful when:
 
 The generated test cases will be consumed by:
 
-- qTest Agent
-- Playwright Automation Agent
-- QA Engineers
+- QA Engineers (manual execution and review)
+- Test management / traceability records
+
+Note: per CLAUDE.md, the Playwright Test Generator Agent consumes the approved Structured Test Plan directly,
+not these manual test cases — the two artifacts are generated in parallel from the same test plan, not in a
+producer/consumer chain.

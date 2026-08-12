@@ -1,5 +1,5 @@
 ---
-name: Requirement Analysis
+name: requirement-analysis
 description: Analyze software requirements and generate a structured Requirement Analysis Report for downstream QA agents.
 ---
 
