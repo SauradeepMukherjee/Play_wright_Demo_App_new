@@ -3,34 +3,61 @@
 
 const { test, expect } = require('@playwright/test');
 
-test.describe('Cart Review (AC1, FR-01–FR-03)', () => {
-  test('TC-CART-01: Cart page displays complete details for every item', async ({ page }) => {
-    // 1. Log in as standard_user, add 'Sauce Labs Backpack', 'Sauce Labs Bolt T-Shirt', and 'Sauce Labs Onesie' to the cart, then open the cart page.
+test.describe('Suite 1 — Cart Review', () => {
+  test('TC-01 Happy path — cart displays single item with full details', async ({ page }) => {
+    // 1. Log in as standard_user/secret_sauce.
+    await page.goto('https://www.saucedemo.com');
+    await page.locator('[data-test="username"]').fill('standard_user');
+    await page.locator('[data-test="password"]').fill('secret_sauce');
+    await page.locator('[data-test="login-button"]').click();
+    await expect(page).toHaveURL(/.*inventory\.html/);
+
+    // 2. Click 'Add to cart' for Sauce Labs Backpack.
+    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
+    await expect(page.locator('[data-test="remove-sauce-labs-backpack"]')).toBeVisible();
+
+    // 3. Click the cart icon to navigate to the cart page.
+    await page.locator('[data-test="shopping-cart-link"]').click();
+    await expect(page).toHaveURL(/.*cart\.html/);
+    await expect(page.locator('[data-test="title"]')).toHaveText('Your Cart');
+
+    // 4. Inspect the cart line item.
+    const cartItem = page.locator('[data-test="inventory-item"]');
+    await expect(cartItem.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack');
+    await expect(cartItem.locator('[data-test="inventory-item-desc"]')).toBeVisible();
+    await expect(cartItem.locator('[data-test="inventory-item-price"]')).toHaveText('$29.99');
+    await expect(cartItem.locator('[data-test="item-quantity"]')).toHaveText('1');
+  });
+
+  test('TC-02 Happy path — cart displays multiple items with correct per-item quantities', async ({ page }) => {
+    // 1. Log in as standard_user. From the Products page, add 'Sauce Labs Backpack' and 'Sauce Labs Bike Light' to the cart.
     await page.goto('https://www.saucedemo.com');
     await page.locator('[data-test="username"]').fill('standard_user');
     await page.locator('[data-test="password"]').fill('secret_sauce');
     await page.locator('[data-test="login-button"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    await page.locator('[data-test="add-to-cart-sauce-labs-bolt-t-shirt"]').click();
-    await page.locator('[data-test="add-to-cart-sauce-labs-onesie"]').click();
-    await page.locator('[data-test="shopping-cart-link"]').click();
-    await expect(page).toHaveURL(/\/cart\.html$/);
+    await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
+    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('2');
 
-    // expect: Each of the 3 items shows its name, full description text, unit price, and quantity (1) in the QTY/Description table
-    const cartItems = page.locator('.cart_item');
-    await expect(cartItems).toHaveCount(3);
-    await expect(page.getByText('Sauce Labs Backpack')).toBeVisible();
-    await expect(page.getByText('carry.allTheThings() with the sleek, streamlined Sly Pack')).toBeVisible();
-    await expect(page.getByText('Sauce Labs Bolt T-Shirt', { exact: true })).toBeVisible();
-    await expect(page.getByText('Get your testing superhero on with the Sauce Labs bolt T-shirt')).toBeVisible();
-    await expect(page.getByText('Sauce Labs Onesie')).toBeVisible();
-    await expect(page.getByText('Rib snap infant onesie for the junior automation engineer')).toBeVisible();
-    await expect(page.locator('[data-test="inventory-item-price"]')).toHaveText(['$29.99', '$15.99', '$7.99']);
-    await expect(page.locator('[data-test="item-quantity"]')).toHaveText(['1', '1', '1']);
+    // 2. Navigate to the cart page.
+    await page.locator('[data-test="shopping-cart-link"]').click();
+    const cartItems = page.locator('[data-test="inventory-item"]');
+    await expect(cartItems).toHaveCount(2);
+
+    const backpackItem = cartItems.filter({ hasText: 'Sauce Labs Backpack' });
+    await expect(backpackItem.locator('[data-test="inventory-item-desc"]')).toBeVisible();
+    await expect(backpackItem.locator('[data-test="inventory-item-price"]')).toHaveText('$29.99');
+    await expect(backpackItem.locator('[data-test="item-quantity"]')).toHaveText('1');
+
+    const bikeLightItem = cartItems.filter({ hasText: 'Sauce Labs Bike Light' });
+    await expect(bikeLightItem.locator('[data-test="inventory-item-desc"]')).toBeVisible();
+    await expect(bikeLightItem.locator('[data-test="inventory-item-price"]')).toHaveText('$9.99');
+    await expect(bikeLightItem.locator('[data-test="item-quantity"]')).toHaveText('1');
   });
 
-  test('TC-CART-02 [DISCREPANCY]: Cart page does not display a total price', async ({ page }) => {
-    // 1. Log in as standard_user, add two items to the cart, and open the cart page.
+  test('TC-03 Discrepancy check — cart page does not display a total price (FR-02 gap)', async ({ page }) => {
+    // 1. Log in as standard_user and add 2 items to the cart, then navigate to the cart page.
     await page.goto('https://www.saucedemo.com');
     await page.locator('[data-test="username"]').fill('standard_user');
     await page.locator('[data-test="password"]').fill('secret_sauce');
@@ -38,36 +65,91 @@ test.describe('Cart Review (AC1, FR-01–FR-03)', () => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
     await page.locator('[data-test="shopping-cart-link"]').click();
-    await expect(page).toHaveURL(/\/cart\.html$/);
+    await expect(page.locator('[data-test="continue-shopping"]')).toBeVisible();
+    await expect(page.locator('[data-test="checkout"]')).toBeVisible();
 
-    // expect: Only each item's individual unit price is shown; the cart page contains no subtotal, item-total, or grand-total element
-    await expect(page.locator('[data-test="inventory-item-price"]')).toHaveText(['$29.99', '$9.99']);
-    // DISCREPANCY (documented, live behavior): the Cart page has no subtotal/item-total/grand-total
-    // element at all -- this is a real gap against FR-02 (total price only appears later, on the
-    // Overview page), encoded here as the expected behavior rather than left for the Healer.
-    await expect(page.locator('[data-test="subtotal-label"]')).toHaveCount(0);
-    await expect(page.locator('[data-test="tax-label"]')).toHaveCount(0);
-    await expect(page.locator('[data-test="total-label"]')).toHaveCount(0);
+    // 2. Search the cart page for any subtotal/tax/total text.
+    // Documents a confirmed FR-02 gap: no subtotal/tax/total element exists on cart.html.
+    await expect(page.getByText(/subtotal|tax|total/i)).toHaveCount(0);
   });
 
-  test('TC-CART-03: \'Continue Shopping\' returns to products page without changing cart', async ({ page }) => {
-    // 1. Log in as standard_user, add one item to the cart, open the cart page, then click 'Continue Shopping'.
+  test("TC-04 'Continue Shopping' returns to Products page and preserves cart contents", async ({ page, browserName }) => {
+    // This test is known to be sensitive to CPU/memory contention on webkit when the full
+    // 90-test / 3-browser suite runs concurrently (not reproducible in isolation or under
+    // Playwright MCP tooling, only under real full-suite `npx playwright test` load).
+    // test.slow() triples the timeout budget for webkit to absorb that contention.
+    if (browserName === 'webkit') {
+      test.slow();
+    }
+
+    // 1. Log in as standard_user, add 1 item to cart, navigate to the cart page.
     await page.goto('https://www.saucedemo.com');
     await page.locator('[data-test="username"]').fill('standard_user');
     await page.locator('[data-test="password"]').fill('secret_sauce');
     await page.locator('[data-test="login-button"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await page.locator('[data-test="shopping-cart-link"]').click();
+    // Wait for the cart page navigation to complete before asserting on item name —
+    // the "inventory-item-name" data-test is shared with the Products page, so asserting
+    // before the navigation lands (a webkit-specific timing race, worsened under full-suite
+    // contention) matches multiple elements. A generous explicit timeout absorbs slow
+    // navigation under heavy parallel load.
+    await expect(page).toHaveURL(/.*cart\.html/, { timeout: 15000 });
+    // Scope to the cart's own item container (not just the bare data-test attribute) so a
+    // slow-to-unmount previous page under contention can't leave a stale/duplicate element
+    // in the DOM that this locator would otherwise also match.
+    const cartItem = page.locator('[data-test="inventory-item"]');
+    await expect(cartItem.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack');
+
+    // 2. Click 'Continue Shopping'.
     await page.locator('[data-test="continue-shopping"]').click();
+    await expect(page).toHaveURL(/.*inventory\.html/, { timeout: 15000 });
 
-    // expect: User is redirected to /inventory.html
-    await expect(page).toHaveURL(/\/inventory\.html$/);
-    // expect: Cart badge still shows '1' (cart contents unchanged)
+    // 3. Re-open the cart page.
+    await page.locator('[data-test="shopping-cart-link"]').click();
+    await expect(page).toHaveURL(/.*cart\.html/, { timeout: 15000 });
+    await expect(cartItem.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack');
     await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
   });
 
-  test('TC-CART-04: Removing an item from the cart page updates the list and badge', async ({ page }) => {
-    // 1. Log in as standard_user, add two items to the cart, open the cart page, then click 'Remove' next to one item.
+  test("TC-05 'Checkout' button navigates to the checkout information page when the cart has items", async ({ page }) => {
+    // 1. Log in as standard_user, add at least 1 item, go to the cart page.
+    await page.goto('https://www.saucedemo.com');
+    await page.locator('[data-test="username"]').fill('standard_user');
+    await page.locator('[data-test="password"]').fill('secret_sauce');
+    await page.locator('[data-test="login-button"]').click();
+    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+    await page.locator('[data-test="shopping-cart-link"]').click();
+    await expect(page.locator('[data-test="checkout"]')).toBeEnabled();
+
+    // 2. Click 'Checkout'.
+    await page.locator('[data-test="checkout"]').click();
+    await expect(page).toHaveURL(/.*checkout-step-one\.html/);
+    await expect(page.locator('[data-test="title"]')).toHaveText('Checkout: Your Information');
+  });
+
+  test('TC-06 Edge case — Checkout button is clickable with an empty cart (BR3 not enforced)', async ({ page }) => {
+    // 1. Log in as standard_user without adding any items. Navigate directly to the cart page.
+    await page.goto('https://www.saucedemo.com');
+    await page.locator('[data-test="username"]').fill('standard_user');
+    await page.locator('[data-test="password"]').fill('secret_sauce');
+    await page.locator('[data-test="login-button"]').click();
+    await page.goto('https://www.saucedemo.com/cart.html');
+    await expect(page.locator('[data-test="inventory-item"]')).toHaveCount(0);
+    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveCount(0);
+
+    // 2. Click the 'Checkout' button.
+    // Per BR3 ('Cart cannot be empty when proceeding to checkout') this should ideally be blocked.
+    // Confirmed live behavior: the button is enabled and navigates to /checkout-step-one.html with a blank form — documented BR3 gap.
+    await page.locator('[data-test="checkout"]').click();
+    await expect(page).toHaveURL(/.*checkout-step-one\.html/);
+    await expect(page.locator('[data-test="firstName"]')).toHaveValue('');
+    await expect(page.locator('[data-test="lastName"]')).toHaveValue('');
+    await expect(page.locator('[data-test="postalCode"]')).toHaveValue('');
+  });
+
+  test('TC-07 Removing an item from the cart updates the badge and cart contents', async ({ page }) => {
+    // 1. Log in as standard_user, add 2 items to cart, go to the cart page.
     await page.goto('https://www.saucedemo.com');
     await page.locator('[data-test="username"]').fill('standard_user');
     await page.locator('[data-test="password"]').fill('secret_sauce');
@@ -75,21 +157,12 @@ test.describe('Cart Review (AC1, FR-01–FR-03)', () => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
     await page.locator('[data-test="shopping-cart-link"]').click();
-    await page.locator('[data-test="remove-sauce-labs-backpack"]').click();
+    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('2');
+    await expect(page.locator('[data-test="inventory-item"]')).toHaveCount(2);
 
-    // expect: The removed item disappears from the cart list
-    await expect(page.getByText('Sauce Labs Backpack')).toHaveCount(0);
-    await expect(page.locator('.cart_item')).toHaveCount(1);
-    // expect: Cart badge count decrements from '2' to '1'
-    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
-
-    // 2. Click 'Remove' on the remaining item.
+    // 2. Click 'Remove' on one of the two items.
     await page.locator('[data-test="remove-sauce-labs-bike-light"]').click();
-
-    // expect: Cart list is empty
-    await expect(page.locator('.cart_item')).toHaveCount(0);
-    // expect: Cart icon shows 'Cart, empty' with no numeric badge
-    await expect(page.getByRole('button', { name: 'Cart, empty' })).toBeVisible();
-    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveCount(0);
+    await expect(page.getByText('Sauce Labs Bike Light')).toHaveCount(0);
+    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
   });
 });

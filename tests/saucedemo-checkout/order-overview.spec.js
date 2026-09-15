@@ -3,92 +3,73 @@
 
 const { test, expect } = require('@playwright/test');
 
-async function login(page) {
+async function loginAndAddItems(page, items) {
   await page.goto('https://www.saucedemo.com');
   await page.locator('[data-test="username"]').fill('standard_user');
   await page.locator('[data-test="password"]').fill('secret_sauce');
   await page.locator('[data-test="login-button"]').click();
+  for (const item of items) {
+    await page.locator(`[data-test="add-to-cart-${item}"]`).click();
+  }
+  await page.locator('[data-test="shopping-cart-link"]').click();
+  await page.locator('[data-test="checkout"]').click();
 }
 
-async function fillValidCheckoutInfoAndContinue(page) {
-  await page.locator('[data-test="firstName"]').fill('John');
-  await page.locator('[data-test="lastName"]').fill('Doe');
+async function fillValidCheckoutInfo(page) {
+  await page.locator('[data-test="firstName"]').fill('Jane');
+  await page.locator('[data-test="lastName"]').fill('Smith');
   await page.locator('[data-test="postalCode"]').fill('12345');
   await page.locator('[data-test="continue"]').click();
 }
 
-test.describe('Order Overview (AC3, FR-07–FR-09)', () => {
-  test('TC-OVW-01: Overview page item summary matches cart contents', async ({ page }) => {
-    // 1. Log in, add 'Sauce Labs Fleece Jacket' and 'Sauce Labs Onesie' to the cart, complete valid checkout information, and reach the Overview page.
-    await login(page);
-    await page.locator('[data-test="add-to-cart-sauce-labs-fleece-jacket"]').click();
-    await page.locator('[data-test="add-to-cart-sauce-labs-onesie"]').click();
-    await page.locator('[data-test="shopping-cart-link"]').click();
-    await page.locator('[data-test="checkout"]').click();
-    await fillValidCheckoutInfoAndContinue(page);
-    await expect(page).toHaveURL(/\/checkout-step-two\.html$/);
+test.describe('Suite 3 — Order Overview', () => {
+  test('TC-20 Happy path — Overview page shows item summary, payment info, and shipping info', async ({ page }) => {
+    // 1. Log in as standard_user, add 'Sauce Labs Backpack' and 'Sauce Labs Bike Light' to the cart, proceed through Checkout with valid info.
+    await loginAndAddItems(page, ['sauce-labs-backpack', 'sauce-labs-bike-light']);
+    await fillValidCheckoutInfo(page);
+    await expect(page).toHaveURL(/.*checkout-step-two\.html/);
+    await expect(page.locator('[data-test="title"]')).toHaveText('Checkout: Overview');
 
-    // expect: Both items are listed with correct name, description, price, and quantity,
-    // matching what was shown on the cart page
-    await expect(page.getByText('Sauce Labs Fleece Jacket')).toBeVisible();
-    await expect(page.getByText('Sauce Labs Onesie')).toBeVisible();
-    await expect(page.locator('[data-test="inventory-item-price"]')).toHaveText(['$49.99', '$7.99']);
-    await expect(page.locator('[data-test="item-quantity"]')).toHaveText(['1', '1']);
-  });
-
-  test('TC-OVW-02: Overview page shows static payment and shipping information', async ({ page }) => {
-    // 1. Reach the Overview page with any item in the cart.
-    await login(page);
-    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    await page.locator('[data-test="shopping-cart-link"]').click();
-    await page.locator('[data-test="checkout"]').click();
-    await fillValidCheckoutInfoAndContinue(page);
-
-    // expect: 'Payment Information:' section shows 'SauceCard #31337'
+    // 2. Inspect the page content.
+    // SauceDemo has no payment-method-selection UI (per RISK-04) — only static payment info text is asserted.
+    await expect(page.getByText('Sauce Labs Backpack')).toBeVisible();
+    await expect(page.getByText('Sauce Labs Bike Light')).toBeVisible();
     await expect(page.locator('[data-test="payment-info-value"]')).toHaveText('SauceCard #31337');
-    // expect: 'Shipping Information:' section shows 'Free Pony Express Delivery!'
     await expect(page.locator('[data-test="shipping-info-value"]')).toHaveText('Free Pony Express Delivery!');
   });
 
-  test('TC-OVW-03 [BOUNDARY]: Tax and total calculations are correct for 1 item vs. multiple items', async ({ page }) => {
-    // 1. Complete checkout information with only 'Sauce Labs Bike Light' ($9.99) in the cart and reach the Overview page.
-    await login(page);
-    await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
-    await page.locator('[data-test="shopping-cart-link"]').click();
-    await page.locator('[data-test="checkout"]').click();
-    await fillValidCheckoutInfoAndContinue(page);
-
-    // expect: Item total: $9.99, Tax: $0.80, Total: $10.79 (8% tax rate)
-    await expect(page.locator('[data-test="subtotal-label"]')).toHaveText('Item total: $9.99');
-    await expect(page.locator('[data-test="tax-label"]')).toHaveText('Tax: $0.80');
-    await expect(page.locator('[data-test="total-label"]')).toHaveText('Total: $10.79');
-
-    // 2. Repeat with 3 items in the cart totaling a known sum (Backpack $29.99 + Bike Light $9.99 + Bolt T-Shirt $15.99 = $55.97) and reach the Overview page.
-    await page.goto('https://www.saucedemo.com/inventory.html');
-    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    await page.locator('[data-test="add-to-cart-sauce-labs-bolt-t-shirt"]').click();
-    await page.locator('[data-test="shopping-cart-link"]').click();
-    await page.locator('[data-test="checkout"]').click();
-    await fillValidCheckoutInfoAndContinue(page);
-
-    // expect: Item total: $55.97, Tax: $4.48, Total: $60.45 -- verifying the calculation scales correctly
-    await expect(page.locator('[data-test="subtotal-label"]')).toHaveText('Item total: $55.97');
-    await expect(page.locator('[data-test="tax-label"]')).toHaveText('Tax: $4.48');
-    await expect(page.locator('[data-test="total-label"]')).toHaveText('Total: $60.45');
+  test('TC-21 Happy path — Overview page calculates item total, tax, and grand total correctly for a multi-item cart', async ({ page }) => {
+    // 1. Add Sauce Labs Backpack ($29.99) and Sauce Labs Bike Light ($9.99) to the cart and proceed to the Overview page with valid checkout info.
+    await loginAndAddItems(page, ['sauce-labs-backpack', 'sauce-labs-bike-light']);
+    await fillValidCheckoutInfo(page);
+    await expect(page.locator('[data-test="subtotal-label"]')).toHaveText('Item total: $39.98');
+    await expect(page.locator('[data-test="tax-label"]')).toHaveText('Tax: $3.20');
+    await expect(page.locator('[data-test="total-label"]')).toHaveText('Total: $43.18');
   });
 
-  test('TC-OVW-04: Overview page provides Cancel and Finish options', async ({ page }) => {
-    // 1. Reach the Overview page with an item in the cart.
-    await login(page);
-    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    await page.locator('[data-test="shopping-cart-link"]').click();
-    await page.locator('[data-test="checkout"]').click();
-    await fillValidCheckoutInfoAndContinue(page);
-
-    // expect: Both a 'Cancel' button and a 'Finish' button are visible and enabled
+  test('TC-22 Discrepancy check (BR5) — Cancel on the Overview page redirects to Products, not Cart', async ({ page }) => {
+    // 1. Reach the Overview page via a valid checkout flow with at least 1 item in the cart.
+    await loginAndAddItems(page, ['sauce-labs-backpack']);
+    await fillValidCheckoutInfo(page);
     await expect(page.locator('[data-test="cancel"]')).toBeVisible();
-    await expect(page.locator('[data-test="cancel"]')).toBeEnabled();
     await expect(page.locator('[data-test="finish"]')).toBeVisible();
+
+    // 2. Click 'Cancel'.
+    // Per BR5 ('...return to cart') this should redirect to /cart.html.
+    // Confirmed live behavior: redirects to /inventory.html (Products page) instead — documented BR5 wording/implementation mismatch.
+    await page.locator('[data-test="cancel"]').click();
+    await expect(page).toHaveURL(/.*inventory\.html/);
+    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
+  });
+
+  test('TC-23 Happy path — Finish button on the Overview page completes the order', async ({ page }) => {
+    // 1. Reach the Overview page via a valid checkout flow.
+    await loginAndAddItems(page, ['sauce-labs-backpack']);
+    await fillValidCheckoutInfo(page);
     await expect(page.locator('[data-test="finish"]')).toBeEnabled();
+
+    // 2. Click 'Finish'.
+    await page.locator('[data-test="finish"]').click();
+    await expect(page).toHaveURL(/.*checkout-complete\.html/);
   });
 });

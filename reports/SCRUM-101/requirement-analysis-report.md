@@ -1,40 +1,39 @@
-# Requirement Analysis Report — SCRUM-101
+# Requirement Analysis Report — SCRUM-101: E-commerce Checkout Process
 
-## 1. Document Information
+## Document Information
 
 | Field | Value |
 |---|---|
 | Requirement ID | SCRUM-101 |
 | Title | E-commerce Checkout Process |
 | Document Type | User Story |
-| Source File | `user_stories/SCRUM-101-ecommerce-checkout.md` |
+| Source File | `C:\PlaywrightDemo2.0\user_stories\SCRUM-101-ecommerce-checkout.md` |
 | Application Under Test | https://www.saucedemo.com |
 | Test Credentials | `standard_user` / `secret_sauce` |
 | Analysis Date | 2026-09-15 |
 | Analyzed By | Requirement Analysis Agent |
-| Report Version | 2.0 (re-run) |
+| Report Version | 1.0 |
 
 ---
 
-## 2. Business Objective
+## Business Objective
 
-Enable a logged-in customer to complete a purchase on the SauceDemo store through a complete checkout flow: review the cart, enter shipping/checkout information, select a payment method, review the order (payment and shipping summary, subtotal/tax/total), and confirm the order. The process must be intuitive, secure, and provide clear feedback at every step.
+Enable a logged-in customer to complete a purchase on the SauceDemo store through an end-to-end checkout process: review the cart, enter checkout/shipping information, review the order (payment and shipping summary, subtotal/tax/total), and confirm the order. The story states the process must be intuitive, secure, and provide clear feedback at each step.
 
 ---
 
-## 3. Requirement Summary
+## Requirement Summary
 
-The story defines a 4-stage checkout flow (Cart Review → Checkout Information Entry → Order Overview → Order Completion) plus a cross-cutting error-handling requirement, on the SauceDemo demo storefront. It is expressed as **5 acceptance criteria** (AC1–AC5) and **5 business rules** (BR1–BR5), with supporting technical notes on automation scope (Playwright, 3 browsers, mobile responsiveness) and a Definition of Done.
+The story defines a 4-stage checkout flow (Cart Review -> Checkout Information Entry -> Order Overview -> Order Completion) plus a cross-cutting error-handling requirement, on the SauceDemo demo storefront. It is expressed as 5 acceptance criteria (AC1-AC5) and 5 business rules (BR1-BR5), with supporting technical notes on automation scope (Playwright, 3 browsers, mobile responsiveness) and a Definition of Done.
 
 - Acceptance Criteria: 5
 - Business Rules: 5
-- Functional Requirements extracted: 15 (11 from acceptance criteria, 4 derived from business rules with no corresponding acceptance criterion)
+- Functional Requirements extracted: 11
 - Non-Functional Requirements extracted: 4
-- Open Questions raised: 10
 
 ---
 
-## 4. Functional Requirements
+## Functional Requirements
 
 | ID | Description | Source |
 |---|---|---|
@@ -46,38 +45,32 @@ The story defines a 4-stage checkout flow (Cart Review → Checkout Information 
 | FR-06 | If any mandatory field on the checkout information page is left empty and the user clicks Continue, an error message indicating which field is required must be displayed. | AC2 |
 | FR-07 | After entering valid checkout information and clicking "Continue", the user must be redirected to the checkout overview page. | AC3 |
 | FR-08 | The checkout overview page must display a summary of all items in the order, payment and shipping information, and the subtotal, tax, and total amount. | AC3 |
-| FR-09 | The checkout overview page must provide options to Cancel or Finish the order. | AC3 |
+| FR-09 | The checkout overview page must provide options to Cancel or Finish the order. | AC3, BR5 (partial) |
 | FR-10 | Clicking "Finish" on the checkout overview page must redirect the user to an order confirmation page showing a success message and a "Back Home" button that returns the user to the products page. | AC4 |
 | FR-11 | Entering invalid data (e.g., special characters, incomplete information) on the checkout information page must produce appropriate validation error messages and prevent the user from proceeding until all fields are valid. | AC5 |
-| FR-12 | The system must restrict access to the checkout flow to authenticated (logged-in) users only. | BR2 |
-| FR-13 | The system must prevent a user from proceeding to checkout when the cart is empty. | BR3 |
-| FR-14 | Completing an order (order confirmation) must clear the cart. | BR4 |
-| FR-15 | The system must allow a user to cancel the checkout process at any step and return to the cart. | BR5 |
-
-**Note:** FR-12 through FR-15 are derived from Business Rules that have no corresponding acceptance criterion describing the expected UI/system behavior (see Open Questions #3 and #4). They are listed here as documented obligations, not as inventions.
 
 ---
 
-## 5. Non-Functional Requirements
+## Non-Functional Requirements
 
 | ID | Category | Description | Source | Notes |
 |---|---|---|---|---|
 | NFR-01 | Compatibility | The checkout flow must be tested across Chrome, Firefox, and Safari browsers. | Technical Notes | No specific browser versions specified. |
 | NFR-02 | Responsiveness | The checkout flow must be mobile responsive. | Technical Notes | No specific device list, breakpoints, or viewport sizes specified. |
-| NFR-03 | Usability | The checkout process should be intuitive, with clear feedback provided at each step. | Story Description | Not measurable as stated; no concrete usability acceptance criterion or metric is provided. Flagged as ambiguous. |
-| NFR-04 | Security | The checkout process should be secure. | Story Description | No concrete security requirement, data-handling rule, or acceptance criterion is defined anywhere in the document. Flagged as ambiguous/gap. |
+| NFR-03 | Usability | The checkout process should be intuitive, with clear feedback provided at each step. | Story Description | Not objectively measurable as stated; no concrete usability acceptance criteria or metric provided. Flagged as ambiguous. |
+| NFR-04 | Security | The checkout process should be secure. | Story Description | No concrete security requirement, data-handling rule, or acceptance criterion is defined anywhere in the document. Flagged as an ambiguous requirement gap. |
 
 ---
 
-## 6. Actors
+## Actors
 
 | Role | Identifier | Description |
 |---|---|---|
-| Customer / Logged-in User | `standard_user` | The only actor referenced in the document. Must be authenticated before checkout can be accessed (BR2). No other roles (e.g., guest user, locked-out user, problem user) are described in this story. |
+| Customer / Logged-in User | `standard_user` | The only actor referenced in the document. Must be authenticated before checkout can be accessed (BR2). No other roles (e.g., guest, admin, locked-out user) are described in this story. |
 
 ---
 
-## 7. Acceptance Criteria
+## Acceptance Criteria
 
 ### AC1: Cart Review
 - GIVEN I am a logged-in user with items in my cart
@@ -119,123 +112,114 @@ The story defines a 4-stage checkout flow (Cart Review → Checkout Information 
 
 ---
 
-## 8. Business Rules
+## Business Rules
 
-| ID | Rule (verbatim) |
-|---|---|
-| BR1 | All checkout form fields are mandatory |
-| BR2 | Users must be logged in to access checkout |
-| BR3 | Cart cannot be empty when proceeding to checkout |
-| BR4 | Order confirmation should clear the cart |
-| BR5 | Users can cancel checkout at any step and return to cart |
-
----
-
-## 9. Dependencies
-
-| ID | Dependency | Notes |
+| ID | Rule | Linked Acceptance Criteria |
 |---|---|---|
-| DEP-01 | Authentication / Login feature | BR2 requires the user to be logged in before checkout is accessible; login itself is not specified in this document. |
-| DEP-02 | Cart / Product catalog feature (add-to-cart) | AC1 assumes items are already present in the cart; how items are added is out of scope of this story. |
-| DEP-03 | Payment method selection/entry | The Story Description states the user will "select payment method," but no field, page, or acceptance criterion in this document describes a payment selection UI. |
-| DEP-04 | Cross-browser and mobile test environment | Technical Notes require Chrome, Firefox, Safari, and mobile-responsive coverage. |
-| DEP-05 | SauceDemo test environment availability and stability | All acceptance criteria assume `https://www.saucedemo.com` and the `standard_user` / `secret_sauce` credentials remain valid and reachable. |
+| BR1 | All checkout form fields are mandatory. | AC2 |
+| BR2 | Users must be logged in to access checkout. | AC1 |
+| BR3 | Cart cannot be empty when proceeding to checkout. | *(none)* |
+| BR4 | Order confirmation should clear the cart. | *(none)* |
+| BR5 | Users can cancel checkout at any step and return to cart. | AC3 |
 
 ---
 
-## 10. Assumptions
+## Dependencies
 
-| ID | Assumption |
-|---|---|
-| ASM-01 | The `standard_user` / `secret_sauce` test account is valid and remains usable in the target test environment. |
-| ASM-02 | The cart already contains at least one item before AC1 begins; the mechanism for adding items is assumed to work correctly and is not covered by this story. |
-| ASM-03 | Tax and subtotal calculation logic is pre-existing application behavior and is out of scope for validation beyond confirming the values are displayed (AC3). |
-| ASM-04 | "Payment method" and "shipping information" shown on the overview page (AC3) are assumed to be static/mock data rather than user-entered/selectable values, since no such input fields are defined anywhere in the document. |
-
----
-
-## 11. Risks
-
-| ID | Risk | Impact |
+| ID | Description | Type |
 |---|---|---|
-| RISK-01 | NFR-04 (Security) has no concrete, testable definition. | Test cases cannot verify "secure" checkout in any meaningful way; false sense of security coverage. |
-| RISK-02 | NFR-03 (Usability/"intuitive") has no measurable criterion. | Usability assessment will be subjective and inconsistent between testers/automation. |
-| RISK-03 | Story Description references "select payment method," but no AC, field, or business rule defines this behavior. | Functional gap risk: automation built strictly from the ACs will not exercise payment-method selection, while stakeholders reading the story description may expect it. |
-| RISK-04 | No specified copy/text for validation error messages (AC2, AC5). | Automated assertions on error text may be brittle, inconsistent, or need to fall back to weaker presence-only checks. |
-| RISK-05 | BR3 (cart cannot be empty) and BR5 (cancel at any step) have no corresponding acceptance criteria describing exact system behavior. | Ambiguous expected behavior increases risk of incorrect assumptions being built into automated tests. |
-| RISK-06 | NFR-01/NFR-02 declare cross-browser and mobile scope without versions, devices, or breakpoints. | Coverage may be inconsistent or disputed as "incomplete" without an agreed test matrix. |
+| DEP-01 | A working login/authentication feature is required before checkout can be exercised (BR2), but login functionality itself is not specified in this document. | Feature dependency |
+| DEP-02 | The cart must already contain items before checkout begins (AC1, BR3); the add-to-cart feature that populates the cart is not specified in this document. | Feature dependency |
+| DEP-03 | Availability and stability of the external, third-party-hosted application at https://www.saucedemo.com is required for both manual and automated testing. | Environment dependency |
+| DEP-04 | Validity of the supplied test credentials (`standard_user` / `secret_sauce`) on the target environment. | Test data dependency |
+| DEP-05 | Cross-browser (Chrome, Firefox, Safari) and mobile-responsive test execution depends on availability of corresponding browser/device infrastructure. | Infrastructure dependency |
 
 ---
 
-## 12. Edge Cases
+## Assumptions
 
-The following are not explicitly covered by any acceptance criterion but are implied by the business rules, technical notes, or general checkout-flow behavior, and should be flagged for QA coverage discussion rather than assumed:
-
-- Attempting to proceed to checkout with an empty cart (BR3) — no AC defines the expected message/behavior.
-- Leaving all three checkout-information fields empty simultaneously — which field's error is shown, or are multiple shown?
-- Entering excessively long values into First Name, Last Name, or Zip/Postal Code (no length limits documented).
-- Entering special characters, script-like strings, or emoji into the checkout-information fields (AC5 references "special characters" only generically).
-- Non-numeric or international Zip/Postal Code formats (no validation rule documented).
-- Browser back-button navigation during the checkout flow (Technical Notes call this out, but no AC defines expected behavior).
-- Session expiration or forced logout mid-checkout (BR2 requires login, but expected behavior if the session ends mid-flow is undefined).
-- Page refresh mid-checkout — whether entered data or cart state persists is undefined.
-- Availability of a Cancel option on the checkout-information page specifically (AC2 does not mention one; only AC3 shows Cancel on the overview page), relevant to BR5's "cancel at any step" claim.
-- Rapid/double-clicking the "Finish" button (possible duplicate order submission) — no defined idempotency behavior.
-- Explicit verification that the cart is empty after order confirmation (BR4) — no AC directly checks this post-condition.
-
----
-
-## 13. Open Questions
-
-1. The Story Description says the customer will "select payment method," but no acceptance criterion, field, or business rule describes a payment-method selection UI. Is this a documentation gap, or does it describe functionality intentionally left out of scope for this story?
-2. What is the exact expected error message text for each specific empty or invalid field? The document only says "an error message indicating which field is required" (AC2) or "appropriate validation error messages" (AC5), without specifying wording.
-3. BR5 states users can cancel checkout "at any step," but AC2 (checkout information page) does not mention a Cancel option — only AC3 (overview page) does. Does a Cancel option exist on every step, and if so, what does it do on each?
-4. BR3 states the cart cannot be empty when proceeding to checkout, but no acceptance criterion describes what happens when a user attempts this (blocked navigation? error message? redirect?).
-5. What validation rules apply to the Zip/Postal Code field (numeric-only, length limits, country-specific formats)?
-6. What specifically defines "secure" for this checkout flow (NFR-04)? No requirement addresses HTTPS enforcement, input sanitization, session handling, or data protection.
-7. What specifically defines "intuitive" for this checkout flow (NFR-03), and what metric or criterion would be used to judge it as met?
-8. Are additional user roles (e.g., SauceDemo's locked-out or problem user accounts) in scope for this story, or is `standard_user` the only actor to be tested?
-9. Which specific browser versions and mobile device/viewport sizes are in scope for NFR-01 and NFR-02?
-10. Does "confirm their order" (Story Title) imply any backend or order-persistence requirement beyond displaying the confirmation message and clearing the cart (AC4, BR4), or is the UI confirmation the entire scope?
-
----
-
-## 14. Requirement Traceability
-
-| Item ID | Type | Source Section |
+| ID | Description | Status |
 |---|---|---|
-| FR-01, FR-02, FR-03 | Functional Requirement | AC1: Cart Review |
-| FR-04, FR-05, FR-06 | Functional Requirement | AC2: Checkout Information Entry |
-| FR-07, FR-08, FR-09 | Functional Requirement | AC3: Order Overview |
-| FR-10 | Functional Requirement | AC4: Order Completion |
-| FR-11 | Functional Requirement | AC5: Error Handling |
-| FR-12 | Functional Requirement | Business Rules — BR2 |
-| FR-13 | Functional Requirement | Business Rules — BR3 |
-| FR-14 | Functional Requirement | Business Rules — BR4 |
-| FR-15 | Functional Requirement | Business Rules — BR5 |
-| NFR-01, NFR-02 | Non-Functional Requirement | Technical Notes |
-| NFR-03, NFR-04 | Non-Functional Requirement | Story Description |
-| BR1–BR5 | Business Rule | Business Rules section |
-| AC1–AC5 | Acceptance Criteria | Acceptance Criteria section |
-| Actor: Customer / Logged-in User | Actor | Test Credentials, BR2, AC1 |
-| DEP-01 | Dependency | Inferred from BR2 |
-| DEP-02 | Dependency | Inferred from AC1 |
-| DEP-03 | Dependency | Inferred from Story Description vs. AC3 |
-| DEP-04 | Dependency | Technical Notes |
-| DEP-05 | Dependency | Application URL, Test Credentials |
-| RISK-01–RISK-06 | Risk | Derived from NFR-03, NFR-04, Story Description, BR3, BR5, Technical Notes |
-| Open Questions #1–#10 | Gap | Derived from cross-referencing Story Description, Acceptance Criteria, Business Rules, and Technical Notes |
+| ASM-01 | The document does not state any assumptions explicitly. The only inference drawn without altering scope is that "logged-in user" in AC1 refers to successful authentication using the supplied `standard_user` credentials, since no other login mechanism or role is described. | Requires confirmation |
 
 ---
 
-## 15. QA Coverage Recommendations
+## Risks
 
-- **Happy path**: Full end-to-end checkout flow from cart review through order confirmation (AC1 → AC2 → AC3 → AC4), verifying redirects, displayed data, and the success message.
-- **Negative / validation testing**: Each mandatory field (First Name, Last Name, Zip/Postal Code) left empty individually and in combination (AC2); invalid data such as special characters or incomplete information (AC5).
-- **Business-rule coverage**: Verify checkout is inaccessible when not logged in (BR2/FR-12); verify checkout cannot proceed with an empty cart (BR3/FR-13); verify the cart is empty after order confirmation (BR4/FR-14); verify cancel-and-return-to-cart behavior at each step where a Cancel control exists (BR5/FR-15).
-- **Boundary testing**: Cart with a single item vs. multiple items; maximum field lengths for First Name/Last Name/Zip (once clarified — see Open Question #5).
-- **Cross-browser matrix**: Execute the full flow on Chrome, Firefox, and Safari per NFR-01.
-- **Responsive/mobile testing**: Execute the full flow at mobile viewport sizes per NFR-02, once specific breakpoints are clarified.
-- **Navigation testing**: Browser back-button behavior at each checkout step, and page-refresh behavior mid-checkout, per Technical Notes.
-- **Do not proceed to automated test-case generation for NFR-03 (Usability) and NFR-04 (Security)** until stakeholders provide measurable acceptance criteria — flag these for clarification rather than fabricating pass/fail thresholds.
-- **Flag for stakeholder review before test planning**: Open Questions #1, #3, and #4, since they affect whether entire scenarios (payment-method selection, cancel-at-every-step, empty-cart handling) should be in or out of scope for the generated test plan.
+| ID | Description | Impact | Related Item |
+|---|---|---|---|
+| RISK-01 | Security is referenced in the story description ("secure") but no security acceptance criteria, business rule, or NFR detail is defined anywhere in the document, so security cannot be objectively verified. | High | NFR-04 |
+| RISK-02 | BR4 ("Order confirmation should clear the cart") is not reflected in any acceptance criterion (AC4 only mentions a success message and Back Home button), so this business rule risks being untested if not explicitly added to the test plan. | Medium | BR4 |
+| RISK-03 | BR5 ("Users can cancel checkout at any step and return to cart") is only partially reflected in the acceptance criteria (a Cancel option is described on the overview page in AC3, but not on the checkout information page), risking incomplete coverage of the business rule. | Medium | BR5 |
+| RISK-04 | The story description states the customer will "select payment method," but AC3 only requires the overview page to display payment and shipping information, with no acceptance criterion describing a payment method selection step. SauceDemo's actual checkout has no payment method selection UI. This is a conflict between the narrative description and the acceptance criteria / actual application behavior. | Medium | AC3 |
+| RISK-05 | NFR-01 and NFR-02 require cross-browser and mobile-responsive testing but do not specify browser versions, device list, or viewport breakpoints, which can lead to inconsistent or incomplete coverage across test executions. | Low | NFR-01, NFR-02 |
+| RISK-06 | The application under test is an external third-party demo site (saucedemo.com) not controlled by the project team; behavior changes or downtime are outside the team's control and could invalidate test results. | Low | Application URL |
+
+---
+
+## Edge Cases
+
+| ID | Description | Derived From |
+|---|---|---|
+| EDGE-01 | Submitting the checkout information form with all fields empty (not just a single field) — AC2 only describes leaving "any field" empty; combined/multi-field empty submission behavior is not explicitly specified. | AC2 |
+| EDGE-02 | Submitting special characters, leading/trailing whitespace, or excessively long values in First Name, Last Name, or Zip/Postal Code fields — AC5 references "special characters" and "incomplete information" generically without enumerating specific invalid input classes. | AC5 |
+| EDGE-03 | Zip/Postal Code format validation (numeric-only vs. alphanumeric postal codes, e.g. international formats) is not defined. | AC2, AC5 |
+| EDGE-04 | Behavior when attempting to reach the checkout information or overview page directly via URL without following the prescribed flow (e.g., with an empty cart, or without being logged in) is not defined. | BR2, BR3 |
+| EDGE-05 | Behavior of the browser Back button during the checkout flow is referenced only in Technical Notes ("Test navigation flow and back button behavior") without a corresponding acceptance criterion describing expected behavior. | Technical Notes |
+| EDGE-06 | Single-item vs. multi-item cart checkout, and a cart with a large/maximum quantity of items, are not distinguished in any acceptance criterion. | AC1 |
+
+---
+
+## Open Questions
+
+| ID | Question | Related Item |
+|---|---|---|
+| OQ-01 | What is the exact expected error message text/format for each mandatory field left empty in AC2 (e.g., does SauceDemo's actual "Error: First Name is required" style message match the expected wording)? | AC2, FR-06 |
+| OQ-02 | What specific characters or input patterns constitute "invalid data" in AC5? The document gives examples (special characters, incomplete information) but no exhaustive or authoritative validation rule set. | AC5, FR-11 |
+| OQ-03 | Is BR4 (cart clearing on order confirmation) an in-scope, testable requirement even though no acceptance criterion covers it? Should an acceptance criterion be added, or is it intentionally out of scope for this story? | BR4 |
+| OQ-04 | Does BR5 ("cancel checkout at any step") apply to the checkout information page (AC2) as well as the overview page (AC3), given AC2 does not mention a Cancel option? | BR5, AC2 |
+| OQ-05 | The story description mentions the customer will "select payment method," but no acceptance criterion describes a payment method selection step. Is this narrative aspirational/out of scope for SauceDemo, or is an acceptance criterion missing? | Story Description, AC3 |
+| OQ-06 | What concrete, measurable security requirements apply to the checkout process (data handling, HTTPS enforcement, session handling, etc.)? None are specified. | NFR-04 |
+| OQ-07 | Which specific browser versions and mobile devices/viewport sizes should be covered for NFR-01 and NFR-02? | NFR-01, NFR-02 |
+| OQ-08 | Are there any other actors/roles besides `standard_user` (e.g., `locked_out_user`, `problem_user`, `performance_glitch_user`, which exist on SauceDemo) that should be in scope for this story? | Actors |
+
+---
+
+## Requirement Traceability
+
+| Requirement ID | Acceptance Criteria | Business Rules |
+|---|---|---|
+| FR-01 | AC1 | — |
+| FR-02 | AC1 | — |
+| FR-03 | AC1 | — |
+| FR-04 | AC2 | — |
+| FR-05 | AC2 | BR1 |
+| FR-06 | AC2 | BR1 |
+| FR-07 | AC3 | — |
+| FR-08 | AC3 | — |
+| FR-09 | AC3 | BR5 |
+| FR-10 | AC4 | BR4 |
+| FR-11 | AC5 | — |
+| NFR-01 | — | — |
+| NFR-02 | — | — |
+| NFR-03 | — | — |
+| NFR-04 | — | — |
+| BR2 (login required) | AC1 | BR2 |
+| BR3 (cart not empty) | — | BR3 |
+
+---
+
+## QA Coverage Recommendations
+
+1. Cover each acceptance criterion (AC1-AC5) with at least one positive/happy-path test case and, where applicable, negative test cases.
+2. Add explicit test coverage for BR3 (attempting checkout with an empty cart) and BR4 (verifying the cart is cleared after order confirmation), since neither is covered by an existing acceptance criterion — flag to product owner as a gap to confirm before automating.
+3. Add explicit test coverage for cancel behavior on the checkout information page (AC2) in addition to the overview page (AC3), to fully validate BR5.
+4. Design boundary and negative test cases for the mandatory fields in AC2/AC5: empty field, whitespace-only, special characters, very long input, and (for Zip/Postal Code) non-numeric/alphanumeric formats.
+5. Verify the exact error message text for each individual required field, and for multi-field-empty submission.
+6. Include cross-browser regression coverage (Chrome, Firefox, Safari) per NFR-01 for the full checkout flow, at minimum on the latest stable version of each browser pending clarification (OQ-07).
+7. Include mobile-responsive checkout coverage per NFR-02 at common breakpoints (e.g., mobile portrait/landscape, tablet) pending clarification of the target device list (OQ-07).
+8. Verify browser Back-button behavior during each step of the checkout flow, per the Technical Notes, even though no acceptance criterion formally defines expected behavior (EDGE-05) — flag to product owner.
+9. Do not author security-specific automated assertions until concrete security requirements are defined (OQ-06); flag this as an untestable NFR in its current form.
+10. Confirm with the product owner whether payment-method selection (mentioned in the story description) is in scope; if not, no test case should assert its presence, since AC3 does not require it.
+11. Include a full end-to-end happy-path scenario chaining AC1 through AC4 (cart -> info -> overview -> confirmation) as the primary regression test.
+12. Include multi-item cart scenarios (not just single-item) to validate totals, tax, and subtotal calculations in AC1 and AC3.
