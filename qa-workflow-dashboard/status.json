@@ -1,42 +1,102 @@
 {
   ".claude/agents/requirement-analysis-agent.md": {
     "status": "completed",
-    "lastRun": "2026-07-23T10:45:00Z",
-    "note": "Requirement Analysis Report generated and approved for SCRUM-101."
+    "lastRun": "2026-09-15T09:19:54.000Z",
+    "note": "requirement-analysis-report.md/.json/.pdf generated for SCRUM-101"
   },
   ".claude/agents/playwright-test-planner.md": {
-    "status": "skipped",
-    "lastRun": "2026-07-23T11:31:00Z",
-    "note": "Test plan was authored directly by the orchestrator via live browser exploration this run, not by dispatching this subagent."
+    "status": "completed",
+    "lastRun": "2026-09-15T09:28:39.000Z",
+    "note": "36 scenarios saved to specs/saucedemo-checkout-test-plan.md; 8 discrepancies found vs. requirement report"
   },
   ".claude/agents/testcase-generator-agent.md": {
     "status": "completed",
-    "lastRun": "2026-07-23T17:05:00Z",
-    "note": "Generated 28 manual test cases (MTC-001-028) from the approved test plan."
+    "lastRun": "2026-09-15T09:37:23.000Z",
+    "note": "36 manual test cases generated; xlsx converted to native workbook"
   },
   ".claude/agents/playwright-test-generator.md": {
     "status": "completed",
-    "lastRun": "2026-07-23T17:53:00Z",
-    "note": "Generated 5 spec files / 28 automated tests under tests/saucedemo-checkout/."
+    "lastRun": "2026-09-15T10:23:05.000Z",
+    "note": "8 spec files, 36 tests generated under tests/saucedemo-checkout/"
   },
   ".claude/agents/playwright-test-healer.md": {
     "status": "completed",
-    "lastRun": "2026-07-23T18:20:00Z",
-    "note": "Diagnosed 9 failures (wrong quantity selector, strict-mode locator violation); fixes applied, suite now 84/84 passing across chromium/firefox/webkit."
+    "lastRun": "2026-09-15T10:44:17.000Z",
+    "note": "108/108 passed (36 tests x 3 browsers, real CLI run) after fixing 2 bugs (selector collision + webkit timing race); 0 fixme"
+  },
+  ".claude/agents/qtest-upload-agent.md": {
+    "status": "completed",
+    "lastRun": "2026-09-15T10:23:05.000Z",
+    "note": "36/36 test cases mapped to qtest-upload-payload.json; no live push (no credentials configured)"
   },
   ".claude/skills/run-qa-pipeline": {
-    "status": "completed",
-    "lastRun": "2026-07-23T10:45:00Z",
-    "note": "SCRUM-101 workflow complete: requirement analysis -> test plan -> test cases -> automation -> healing -> reports -> committed (a06e16e, push pending approval)."
+    "status": "in_progress",
+    "lastRun": "2026-09-15T09:19:54.000Z",
+    "note": "SCRUM-101 run: reporting done (108/108 green, 0 defects), starting git delivery (step 8)"
   },
   ".claude/skills/test-case-generation": {
     "status": "completed",
-    "lastRun": "2026-07-23T17:05:00Z",
-    "note": "Invoked by testcase-generator-agent."
+    "lastRun": "2026-09-15T09:37:23.000Z",
+    "note": null
   },
   ".claude/skills/generate-qa-report": {
     "status": "completed",
-    "lastRun": "2026-07-23T18:45:00Z",
-    "note": "PDF, Excel, HTML dashboard, and Markdown report generated in test-results/."
+    "lastRun": "2026-09-15T10:44:17.000Z",
+    "note": "execution-report.html/.pdf, test-cases.xlsx, script-issue-report.xlsx (0), defect-report.md/.pdf (0) all generated"
+  },
+  ".claude/skills/qtest-upload": {
+    "status": "completed",
+    "lastRun": "2026-09-15T10:23:05.000Z",
+    "note": null
+  },
+  "checkpoints": {
+    "requirement-analysis": {
+      "stage": "Requirement Analysis",
+      "status": "APPROVED",
+      "artifact": [
+        "reports/SCRUM-101/requirement-analysis-report.md",
+        "reports/SCRUM-101/requirement-analysis-report.json",
+        "reports/SCRUM-101/requirement-analysis-report.pdf"
+      ],
+      "available_actions": ["APPROVE", "REJECT", "RERUN"],
+      "feedback": null,
+      "decision_history": [
+        { "action": "APPROVE", "feedback": null, "at": "2026-09-15T09:20:54.138Z", "source": "dashboard" }
+      ],
+      "rerun_count": 0,
+      "rejection_count": 0,
+      "at": "2026-09-15T09:20:54.138Z"
+    },
+    "test-plan": {
+      "stage": "Test Plan",
+      "status": "APPROVED",
+      "artifact": [
+        "specs/saucedemo-checkout-test-plan.md"
+      ],
+      "available_actions": ["APPROVE", "REJECT", "RERUN"],
+      "feedback": null,
+      "decision_history": [
+        { "action": "APPROVE", "feedback": null, "at": "2026-09-15T09:30:17.820Z", "source": "dashboard" }
+      ],
+      "rerun_count": 0,
+      "rejection_count": 0,
+      "at": "2026-09-15T09:30:17.820Z"
+    },
+    "manual-test-cases": {
+      "stage": "Manual Test Cases",
+      "status": "APPROVED",
+      "artifact": [
+        "reports/SCRUM-101/generated-testcases.md",
+        "reports/SCRUM-101/generated-testcases.xlsx"
+      ],
+      "available_actions": ["APPROVE", "REJECT", "RERUN"],
+      "feedback": null,
+      "decision_history": [
+        { "action": "APPROVE", "feedback": null, "at": "2026-09-15T09:42:46.000Z", "source": "chat" }
+      ],
+      "rerun_count": 0,
+      "rejection_count": 0,
+      "at": "2026-09-15T09:42:46.000Z"
+    }
   }
 }
