@@ -37,19 +37,19 @@
   <body>
     <main>
       <h1>Playwright Execution Report</h1>
-      <div class="subtitle">SauceDemo checkout automation - execution 2026-09-15_23-18-31 - generated 15/9/2026, 11:22:59 pm</div>
+      <div class="subtitle">SauceDemo checkout automation - execution 2026-09-16_18-35-25 - generated 16/9/2026, 6:38:32 pm</div>
       <section class="kpis">
         <div class="kpi"><span>Documented Test Cases</span><strong>20</strong></div>
-        <div class="kpi"><span>Automated Scenarios</span><strong>30</strong></div>
-        <div class="kpi"><span>Browser Executions</span><strong>90</strong></div>
-        <div class="kpi"><span>Passed</span><strong>90</strong></div>
+        <div class="kpi"><span>Automated Scenarios</span><strong>29</strong></div>
+        <div class="kpi"><span>Browser Executions</span><strong>87</strong></div>
+        <div class="kpi"><span>Passed</span><strong>87</strong></div>
         <div class="kpi"><span>Failed</span><strong>0</strong></div>
-        <div class="kpi"><span>Duration</span><strong>16m 21s</strong></div>
+        <div class="kpi"><span>Duration</span><strong>11m 2s</strong></div>
       </section>
       <table>
         <tbody>
-          <tr><td><strong>Execution Start Time</strong></td><td>2026-09-15T17:48:31.356Z</td><td><strong>Execution End Time</strong></td><td>2026-09-15T17:52:59.118Z</td></tr>
-          <tr><td><strong>Total Execution Duration</strong></td><td>4m 28s</td><td><strong>Execution Identifier</strong></td><td>2026-09-15_23-18-31</td></tr>
+          <tr><td><strong>Execution Start Time</strong></td><td>2026-09-16T13:05:25.420Z</td><td><strong>Execution End Time</strong></td><td>2026-09-16T13:08:32.857Z</td></tr>
+          <tr><td><strong>Total Execution Duration</strong></td><td>3m 7s</td><td><strong>Execution Identifier</strong></td><td>2026-09-16_18-35-25</td></tr>
         </tbody>
       </table>
       <section class="chart">
@@ -61,24 +61,24 @@
       <table><thead><tr><th>Browser</th><th>Total</th><th>Passed</th><th>Failed</th><th>Skipped</th><th>Pass Rate</th></tr></thead><tbody>
     <tr>
       <td>chromium</td>
-      <td>30</td>
-      <td>30</td>
+      <td>29</td>
+      <td>29</td>
       <td>0</td>
       <td>0</td>
       <td>100%</td>
     </tr>
     <tr>
       <td>firefox</td>
-      <td>30</td>
-      <td>30</td>
+      <td>29</td>
+      <td>29</td>
       <td>0</td>
       <td>0</td>
       <td>100%</td>
     </tr>
     <tr>
       <td>webkit</td>
-      <td>30</td>
-      <td>30</td>
+      <td>29</td>
+      <td>29</td>
       <td>0</td>
       <td>0</td>
       <td>100%</td>
@@ -123,638 +123,617 @@
       <td>Not executed</td>
     </tr></tbody></table>
       <h2>Unmapped Automated Scenarios</h2>
-      <table><thead><tr><th>Scenario</th><th>File</th><th>Browsers</th></tr></thead><tbody><tr><td>TC-30 BR1 — all three checkout information fields are individually mandatory (combined verification)</td><td>saucedemo-checkout\business-rules.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-01 Happy path — cart displays single item with full details</td><td>saucedemo-checkout\cart-review.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-02 Happy path — cart displays multiple items with correct per-item quantities</td><td>saucedemo-checkout\cart-review.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-03 Discrepancy check — cart page does not display a total price (FR-02 gap)</td><td>saucedemo-checkout\cart-review.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-04 'Continue Shopping' returns to Products page and preserves cart contents</td><td>saucedemo-checkout\cart-review.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-05 'Checkout' button navigates to the checkout information page when the cart has items</td><td>saucedemo-checkout\cart-review.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-06 Edge case — Checkout button is clickable with an empty cart (BR3 not enforced)</td><td>saucedemo-checkout\cart-review.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-07 Removing an item from the cart updates the badge and cart contents</td><td>saucedemo-checkout\cart-review.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-08 Happy path — valid checkout information proceeds to Overview</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-09 Validation — empty First Name shows field-specific required error</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-10 Validation — empty Last Name (First Name filled) shows field-specific required error</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-11 Validation — empty Postal Code (First &amp; Last filled) shows field-specific required error</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-12 Edge case (EDGE-01) — submitting with all three fields empty only surfaces the first field's error</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-13 Discrepancy check (EDGE-02) — whitespace-only values bypass required-field validation</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-14 Discrepancy check (AC5/FR-11) — special characters are accepted without validation error</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-15 Boundary — very long input in First Name field is accepted without truncation error</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-16 Edge case (EDGE-03) — non-numeric/alphanumeric Zip/Postal Code is accepted</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-17 BR5 on checkout information page — Cancel returns user to the Cart page</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-18 Error banner can be dismissed via its close (X) control</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-19 BR2 — direct URL navigation to the checkout information page while logged out redirects to Login</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-27 Edge case (EDGE-04) — direct URL navigation to checkout information page with an empty cart while logged in</td><td>saucedemo-checkout\navigation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-28 Edge case (EDGE-05, Technical Notes) — browser Back button from Overview clears entered checkout info but preserves cart</td><td>saucedemo-checkout\navigation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-24 Happy path — confirmation page shows success message and Back Home button</td><td>saucedemo-checkout\order-completion.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-25 'Back Home' button returns the user to the Products page</td><td>saucedemo-checkout\order-completion.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-26 BR4 — cart is cleared after order confirmation</td><td>saucedemo-checkout\order-completion.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-20 Happy path — Overview page shows item summary, payment info, and shipping info</td><td>saucedemo-checkout\order-overview.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-21 Happy path — Overview page calculates item total, tax, and grand total correctly for a multi-item cart</td><td>saucedemo-checkout\order-overview.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-22 Discrepancy check (BR5) — Cancel on the Overview page redirects to Products, not Cart</td><td>saucedemo-checkout\order-overview.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-23 Happy path — Finish button on the Overview page completes the order</td><td>saucedemo-checkout\order-overview.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>TC-29 Full end-to-end happy-path regression: Cart -&gt; Checkout Info -&gt; Overview -&gt; Confirmation (AC1 through AC4 chained)</td><td>saucedemo-checkout\smoke.spec.js</td><td>chromium, firefox, webkit</td></tr></tbody></table>
+      <table><thead><tr><th>Scenario</th><th>File</th><th>Browsers</th></tr></thead><tbody><tr><td>Unauthenticated direct access to checkout is blocked and redirected to login</td><td>saucedemo-checkout\business-rules.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>DISCREPANCY: Checking out with an empty cart is not blocked and can be completed with a $0.00 total</td><td>saucedemo-checkout\business-rules.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Logged-in session persists across checkout steps for a valid multi-step flow</td><td>saucedemo-checkout\business-rules.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Attempting to check out again immediately after order completion (empty cart) reproduces the same empty-cart defect</td><td>saucedemo-checkout\business-rules.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Cart page displays full item details for each product</td><td>saucedemo-checkout\cart-review.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Cart page offers Continue Shopping and Checkout options</td><td>saucedemo-checkout\cart-review.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>DISCREPANCY: Cart page does not display a total/subtotal price</td><td>saucedemo-checkout\cart-review.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Submitting an entirely empty form shows First Name required error first</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Leaving only Last Name empty shows Last Name required error</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Leaving only Zip/Postal Code empty shows Postal Code required error</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Valid First Name, Last Name, and Zip proceed to Overview page</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Error alert can be dismissed via its close control</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>DISCREPANCY: Special characters in Zip/Postal Code are accepted without a format validation error</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>DISCREPANCY: Whitespace-only First Name is accepted as valid</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>DISCREPANCY: Oversized name input and special-character Last Name are both accepted</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Numeric 5-digit Zip/Postal Code is accepted (happy-path boundary)</td><td>saucedemo-checkout\checkout-info-validation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Cancel from Checkout Information page returns to Cart page with items preserved</td><td>saucedemo-checkout\navigation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>DISCREPANCY: Cancel from Checkout Overview page returns to Products page, not the Cart page</td><td>saucedemo-checkout\navigation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Browser back button after order confirmation shows a stale Overview page whose Finish button is still clickable</td><td>saucedemo-checkout\navigation.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Full checkout flow renders and completes at a mobile viewport (375x667)</td><td>saucedemo-checkout\non-functional-exploratory.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>All checkout-flow validation and success messages are captured for content review</td><td>saucedemo-checkout\non-functional-exploratory.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Finish redirects to confirmation page with success message</td><td>saucedemo-checkout\order-completion.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Back Home button returns to the Products page</td><td>saucedemo-checkout\order-completion.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Cart is cleared after order confirmation</td><td>saucedemo-checkout\order-completion.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Overview page lists all cart items with correct details</td><td>saucedemo-checkout\order-overview.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Overview page displays Payment and Shipping information sections</td><td>saucedemo-checkout\order-overview.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Overview page provides Cancel and Finish controls</td><td>saucedemo-checkout\order-overview.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Complete checkout with a single item</td><td>saucedemo-checkout\smoke.spec.js</td><td>chromium, firefox, webkit</td></tr><tr><td>Complete checkout with multiple items and verify price arithmetic</td><td>saucedemo-checkout\smoke.spec.js</td><td>chromium, firefox, webkit</td></tr></tbody></table>
       <h2>Test Results</h2>
       <table><thead><tr><th>TC ID</th><th>Test</th><th>Browser</th><th>Status</th><th>Duration</th></tr></thead><tbody>
     <tr>
       <td>Unmapped</td>
-      <td>TC-30 BR1 — all three checkout information fields are individually mandatory (combined verification)</td>
+      <td>Unauthenticated direct access to checkout is blocked and redirected to login</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>3s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>DISCREPANCY: Checking out with an empty cart is not blocked and can be completed with a $0.00 total</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>5s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Logged-in session persists across checkout steps for a valid multi-step flow</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>5s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Attempting to check out again immediately after order completion (empty cart) reproduces the same empty-cart defect</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>5s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Cart page displays full item details for each product</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>2s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Cart page offers Continue Shopping and Checkout options</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>4s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-01 Happy path — cart displays single item with full details</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>2s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-02 Happy path — cart displays multiple items with correct per-item quantities</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>3s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-03 Discrepancy check — cart page does not display a total price (FR-02 gap)</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>2s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-04 'Continue Shopping' returns to Products page and preserves cart contents</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>3s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-05 'Checkout' button navigates to the checkout information page when the cart has items</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>2s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-06 Edge case — Checkout button is clickable with an empty cart (BR3 not enforced)</td>
+      <td>DISCREPANCY: Cart page does not display a total/subtotal price</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>4s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-07 Removing an item from the cart updates the badge and cart contents</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>3s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-08 Happy path — valid checkout information proceeds to Overview</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>3s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-09 Validation — empty First Name shows field-specific required error</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>2s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-10 Validation — empty Last Name (First Name filled) shows field-specific required error</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>2s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-11 Validation — empty Postal Code (First &amp; Last filled) shows field-specific required error</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>2s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-12 Edge case (EDGE-01) — submitting with all three fields empty only surfaces the first field's error</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>2s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-13 Discrepancy check (EDGE-02) — whitespace-only values bypass required-field validation</td>
+      <td>Submitting an entirely empty form shows First Name required error first</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>4s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-14 Discrepancy check (AC5/FR-11) — special characters are accepted without validation error</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>3s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-15 Boundary — very long input in First Name field is accepted without truncation error</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>3s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-16 Edge case (EDGE-03) — non-numeric/alphanumeric Zip/Postal Code is accepted</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>3s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-17 BR5 on checkout information page — Cancel returns user to the Cart page</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>3s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-18 Error banner can be dismissed via its close (X) control</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>3s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-19 BR2 — direct URL navigation to the checkout information page while logged out redirects to Login</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>2s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-27 Edge case (EDGE-04) — direct URL navigation to checkout information page with an empty cart while logged in</td>
+      <td>Leaving only Last Name empty shows Last Name required error</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>4s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-28 Edge case (EDGE-05, Technical Notes) — browser Back button from Overview clears entered checkout info but preserves cart</td>
+      <td>Leaving only Zip/Postal Code empty shows Postal Code required error</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>3s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-24 Happy path — confirmation page shows success message and Back Home button</td>
+      <td>Valid First Name, Last Name, and Zip proceed to Overview page</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>3s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-25 'Back Home' button returns the user to the Products page</td>
+      <td>Error alert can be dismissed via its close control</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>3s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-26 BR4 — cart is cleared after order confirmation</td>
+      <td>DISCREPANCY: Special characters in Zip/Postal Code are accepted without a format validation error</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>3s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-20 Happy path — Overview page shows item summary, payment info, and shipping info</td>
+      <td>DISCREPANCY: Whitespace-only First Name is accepted as valid</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>4s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-21 Happy path — Overview page calculates item total, tax, and grand total correctly for a multi-item cart</td>
-      <td>chromium</td>
-      <td><span class="status passed">passed</span></td>
-      <td>3s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-22 Discrepancy check (BR5) — Cancel on the Overview page redirects to Products, not Cart</td>
+      <td>DISCREPANCY: Oversized name input and special-character Last Name are both accepted</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>4s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-23 Happy path — Finish button on the Overview page completes the order</td>
+      <td>Numeric 5-digit Zip/Postal Code is accepted (happy-path boundary)</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>4s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Cancel from Checkout Information page returns to Cart page with items preserved</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>4s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>DISCREPANCY: Cancel from Checkout Overview page returns to Products page, not the Cart page</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>3s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-29 Full end-to-end happy-path regression: Cart -&gt; Checkout Info -&gt; Overview -&gt; Confirmation (AC1 through AC4 chained)</td>
+      <td>Browser back button after order confirmation shows a stale Overview page whose Finish button is still clickable</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>4s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Full checkout flow renders and completes at a mobile viewport (375x667)</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>4s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>All checkout-flow validation and success messages are captured for content review</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>5s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Finish redirects to confirmation page with success message</td>
       <td>chromium</td>
       <td><span class="status passed">passed</span></td>
       <td>3s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-30 BR1 — all three checkout information fields are individually mandatory (combined verification)</td>
+      <td>Back Home button returns to the Products page</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>4s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Cart is cleared after order confirmation</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>4s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Overview page lists all cart items with correct details</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>4s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Overview page displays Payment and Shipping information sections</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>3s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Overview page provides Cancel and Finish controls</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>3s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Complete checkout with a single item</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>4s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Complete checkout with multiple items and verify price arithmetic</td>
+      <td>chromium</td>
+      <td><span class="status passed">passed</span></td>
+      <td>4s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Unauthenticated direct access to checkout is blocked and redirected to login</td>
       <td>firefox</td>
       <td><span class="status passed">passed</span></td>
-      <td>14s</td>
+      <td>11s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-01 Happy path — cart displays single item with full details</td>
+      <td>DISCREPANCY: Checking out with an empty cart is not blocked and can be completed with a $0.00 total</td>
       <td>firefox</td>
       <td><span class="status passed">passed</span></td>
       <td>22s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-02 Happy path — cart displays multiple items with correct per-item quantities</td>
+      <td>Logged-in session persists across checkout steps for a valid multi-step flow</td>
       <td>firefox</td>
       <td><span class="status passed">passed</span></td>
-      <td>15s</td>
+      <td>18s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-03 Discrepancy check — cart page does not display a total price (FR-02 gap)</td>
+      <td>Attempting to check out again immediately after order completion (empty cart) reproduces the same empty-cart defect</td>
       <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>25s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-04 'Continue Shopping' returns to Products page and preserves cart contents</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>13s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-05 'Checkout' button navigates to the checkout information page when the cart has items</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>11s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-06 Edge case — Checkout button is clickable with an empty cart (BR3 not enforced)</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>13s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-07 Removing an item from the cart updates the badge and cart contents</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>9s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-08 Happy path — valid checkout information proceeds to Overview</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>11s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-09 Validation — empty First Name shows field-specific required error</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>11s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-10 Validation — empty Last Name (First Name filled) shows field-specific required error</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>17s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-11 Validation — empty Postal Code (First &amp; Last filled) shows field-specific required error</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>17s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-12 Edge case (EDGE-01) — submitting with all three fields empty only surfaces the first field's error</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>14s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-13 Discrepancy check (EDGE-02) — whitespace-only values bypass required-field validation</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>14s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-14 Discrepancy check (AC5/FR-11) — special characters are accepted without validation error</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>8s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-15 Boundary — very long input in First Name field is accepted without truncation error</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>8s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-16 Edge case (EDGE-03) — non-numeric/alphanumeric Zip/Postal Code is accepted</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>8s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-17 BR5 on checkout information page — Cancel returns user to the Cart page</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>9s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-18 Error banner can be dismissed via its close (X) control</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>9s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-19 BR2 — direct URL navigation to the checkout information page while logged out redirects to Login</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>10s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-27 Edge case (EDGE-04) — direct URL navigation to checkout information page with an empty cart while logged in</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>19s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-28 Edge case (EDGE-05, Technical Notes) — browser Back button from Overview clears entered checkout info but preserves cart</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>8s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-24 Happy path — confirmation page shows success message and Back Home button</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>9s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-25 'Back Home' button returns the user to the Products page</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>9s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-26 BR4 — cart is cleared after order confirmation</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>9s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-20 Happy path — Overview page shows item summary, payment info, and shipping info</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>10s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-21 Happy path — Overview page calculates item total, tax, and grand total correctly for a multi-item cart</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>11s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-22 Discrepancy check (BR5) — Cancel on the Overview page redirects to Products, not Cart</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>10s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-23 Happy path — Finish button on the Overview page completes the order</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>9s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-29 Full end-to-end happy-path regression: Cart -&gt; Checkout Info -&gt; Overview -&gt; Confirmation (AC1 through AC4 chained)</td>
-      <td>firefox</td>
-      <td><span class="status passed">passed</span></td>
-      <td>8s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-30 BR1 — all three checkout information fields are individually mandatory (combined verification)</td>
-      <td>webkit</td>
-      <td><span class="status passed">passed</span></td>
-      <td>17s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-01 Happy path — cart displays single item with full details</td>
-      <td>webkit</td>
       <td><span class="status passed">passed</span></td>
       <td>23s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-02 Happy path — cart displays multiple items with correct per-item quantities</td>
-      <td>webkit</td>
+      <td>Cart page displays full item details for each product</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>10s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Cart page offers Continue Shopping and Checkout options</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>8s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>DISCREPANCY: Cart page does not display a total/subtotal price</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>7s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Submitting an entirely empty form shows First Name required error first</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>7s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Leaving only Last Name empty shows Last Name required error</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>7s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Leaving only Zip/Postal Code empty shows Postal Code required error</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>7s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Valid First Name, Last Name, and Zip proceed to Overview page</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>7s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Error alert can be dismissed via its close control</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>8s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>DISCREPANCY: Special characters in Zip/Postal Code are accepted without a format validation error</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>8s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>DISCREPANCY: Whitespace-only First Name is accepted as valid</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>8s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>DISCREPANCY: Oversized name input and special-character Last Name are both accepted</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>8s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Numeric 5-digit Zip/Postal Code is accepted (happy-path boundary)</td>
+      <td>firefox</td>
       <td><span class="status passed">passed</span></td>
       <td>11s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-03 Discrepancy check — cart page does not display a total price (FR-02 gap)</td>
-      <td>webkit</td>
+      <td>Cancel from Checkout Information page returns to Cart page with items preserved</td>
+      <td>firefox</td>
       <td><span class="status passed">passed</span></td>
-      <td>11s</td>
+      <td>8s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-04 'Continue Shopping' returns to Products page and preserves cart contents</td>
-      <td>webkit</td>
+      <td>DISCREPANCY: Cancel from Checkout Overview page returns to Products page, not the Cart page</td>
+      <td>firefox</td>
       <td><span class="status passed">passed</span></td>
-      <td>15s</td>
+      <td>9s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-05 'Checkout' button navigates to the checkout information page when the cart has items</td>
+      <td>Browser back button after order confirmation shows a stale Overview page whose Finish button is still clickable</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>9s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Full checkout flow renders and completes at a mobile viewport (375x667)</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>8s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>All checkout-flow validation and success messages are captured for content review</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>9s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Finish redirects to confirmation page with success message</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>7s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Back Home button returns to the Products page</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>7s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Cart is cleared after order confirmation</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>8s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Overview page lists all cart items with correct details</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>7s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Overview page displays Payment and Shipping information sections</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>8s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Overview page provides Cancel and Finish controls</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>8s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Complete checkout with a single item</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>6s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Complete checkout with multiple items and verify price arithmetic</td>
+      <td>firefox</td>
+      <td><span class="status passed">passed</span></td>
+      <td>7s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Unauthenticated direct access to checkout is blocked and redirected to login</td>
+      <td>webkit</td>
+      <td><span class="status passed">passed</span></td>
+      <td>5s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>DISCREPANCY: Checking out with an empty cart is not blocked and can be completed with a $0.00 total</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
       <td>13s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-06 Edge case — Checkout button is clickable with an empty cart (BR3 not enforced)</td>
+      <td>Logged-in session persists across checkout steps for a valid multi-step flow</td>
+      <td>webkit</td>
+      <td><span class="status passed">passed</span></td>
+      <td>11s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Attempting to check out again immediately after order completion (empty cart) reproduces the same empty-cart defect</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
       <td>13s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-07 Removing an item from the cart updates the badge and cart contents</td>
+      <td>Cart page displays full item details for each product</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>17s</td>
+      <td>9s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-08 Happy path — valid checkout information proceeds to Overview</td>
+      <td>Cart page offers Continue Shopping and Checkout options</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>20s</td>
+      <td>8s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-09 Validation — empty First Name shows field-specific required error</td>
+      <td>DISCREPANCY: Cart page does not display a total/subtotal price</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>15s</td>
+      <td>9s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-10 Validation — empty Last Name (First Name filled) shows field-specific required error</td>
+      <td>Submitting an entirely empty form shows First Name required error first</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>18s</td>
+      <td>8s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-11 Validation — empty Postal Code (First &amp; Last filled) shows field-specific required error</td>
+      <td>Leaving only Last Name empty shows Last Name required error</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>16s</td>
+      <td>10s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-12 Edge case (EDGE-01) — submitting with all three fields empty only surfaces the first field's error</td>
+      <td>Leaving only Zip/Postal Code empty shows Postal Code required error</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>17s</td>
+      <td>10s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-13 Discrepancy check (EDGE-02) — whitespace-only values bypass required-field validation</td>
+      <td>Valid First Name, Last Name, and Zip proceed to Overview page</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>18s</td>
+      <td>10s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-14 Discrepancy check (AC5/FR-11) — special characters are accepted without validation error</td>
+      <td>Error alert can be dismissed via its close control</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>21s</td>
+      <td>10s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-15 Boundary — very long input in First Name field is accepted without truncation error</td>
+      <td>DISCREPANCY: Special characters in Zip/Postal Code are accepted without a format validation error</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>18s</td>
+      <td>10s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-16 Edge case (EDGE-03) — non-numeric/alphanumeric Zip/Postal Code is accepted</td>
+      <td>DISCREPANCY: Whitespace-only First Name is accepted as valid</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>17s</td>
+      <td>10s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-17 BR5 on checkout information page — Cancel returns user to the Cart page</td>
+      <td>DISCREPANCY: Oversized name input and special-character Last Name are both accepted</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>18s</td>
+      <td>9s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-18 Error banner can be dismissed via its close (X) control</td>
+      <td>Numeric 5-digit Zip/Postal Code is accepted (happy-path boundary)</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>20s</td>
+      <td>9s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-19 BR2 — direct URL navigation to the checkout information page while logged out redirects to Login</td>
+      <td>Cancel from Checkout Information page returns to Cart page with items preserved</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>18s</td>
+      <td>9s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-27 Edge case (EDGE-04) — direct URL navigation to checkout information page with an empty cart while logged in</td>
+      <td>DISCREPANCY: Cancel from Checkout Overview page returns to Products page, not the Cart page</td>
+      <td>webkit</td>
+      <td><span class="status passed">passed</span></td>
+      <td>11s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Browser back button after order confirmation shows a stale Overview page whose Finish button is still clickable</td>
+      <td>webkit</td>
+      <td><span class="status passed">passed</span></td>
+      <td>13s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Full checkout flow renders and completes at a mobile viewport (375x667)</td>
+      <td>webkit</td>
+      <td><span class="status passed">passed</span></td>
+      <td>6s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>All checkout-flow validation and success messages are captured for content review</td>
+      <td>webkit</td>
+      <td><span class="status passed">passed</span></td>
+      <td>13s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Finish redirects to confirmation page with success message</td>
+      <td>webkit</td>
+      <td><span class="status passed">passed</span></td>
+      <td>11s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Back Home button returns to the Products page</td>
+      <td>webkit</td>
+      <td><span class="status passed">passed</span></td>
+      <td>11s</td>
+    </tr>
+    <tr>
+      <td>Unmapped</td>
+      <td>Cart is cleared after order confirmation</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
       <td>12s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-28 Edge case (EDGE-05, Technical Notes) — browser Back button from Overview clears entered checkout info but preserves cart</td>
+      <td>Overview page lists all cart items with correct details</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>24s</td>
+      <td>10s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-24 Happy path — confirmation page shows success message and Back Home button</td>
+      <td>Overview page displays Payment and Shipping information sections</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>23s</td>
+      <td>9s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-25 'Back Home' button returns the user to the Products page</td>
+      <td>Overview page provides Cancel and Finish controls</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>24s</td>
+      <td>9s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-26 BR4 — cart is cleared after order confirmation</td>
+      <td>Complete checkout with a single item</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>24s</td>
+      <td>10s</td>
     </tr>
     <tr>
       <td>Unmapped</td>
-      <td>TC-20 Happy path — Overview page shows item summary, payment info, and shipping info</td>
+      <td>Complete checkout with multiple items and verify price arithmetic</td>
       <td>webkit</td>
       <td><span class="status passed">passed</span></td>
-      <td>22s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-21 Happy path — Overview page calculates item total, tax, and grand total correctly for a multi-item cart</td>
-      <td>webkit</td>
-      <td><span class="status passed">passed</span></td>
-      <td>18s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-22 Discrepancy check (BR5) — Cancel on the Overview page redirects to Products, not Cart</td>
-      <td>webkit</td>
-      <td><span class="status passed">passed</span></td>
-      <td>18s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-23 Happy path — Finish button on the Overview page completes the order</td>
-      <td>webkit</td>
-      <td><span class="status passed">passed</span></td>
-      <td>18s</td>
-    </tr>
-    <tr>
-      <td>Unmapped</td>
-      <td>TC-29 Full end-to-end happy-path regression: Cart -&gt; Checkout Info -&gt; Overview -&gt; Confirmation (AC1 through AC4 chained)</td>
-      <td>webkit</td>
-      <td><span class="status passed">passed</span></td>
-      <td>17s</td>
+      <td>10s</td>
     </tr></tbody></table>
       <h2>Embedded Screenshots</h2>
       <section class="screenshots"><p>No screenshots were available for embedding.</p></section>

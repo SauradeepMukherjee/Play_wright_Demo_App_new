@@ -1,38 +1,38 @@
 {
   ".claude/agents/requirement-analysis-agent.md": {
     "status": "completed",
-    "lastRun": "2026-09-15T14:55:21.000Z",
-    "note": "requirement-analysis-report.md/.json/.pdf generated fresh for SCRUM-101"
+    "lastRun": "2026-09-16T11:51:22.000Z",
+    "note": "requirement-analysis-report.md/.json/.pdf regenerated for SCRUM-101 (after RERUN)"
   },
   ".claude/agents/playwright-test-planner.md": {
     "status": "completed",
-    "lastRun": "2026-09-15T15:03:27.000Z",
-    "note": "30 scenarios saved to specs/saucedemo-checkout-test-plan.md; 8 discrepancies found"
+    "lastRun": "2026-09-16T12:00:05.000Z",
+    "note": "30 scenarios saved to specs/saucedemo-checkout-test-plan.md; 7 discrepancies found"
   },
   ".claude/agents/testcase-generator-agent.md": {
     "status": "completed",
-    "lastRun": "2026-09-15T15:14:11.000Z",
-    "note": "34 manual test cases generated; xlsx converted to native workbook"
+    "lastRun": "2026-09-16T12:09:55.000Z",
+    "note": "31 manual test cases generated; 1 CSV-quoting bug fixed manually; xlsx converted to native workbook"
   },
   ".claude/agents/playwright-test-generator.md": {
     "status": "completed",
-    "lastRun": "2026-09-15T15:53:01.000Z",
-    "note": "7 spec files, 30 tests generated under tests/saucedemo-checkout/"
+    "lastRun": "2026-09-16T12:50:49.000Z",
+    "note": "8 spec files, 29 tests generated under tests/saucedemo-checkout/"
   },
   ".claude/agents/playwright-test-healer.md": {
     "status": "completed",
-    "lastRun": "2026-09-15T17:53:20.000Z",
-    "note": "90/90 passed (real CLI, full load) after removing a stray page.pause() + hardening TC-04 for webkit contention; 0 fixme"
+    "lastRun": "2026-09-16T13:08:52.000Z",
+    "note": "87/87 passed (real CLI, full load) after 3 fixes; 0 fixme; 0 leftover debug artifacts"
   },
   ".claude/agents/qtest-upload-agent.md": {
     "status": "completed",
-    "lastRun": "2026-09-15T15:17:52.000Z",
-    "note": "34/34 test cases mapped to qtest-upload-payload.json; no live push"
+    "lastRun": "2026-09-16T12:14:14.000Z",
+    "note": "31/31 test cases mapped to qtest-upload-payload.json; no live push"
   },
   ".claude/skills/run-qa-pipeline": {
     "status": "in-progress",
     "lastRun": null,
-    "note": "SCRUM-101 run from scratch (all prior artifacts cleared)"
+    "note": "SCRUM-101 run in progress"
   },
   ".claude/skills/test-case-generation": {
     "status": "pending",
@@ -41,7 +41,7 @@
   },
   ".claude/skills/generate-qa-report": {
     "status": "completed",
-    "lastRun": "2026-09-15T17:53:20.000Z",
+    "lastRun": "2026-09-16T13:08:52.000Z",
     "note": "execution-report.html/.pdf, test-cases.xlsx, script-issue-report.xlsx (0), defect-report.md/.pdf (0) all generated"
   },
   ".claude/skills/qtest-upload": {
@@ -66,15 +66,21 @@
       "feedback": null,
       "decision_history": [
         {
+          "action": "RERUN",
+          "feedback": null,
+          "at": "2026-09-16T11:48:21.195Z",
+          "source": "dashboard"
+        },
+        {
           "action": "APPROVE",
           "feedback": null,
-          "at": "2026-09-15T14:55:37.258Z",
+          "at": "2026-09-16T11:51:56.384Z",
           "source": "dashboard"
         }
       ],
-      "rerun_count": 0,
+      "rerun_count": 1,
       "rejection_count": 0,
-      "at": "2026-09-15T14:55:37.258Z"
+      "at": "2026-09-16T11:51:56.384Z"
     },
     "test-plan": {
       "stage": "Test Plan",
@@ -92,13 +98,13 @@
         {
           "action": "APPROVE",
           "feedback": null,
-          "at": "2026-09-15T15:07:40.362Z",
+          "at": "2026-09-16T12:00:36.025Z",
           "source": "dashboard"
         }
       ],
       "rerun_count": 0,
       "rejection_count": 0,
-      "at": "2026-09-15T15:07:40.362Z"
+      "at": "2026-09-16T12:00:36.025Z"
     },
     "manual-test-cases": {
       "stage": "Manual Test Cases",
@@ -117,13 +123,14 @@
         {
           "action": "APPROVE",
           "feedback": null,
-          "at": "2026-09-15T15:14:30.390Z",
+          "at": "2026-09-16T12:10:40.692Z",
           "source": "dashboard"
         }
       ],
       "rerun_count": 0,
       "rejection_count": 0,
-      "at": "2026-09-15T15:14:30.390Z"
+      "at": "2026-09-16T12:10:40.692Z"
     }
-  }
+  },
+  "manualEdits": {}
 }

@@ -80,6 +80,17 @@ Columns:
 - Attachments
 - Tags
 
+## CSV quoting (when the agent dispatching this skill has no code-execution tool)
+
+Some agents invoking this skill (e.g. `testcase-generator-agent`, whose tools are Read/Write only) cannot run
+ExcelJS directly and instead write `generated-testcases.xlsx` as CSV-shaped text for
+`scripts/csv-to-xlsx.js` to convert afterward. When any field contains a double-quote character —
+which happens often here, since expected-result text frequently quotes the application's own on-screen error
+message (e.g. `Epic sadface: ...`) — escape it the **CSV way**: double it (`""`), never backslash-escape it
+(`\"`). A backslash-escaped quote is not valid CSV and will fail to parse (`csv-to-xlsx.js` uses a strict
+RFC 4180 parser). Example: a field containing the literal text `She said "hello"` must be written as
+`"She said ""hello"""` in the CSV row, not `"She said \"hello\""`.
+
 ---
 
 # Formatting

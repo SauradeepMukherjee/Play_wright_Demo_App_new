@@ -1,364 +1,373 @@
-# SauceDemo E-commerce Checkout — Structured Test Plan (SCRUM-101)
+# SauceDemo E-commerce Checkout Test Plan (SCRUM-101)
 
 ## Application Overview
 
-This test plan covers the end-to-end checkout process on the SauceDemo demo storefront (https://www.saucedemo.com) for the `standard_user` persona, derived from the approved Requirement Analysis Report for SCRUM-101 (reports/SCRUM-101/requirement-analysis-report.md). It maps directly to acceptance criteria AC1-AC5 and business rules BR1-BR5, and incorporates the report's flagged edge cases (EDGE-01..06), QA coverage recommendations, and open risks.
+This test plan covers the SauceDemo (https://www.saucedemo.com) checkout process for SCRUM-101, derived from the approved Requirement Analysis Report (reports/SCRUM-101/requirement-analysis-report.md) and live exploration of the application using the `standard_user` / `secret_sauce` test account.
 
-Application under test: https://www.saucedemo.com
-Test credentials: username `standard_user`, password `secret_sauce` (password is shared across all listed personas: `standard_user`, `locked_out_user`, `problem_user`, `performance_glitch_user`, `error_user`, `visual_user`).
+Scope: Cart Review (AC1) -> Checkout Information Entry (AC2) -> Order Overview (AC3) -> Order Completion (AC4), plus Business Rules BR1-BR5, error handling (AC5), and relevant non-functional aspects (NFR2 mobile, NFR5 validation messages).
 
-Fresh-state assumptions (apply to every scenario unless a step says otherwise):
-- Start from a fresh, unauthenticated browser context (no cached session/local storage) at https://www.saucedemo.com.
-- Unless a scenario is specifically testing an empty-cart condition, log in as `standard_user` and add the number of items the scenario specifies before proceeding.
-- The SauceDemo backend resets item state per session; no server-side seeding/teardown is required between scenarios besides logging in fresh and/or using the "Reset App State" menu option or logging out.
-- All monetary calculations assume SauceDemo's fixed 8% tax rate (observed: $39.98 items -> $3.20 tax -> $43.18 total during exploration).
+Fresh-state assumption: Unless a scenario states otherwise, each test starts from a fresh browser context, navigates to https://www.saucedemo.com, and logs in with `standard_user` / `secret_sauce`. Where a scenario requires an empty cart or logged-out state, this is called out explicitly in the steps. The SauceDemo backend has no real persistence between independent test runs (aside from client-side session/cart state), so tests are designed to be independent and order-agnostic given this fresh-state login precondition.
 
-Live-exploration discrepancies found between the approved Requirement Analysis Report and actual application behavior (each is captured as its own scenario below so the gap is regression-tracked, not silently dropped):
-1. FR-02 says the cart page must display "the total price calculation." The live cart page (cart.html) shows only per-item QTY/Description/Price — there is no subtotal/total display anywhere on the cart page; totals only appear on the Overview page (checkout-step-two.html).
-2. BR3 ("Cart cannot be empty when proceeding to checkout") is NOT enforced by the live application: the Checkout button on an empty cart is enabled and clickable, and direct URL navigation to /checkout-step-one.html with an empty (but logged-in) session succeeds and shows a blank checkout form instead of blocking/redirecting.
-3. BR5 ("Users can cancel checkout at any step and return to cart") is only true on the checkout information page (Cancel -> cart.html). On the Overview page, Cancel actually redirects to the Products/inventory page (inventory.html), not the cart page — a direct contradiction of BR5's literal wording for that step.
-4. AC5/FR-11 ("invalid data e.g. special characters... must produce appropriate validation error messages and prevent the user from proceeding") is NOT enforced: First Name, Last Name, and Zip/Postal Code fields accept special characters (e.g. `!@#$%^&*()`) and whitespace-only values without any validation error, and the user proceeds normally to the Overview page. The only validation implemented is a "required/non-empty" check per field (evaluated in DOM order: First Name, then Last Name, then Postal Code), surfaced as `Error: First Name is required` / `Error: Last Name is required` / `Error: Postal Code is required`.
-5. BR2 (login required) and BR4 (cart cleared after order confirmation) ARE correctly enforced by the live app: unauthenticated direct navigation to any checkout URL redirects to login with `Epic sadface: You can only access '/checkout-step-one.html' when you are logged in.`, and the cart badge/cart contents are empty immediately after order completion.
-6. Browser back-button navigation from the Overview page back to the checkout information page clears the previously entered First Name/Last Name/Zip values (form resets) while the cart contents are preserved — this is undocumented in any AC/BR and worth an explicit regression scenario.
-7. The order confirmation page includes a "Generate PDF order" button not mentioned anywhere in the requirement document — out of scope for this plan's assertions per the report's guidance not to test undocumented functionality, but flagged for product-owner awareness.
+IMPORTANT — Discrepancies confirmed via live exploration (2026-09-16) vs. the Requirement Analysis Report, each captured as its own scenario below so the automation suite documents actual application behavior rather than assuming the report's expectations are already implemented:
+1. FR2 (cart page must show total price calculation) is NOT implemented — the Cart page (cart.html) shows only per-item prices, no subtotal/total. Total/subtotal/tax only appear on the Overview page.
+2. AC5 / FR16 / FR17 (validation error messages for invalid data — special characters, incomplete/oversized information) are NOT implemented beyond a simple "required" (non-empty) check. Special characters, whitespace-only text, numeric-only text, and very long strings in First Name, Last Name, and Zip/Postal Code are all silently accepted and the user proceeds to the Overview page.
+3. BR3 / FR19 (cart cannot be empty when proceeding to checkout) is NOT enforced — a user can click "Checkout" with zero items, fill in checkout information, and reach the Overview page with "Item total: $0", "Tax: $0.00", "Total: $0.00", and successfully complete an order with no line items.
+4. Cancel button destinations are asymmetric: Cancel on the Checkout: Your Information page (step one) returns to cart.html, but Cancel on the Checkout: Overview page (step two) returns to inventory.html (Products page), not to the cart. Cart contents are preserved in both cases.
+5. OQ2 is resolved: the checkout information page (step one) DOES expose a Cancel button (contrary to the report's noted risk/ambiguity).
+6. OQ4 is resolved: the observed tax rate is 8% of the item subtotal (e.g., $39.98 subtotal -> $3.20 tax -> $43.18 total).
+7. An undocumented "Generate PDF order" button appears on the order confirmation page; it is not referenced anywhere in the Requirement Analysis Report's functional requirements.
+8. After reaching the order confirmation page, using the browser Back button returns to a stale Checkout: Overview page (now showing an empty/zero cart) whose "Finish" button remains clickable and re-navigates to the confirmation page without any error — no safeguard against re-submitting/re-visiting a completed order was observed (OQ6 area).
+9. The product catalog / cart offers no quantity selector — each product can only be added as a single unit per line item; "varying quantities" scenarios referenced in the report's Edge Cases section are not achievable through the UI as implemented.
 
-These discrepancies should be reported back to the product owner per the source report's Open Questions (OQ-01 through OQ-05) and QA Coverage Recommendations before automation locks in "expected" values that don't match reality.
+These discrepancies are treated as confirmed current behavior to be automated and flagged for defect triage per the run-qa-pipeline workflow's downstream Test Healer / AI Failure Classification step — they are not omissions in this test plan.
 
 ## Test Scenarios
 
-### 1. Suite 1 — Cart Review (AC1, FR-01/02/03, BR3, EDGE-06)
+### 1. Smoke - Full Checkout Happy Path
 
 **Seed:** `tests/seed.spec.ts`
 
-#### 1.1. TC-01 Happy path — cart displays single item with full details
-
-**File:** `tests/saucedemo-checkout/cart-review.spec.js`
-
-**Steps:**
-  1. Log in as standard_user/secret_sauce.
-    - expect: Redirected to /inventory.html (Products page).
-  2. Click 'Add to cart' for Sauce Labs Backpack.
-    - expect: Cart badge shows '1'.
-    - expect: Button label changes to 'Remove'.
-  3. Click the cart icon to navigate to the cart page.
-    - expect: URL is /cart.html.
-    - expect: Page heading reads 'Your Cart'.
-  4. Inspect the cart line item.
-    - expect: Item name 'Sauce Labs Backpack' is shown.
-    - expect: Item description text is shown.
-    - expect: Price '$29.99' is shown.
-    - expect: Quantity is '1'.
-
-#### 1.2. TC-02 Happy path — cart displays multiple items with correct per-item quantities
-
-**File:** `tests/saucedemo-checkout/cart-review.spec.js`
-
-**Steps:**
-  1. Log in as standard_user. From the Products page, add 'Sauce Labs Backpack' and 'Sauce Labs Bike Light' to the cart.
-    - expect: Cart badge shows '2'.
-  2. Navigate to the cart page.
-    - expect: Both items are listed, each showing name, description, price ($29.99 and $9.99 respectively), and quantity '1'.
-
-#### 1.3. TC-03 Discrepancy check — cart page does not display a total price (FR-02 gap)
-
-**File:** `tests/saucedemo-checkout/cart-review.spec.js`
-
-**Steps:**
-  1. Log in as standard_user and add 2 items to the cart, then navigate to the cart page.
-    - expect: Cart page renders only a QTY/Description table plus 'Continue Shopping' and 'Checkout' buttons.
-  2. Search the cart page for any subtotal/tax/total text.
-    - expect: No total price element is present on cart.html — this documents that FR-02 is not met by the current cart page implementation; total only appears later on the Overview page. Record as a known gap rather than a pass/fail on FR-02 in isolation.
-
-#### 1.4. TC-04 'Continue Shopping' returns to Products page and preserves cart contents
-
-**File:** `tests/saucedemo-checkout/cart-review.spec.js`
-
-**Steps:**
-  1. Log in as standard_user, add 1 item to cart, navigate to the cart page.
-    - expect: Item is listed.
-  2. Click 'Continue Shopping'.
-    - expect: Redirected to /inventory.html.
-  3. Re-open the cart page.
-    - expect: The previously added item is still present; cart badge still shows '1'.
-
-#### 1.5. TC-05 'Checkout' button navigates to the checkout information page when the cart has items
-
-**File:** `tests/saucedemo-checkout/cart-review.spec.js`
-
-**Steps:**
-  1. Log in as standard_user, add at least 1 item, go to the cart page.
-    - expect: Checkout button is visible and enabled.
-  2. Click 'Checkout'.
-    - expect: Redirected to /checkout-step-one.html.
-    - expect: Page heading reads 'Checkout: Your Information'.
-
-#### 1.6. TC-06 Edge case — Checkout button is clickable with an empty cart (BR3 not enforced)
-
-**File:** `tests/saucedemo-checkout/cart-review.spec.js`
-
-**Steps:**
-  1. Log in as standard_user without adding any items. Navigate directly to the cart page.
-    - expect: Cart page shows no line items; cart badge shows 'empty'.
-  2. Click the 'Checkout' button.
-    - expect: Per BR3 ('Cart cannot be empty when proceeding to checkout'), this should ideally be blocked. Actual live behavior: the button is enabled and clicking it successfully navigates to /checkout-step-one.html with a blank form — record this as a confirmed BR3 gap, not a test tooling failure.
-
-#### 1.7. TC-07 Removing an item from the cart updates the badge and cart contents
-
-**File:** `tests/saucedemo-checkout/cart-review.spec.js`
-
-**Steps:**
-  1. Log in as standard_user, add 2 items to cart, go to the cart page.
-    - expect: Cart badge shows '2'; both items listed.
-  2. Click 'Remove' on one of the two items.
-    - expect: That item disappears from the list.
-    - expect: Cart badge decrements to '1'.
-
-### 2. Suite 2 — Checkout Information Entry & Validation (AC2, AC5, FR-04/05/06/11, BR1, EDGE-01/02/03)
-
-**Seed:** `tests/seed.spec.ts`
-
-#### 2.1. TC-08 Happy path — valid checkout information proceeds to Overview
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. Log in as standard_user, add 1 item to cart, click 'Checkout' from the cart page.
-    - expect: On /checkout-step-one.html with First Name, Last Name, Zip/Postal Code fields and Cancel/Continue buttons visible.
-  2. Fill First Name = 'Jane', Last Name = 'Smith', Zip/Postal Code = '12345'. Click 'Continue'.
-    - expect: Redirected to /checkout-step-two.html.
-    - expect: No error message is shown.
-
-#### 2.2. TC-09 Validation — empty First Name shows field-specific required error
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. Log in, add an item, reach the checkout information page. Leave all fields empty. Click 'Continue'.
-    - expect: An error banner appears with the exact text 'Error: First Name is required'.
-    - expect: URL remains /checkout-step-one.html (user is not allowed to proceed).
-
-#### 2.3. TC-10 Validation — empty Last Name (First Name filled) shows field-specific required error
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. On the checkout information page, fill First Name only ('John'). Leave Last Name and Zip empty. Click 'Continue'.
-    - expect: Error banner text is exactly 'Error: Last Name is required'.
-    - expect: User remains on /checkout-step-one.html.
-
-#### 2.4. TC-11 Validation — empty Postal Code (First & Last filled) shows field-specific required error
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. On the checkout information page, fill First Name ('John') and Last Name ('Doe'). Leave Zip/Postal Code empty. Click 'Continue'.
-    - expect: Error banner text is exactly 'Error: Postal Code is required'.
-    - expect: Note: the live error message says 'Postal Code', not the field label 'Zip/Postal Code' shown on the form — record this label/message wording mismatch.
-    - expect: User remains on /checkout-step-one.html.
-
-#### 2.5. TC-12 Edge case (EDGE-01) — submitting with all three fields empty only surfaces the first field's error
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. On a fresh checkout information page, leave First Name, Last Name, and Zip/Postal Code all empty. Click 'Continue' once.
-    - expect: Only a single error is shown: 'Error: First Name is required' (the validation is sequential/first-invalid-field-wins, not an aggregate list of all missing fields).
-
-#### 2.6. TC-13 Discrepancy check (EDGE-02) — whitespace-only values bypass required-field validation
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. On the checkout information page, enter three spaces ('   ') into First Name, Last Name, and Zip/Postal Code. Click 'Continue'.
-    - expect: Per AC5/FR-11 this should arguably be treated as incomplete/invalid. Actual live behavior: no error is shown and the user is redirected to /checkout-step-two.html — record this as a confirmed validation gap (whitespace is not trimmed/rejected).
-
-#### 2.7. TC-14 Discrepancy check (AC5/FR-11) — special characters are accepted without validation error
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. On the checkout information page, enter First Name = 'John', Last Name = 'Doe', Zip/Postal Code = '!@#$%^&*()'. Click 'Continue'.
-    - expect: Per AC5/FR-11 special characters should produce a validation error and block progress. Actual live behavior: no error is shown and the user proceeds to /checkout-step-two.html — record this as a confirmed AC5/FR-11 gap.
-
-#### 2.8. TC-15 Boundary — very long input in First Name field is accepted without truncation error
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. On the checkout information page, enter a 300-character string into First Name, valid values in Last Name ('Doe') and Zip ('12345'). Click 'Continue'.
-    - expect: Document actual behavior: whether the app accepts the long value and proceeds to Overview, truncates it silently, or shows a length-related error. Flag any silent truncation or overflow/layout break as a defect.
-
-#### 2.9. TC-16 Edge case (EDGE-03) — non-numeric/alphanumeric Zip/Postal Code is accepted
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. On the checkout information page, enter First Name = 'John', Last Name = 'Doe', Zip/Postal Code = 'SW1A 1AA' (UK-style alphanumeric postal code). Click 'Continue'.
-    - expect: No format-specific error is shown; the user proceeds to /checkout-step-two.html — confirms the app performs no format/pattern validation on postal code, only a presence check.
-
-#### 2.10. TC-17 BR5 on checkout information page — Cancel returns user to the Cart page
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. Log in, add an item, reach the checkout information page (do not fill any fields).
-    - expect: Cancel and Continue buttons are visible.
-  2. Click 'Cancel'.
-    - expect: Redirected to /cart.html.
-    - expect: The previously added item is still present in the cart (not cleared).
-
-#### 2.11. TC-18 Error banner can be dismissed via its close (X) control
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. Trigger the 'Error: First Name is required' message by clicking 'Continue' with all fields empty.
-    - expect: Error banner is visible.
-  2. Click the dismiss/close (X) icon on the error banner.
-    - expect: The error banner disappears from the page.
-
-#### 2.12. TC-19 BR2 — direct URL navigation to the checkout information page while logged out redirects to Login
-
-**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
-
-**Steps:**
-  1. Ensure no active session (log out if needed, or use a fresh unauthenticated context). Navigate directly to https://www.saucedemo.com/checkout-step-one.html.
-    - expect: Redirected to the login page (/).
-    - expect: An error banner reads exactly: "Epic sadface: You can only access '/checkout-step-one.html' when you are logged in."
-
-### 3. Suite 3 — Order Overview (AC3, FR-07/08/09, BR5, RISK-04)
-
-**Seed:** `tests/seed.spec.ts`
-
-#### 3.1. TC-20 Happy path — Overview page shows item summary, payment info, and shipping info
-
-**File:** `tests/saucedemo-checkout/order-overview.spec.js`
-
-**Steps:**
-  1. Log in as standard_user, add 'Sauce Labs Backpack' and 'Sauce Labs Bike Light' to the cart, proceed through Checkout with valid info (First Name/Last Name/Zip all filled).
-    - expect: Redirected to /checkout-step-two.html with heading 'Checkout: Overview'.
-  2. Inspect the page content.
-    - expect: Both items are listed with name, description, and price.
-    - expect: 'Payment Information:' section shows 'SauceCard #31337'.
-    - expect: 'Shipping Information:' section shows 'Free Pony Express Delivery!'.
-    - expect: Note: SauceDemo has no payment-method-selection UI (per RISK-04) — do not assert on a payment method picker, only on the static payment info text.
-
-#### 3.2. TC-21 Happy path — Overview page calculates item total, tax, and grand total correctly for a multi-item cart
-
-**File:** `tests/saucedemo-checkout/order-overview.spec.js`
-
-**Steps:**
-  1. Add Sauce Labs Backpack ($29.99) and Sauce Labs Bike Light ($9.99) to the cart and proceed to the Overview page with valid checkout info.
-    - expect: 'Item total:' reads '$39.98' (sum of item prices).
-    - expect: 'Tax:' reads a value consistent with the site's tax rate (observed $3.20, i.e. 8% of item total).
-    - expect: 'Total:' reads the sum of item total + tax (observed '$43.18').
-
-#### 3.3. TC-22 Discrepancy check (BR5) — Cancel on the Overview page redirects to Products, not Cart
-
-**File:** `tests/saucedemo-checkout/order-overview.spec.js`
-
-**Steps:**
-  1. Reach the Overview page (/checkout-step-two.html) via a valid checkout flow with at least 1 item in the cart.
-    - expect: Cancel and Finish buttons are visible.
-  2. Click 'Cancel'.
-    - expect: Per BR5 ('...return to cart') this should redirect to /cart.html. Actual live behavior: redirects to /inventory.html (Products page) instead — record this as a confirmed BR5 wording/implementation mismatch.
-    - expect: The cart item count is preserved (not cleared) despite the redirect target difference.
-
-#### 3.4. TC-23 Happy path — Finish button on the Overview page completes the order
-
-**File:** `tests/saucedemo-checkout/order-overview.spec.js`
-
-**Steps:**
-  1. Reach the Overview page via a valid checkout flow.
-    - expect: Finish button is visible and enabled.
-  2. Click 'Finish'.
-    - expect: Redirected to /checkout-complete.html.
-
-### 4. Suite 4 — Order Completion (AC4, FR-10, BR4)
-
-**Seed:** `tests/seed.spec.ts`
-
-#### 4.1. TC-24 Happy path — confirmation page shows success message and Back Home button
-
-**File:** `tests/saucedemo-checkout/order-completion.spec.js`
-
-**Steps:**
-  1. Complete a full checkout flow (login -> add item -> cart -> valid checkout info -> Overview -> Finish).
-    - expect: On /checkout-complete.html with heading 'Checkout: Complete!'.
-    - expect: Text 'Thank you for your order!' is displayed.
-    - expect: Supporting text 'Your order has been dispatched, and will arrive just as fast as the pony can get there!' is displayed.
-    - expect: A 'Back Home' button is visible.
-
-#### 4.2. TC-25 'Back Home' button returns the user to the Products page
-
-**File:** `tests/saucedemo-checkout/order-completion.spec.js`
-
-**Steps:**
-  1. From the order confirmation page, click 'Back Home'.
-    - expect: Redirected to /inventory.html.
-    - expect: Page heading reads 'Products'.
-
-#### 4.3. TC-26 BR4 — cart is cleared after order confirmation
-
-**File:** `tests/saucedemo-checkout/order-completion.spec.js`
-
-**Steps:**
-  1. Complete a full checkout flow with 2 items in the cart, through to /checkout-complete.html.
-    - expect: Cart badge on the confirmation page shows 'empty' (no numeric badge).
-  2. Click 'Back Home' and open the cart page.
-    - expect: Cart page shows zero line items, confirming BR4 is correctly implemented.
-
-### 5. Suite 5 — Cross-Cutting Navigation, Business Rules & End-to-End Regression (BR2/BR3/BR5, EDGE-04/05, Technical Notes)
-
-**Seed:** `tests/seed.spec.ts`
-
-#### 5.1. TC-27 Edge case (EDGE-04) — direct URL navigation to checkout information page with an empty cart while logged in
-
-**File:** `tests/saucedemo-checkout/navigation.spec.js`
-
-**Steps:**
-  1. Log in as standard_user. Do not add any items. Navigate directly to https://www.saucedemo.com/checkout-step-one.html.
-    - expect: Per BR3 this should ideally be blocked/redirected given the empty cart. Actual live behavior: the checkout information form loads normally with an empty cart badge — record as a confirmed BR3 gap consistent with TC-06.
-
-#### 5.2. TC-28 Edge case (EDGE-05, Technical Notes) — browser Back button from Overview clears entered checkout info but preserves cart
-
-**File:** `tests/saucedemo-checkout/navigation.spec.js`
-
-**Steps:**
-  1. Log in, add 1 item, proceed through checkout info (First Name='Jane', Last Name='Smith', Zip='12345') to the Overview page.
-    - expect: On /checkout-step-two.html with the item and totals shown.
-  2. Use the browser's Back navigation (not the in-page Cancel button).
-    - expect: Returns to /checkout-step-one.html.
-    - expect: First Name, Last Name, and Zip/Postal Code fields are all empty (previously entered values are not restored) — record this as expected/actual behavior for the back-button, since no AC/BR defines it explicitly.
-    - expect: Cart badge still shows the item added earlier (cart contents are not lost by the back navigation).
-
-#### 5.3. TC-29 Full end-to-end happy-path regression: Cart -> Checkout Info -> Overview -> Confirmation (AC1 through AC4 chained)
+#### 1.1. Complete checkout with a single item
 
 **File:** `tests/saucedemo-checkout/smoke.spec.js`
 
 **Steps:**
-  1. Log in as standard_user/secret_sauce.
-    - expect: Redirected to /inventory.html.
-  2. Add 'Sauce Labs Backpack' and 'Sauce Labs Fleece Jacket' to the cart.
-    - expect: Cart badge shows '2'.
-  3. Open the cart page and verify both items are listed, then click 'Checkout'.
-    - expect: Redirected to /checkout-step-one.html.
-  4. Fill First Name='Alex', Last Name='Rivera', Zip='90210', and click 'Continue'.
-    - expect: Redirected to /checkout-step-two.html with no validation errors.
-  5. Verify the Overview page shows both items, payment/shipping info, and a total of item total ($79.98) plus tax, then click 'Finish'.
-    - expect: Redirected to /checkout-complete.html.
-  6. Verify the success message and click 'Back Home'.
-    - expect: 'Thank you for your order!' is shown before navigating.
-    - expect: After clicking, redirected to /inventory.html and the cart is empty, completing the full regression path.
+  1. Navigate to https://www.saucedemo.com and log in with standard_user / secret_sauce
+    - expect: User is redirected to /inventory.html (Products page)
+  2. Click 'Add to cart' for Sauce Labs Backpack
+    - expect: Cart badge shows '1'
+    - expect: Button changes to 'Remove'
+  3. Click the cart icon to open the Cart page
+    - expect: Cart page (cart.html) lists Sauce Labs Backpack with quantity 1, description, and price $29.99
+  4. Click 'Checkout'
+    - expect: User is redirected to /checkout-step-one.html ('Checkout: Your Information')
+  5. Enter First Name 'Jane', Last Name 'Smith', Zip/Postal Code '12345', then click 'Continue'
+    - expect: User is redirected to /checkout-step-two.html ('Checkout: Overview')
+  6. Review the Overview page
+    - expect: Sauce Labs Backpack line item with qty 1 and price $29.99 is shown
+    - expect: Payment Information 'SauceCard #31337' is shown
+    - expect: Shipping Information 'Free Pony Express Delivery!' is shown
+    - expect: Item total: $29.99, Tax: $2.40 (8%), Total: $32.39
+  7. Click 'Finish'
+    - expect: User is redirected to /checkout-complete.html
+    - expect: Heading 'Thank you for your order!' is displayed
+    - expect: Cart badge shows empty (no count)
+  8. Click 'Back Home'
+    - expect: User is redirected to /inventory.html (Products page)
 
-#### 5.4. TC-30 BR1 — all three checkout information fields are individually mandatory (combined verification)
+#### 1.2. Complete checkout with multiple items and verify price arithmetic
+
+**File:** `tests/saucedemo-checkout/smoke.spec.js`
+
+**Steps:**
+  1. Log in as standard_user, add Sauce Labs Backpack ($29.99) and Sauce Labs Bike Light ($9.99) to the cart
+    - expect: Cart badge shows '2'
+  2. Open the Cart page
+    - expect: Both items are listed with quantity 1 each and correct individual prices
+  3. Click 'Checkout', fill in valid First Name, Last Name, and Zip, then click 'Continue'
+    - expect: User reaches the Overview page listing both items
+  4. Read the 'Item total', 'Tax', and 'Total' values on the Overview page
+    - expect: Item total equals $39.98 (29.99 + 9.99)
+    - expect: Tax equals $3.20 (8% of $39.98, rounded)
+    - expect: Total equals $43.18 (Item total + Tax)
+  5. Click 'Finish'
+    - expect: Order completes successfully and cart is cleared
+
+### 2. Cart Review (AC1)
+
+**Seed:** `tests/seed.spec.ts`
+
+#### 2.1. Cart page displays full item details for each product
+
+**File:** `tests/saucedemo-checkout/cart-review.spec.js`
+
+**Steps:**
+  1. Log in as standard_user and add Sauce Labs Backpack to the cart
+  2. Open the Cart page
+    - expect: Item name 'Sauce Labs Backpack' is visible
+    - expect: Item description text is visible
+    - expect: Item price '$29.99' is visible
+    - expect: Item quantity '1' is visible
+
+#### 2.2. Cart page offers Continue Shopping and Checkout options
+
+**File:** `tests/saucedemo-checkout/cart-review.spec.js`
+
+**Steps:**
+  1. Log in as standard_user, add any item, and open the Cart page
+    - expect: 'Continue Shopping' button is visible and enabled
+    - expect: 'Checkout' button is visible and enabled
+  2. Click 'Continue Shopping'
+    - expect: User is redirected to /inventory.html
+    - expect: Cart badge count is unchanged (item still in cart)
+
+#### 2.3. DISCREPANCY: Cart page does not display a total/subtotal price
+
+**File:** `tests/saucedemo-checkout/cart-review.spec.js`
+
+**Steps:**
+  1. Log in as standard_user, add two items with different prices, and open the Cart page
+    - expect: No subtotal, tax, or total price element is present anywhere on cart.html — only the two individual item prices are shown
+    - expect: This contradicts FR2 of the Requirement Analysis Report ('display the total price calculation on the cart page') and should be flagged as a requirement-vs-implementation gap, not silently skipped
+
+### 3. Checkout Information Entry and Validation (AC2, AC5, BR1)
+
+**Seed:** `tests/seed.spec.ts`
+
+#### 3.1. Submitting an entirely empty form shows First Name required error first
+
+**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
+
+**Steps:**
+  1. Log in as standard_user, add an item, open Cart, click 'Checkout' to reach checkout-step-one.html
+  2. Leave all three fields empty and click 'Continue'
+    - expect: An error alert is shown reading 'Error: First Name is required'
+    - expect: User remains on checkout-step-one.html
+
+#### 3.2. Leaving only Last Name empty shows Last Name required error
+
+**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
+
+**Steps:**
+  1. Reach checkout-step-one.html, enter First Name only, leave Last Name and Zip empty, click 'Continue'
+    - expect: Error alert reads 'Error: Last Name is required'
+    - expect: User remains on checkout-step-one.html
+
+#### 3.3. Leaving only Zip/Postal Code empty shows Postal Code required error
+
+**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
+
+**Steps:**
+  1. Reach checkout-step-one.html, enter First Name and Last Name, leave Zip empty, click 'Continue'
+    - expect: Error alert reads 'Error: Postal Code is required'
+    - expect: User remains on checkout-step-one.html
+
+#### 3.4. Valid First Name, Last Name, and Zip proceed to Overview page
+
+**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
+
+**Steps:**
+  1. Reach checkout-step-one.html and enter First Name 'Jane', Last Name 'Smith', Zip '12345', click 'Continue'
+    - expect: User is redirected to /checkout-step-two.html with no error alert shown
+
+#### 3.5. Error alert can be dismissed via its close control
+
+**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
+
+**Steps:**
+  1. Reach checkout-step-one.html, click 'Continue' with all fields empty to trigger the required-field error
+    - expect: Error alert is visible
+  2. Click the 'Dismiss error' (X) control on the alert
+    - expect: The error alert is no longer visible
+    - expect: The form fields remain empty and editable
+
+#### 3.6. DISCREPANCY: Special characters in Zip/Postal Code are accepted without a format validation error
+
+**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
+
+**Steps:**
+  1. Reach checkout-step-one.html, enter First Name 'John', Last Name 'Doe', Zip '!@#$%', click 'Continue'
+    - expect: No format-validation error is shown
+    - expect: User is redirected to /checkout-step-two.html despite the non-numeric, special-character Zip value
+    - expect: This contradicts AC5/FR16/FR17 of the Requirement Analysis Report, which expect a validation error for invalid data such as special characters
+
+#### 3.7. DISCREPANCY: Whitespace-only First Name is accepted as valid
+
+**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
+
+**Steps:**
+  1. Reach checkout-step-one.html, enter First Name as three spaces '   ', Last Name 'Doe', Zip '12345', click 'Continue'
+    - expect: No 'First Name is required' error is shown even though the field is effectively blank
+    - expect: User is redirected to /checkout-step-two.html
+    - expect: This contradicts the spirit of FR6/FR7 (mandatory field enforcement) and AC5 (incomplete information should be rejected)
+
+#### 3.8. DISCREPANCY: Oversized name input and special-character Last Name are both accepted
+
+**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
+
+**Steps:**
+  1. Reach checkout-step-one.html, enter a First Name of 90+ characters, a Last Name containing digits and special characters (e.g., 'Doe123!@#'), and a valid Zip, then click 'Continue'
+    - expect: No length-limit or character-format error is shown for either field
+    - expect: User is redirected to /checkout-step-two.html
+    - expect: This confirms no max-length or allowed-character validation exists, contradicting the intent of AC5/FR16/FR17
+
+#### 3.9. Numeric 5-digit Zip/Postal Code is accepted (happy-path boundary)
+
+**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
+
+**Steps:**
+  1. Reach checkout-step-one.html, enter valid First Name and Last Name, enter Zip '99999', click 'Continue'
+    - expect: User is redirected to /checkout-step-two.html with no errors
+
+### 4. Order Overview (AC3)
+
+**Seed:** `tests/seed.spec.ts`
+
+#### 4.1. Overview page lists all cart items with correct details
+
+**File:** `tests/saucedemo-checkout/order-overview.spec.js`
+
+**Steps:**
+  1. Log in, add Sauce Labs Backpack and Sauce Labs Bike Light to the cart, and proceed through checkout information with valid data to reach checkout-step-two.html
+    - expect: Both items are listed with correct name, quantity (1 each), and price
+    - expect: No 'Add to cart' / 'Remove' controls are shown on this read-only summary
+
+#### 4.2. Overview page displays Payment and Shipping information sections
+
+**File:** `tests/saucedemo-checkout/order-overview.spec.js`
+
+**Steps:**
+  1. Reach checkout-step-two.html with at least one item in the cart
+    - expect: 'Payment Information:' section shows 'SauceCard #31337'
+    - expect: 'Shipping Information:' section shows 'Free Pony Express Delivery!'
+
+#### 4.3. Overview page provides Cancel and Finish controls
+
+**File:** `tests/saucedemo-checkout/order-overview.spec.js`
+
+**Steps:**
+  1. Reach checkout-step-two.html with at least one item in the cart
+    - expect: 'Cancel' button is visible and enabled
+    - expect: 'Finish' button is visible and enabled
+
+### 5. Order Completion (AC4, FR20)
+
+**Seed:** `tests/seed.spec.ts`
+
+#### 5.1. Finish redirects to confirmation page with success message
+
+**File:** `tests/saucedemo-checkout/order-completion.spec.js`
+
+**Steps:**
+  1. Complete checkout information and reach checkout-step-two.html with at least one item, then click 'Finish'
+    - expect: User is redirected to /checkout-complete.html
+    - expect: Heading 'Thank you for your order!' is displayed
+    - expect: Descriptive text about dispatch/delivery is displayed
+    - expect: 'Back Home' button is visible
+
+#### 5.2. Back Home button returns to the Products page
+
+**File:** `tests/saucedemo-checkout/order-completion.spec.js`
+
+**Steps:**
+  1. Reach checkout-complete.html by completing an order
+  2. Click 'Back Home'
+    - expect: User is redirected to /inventory.html (Products page)
+    - expect: Product grid is displayed
+
+#### 5.3. Cart is cleared after order confirmation
+
+**File:** `tests/saucedemo-checkout/order-completion.spec.js`
+
+**Steps:**
+  1. Add two items to the cart, complete checkout through 'Finish' to reach checkout-complete.html
+    - expect: Cart icon shows no item count badge ('Cart, empty')
+  2. Open the Cart page directly
+    - expect: Cart page shows zero line items
+
+### 6. Business Rules and Access Control (BR2, BR3, FR18, FR19)
+
+**Seed:** `tests/seed.spec.ts`
+
+#### 6.1. Unauthenticated direct access to checkout is blocked and redirected to login
 
 **File:** `tests/saucedemo-checkout/business-rules.spec.js`
 
 **Steps:**
-  1. Reach the checkout information page with an item in the cart. Attempt to submit with only Zip/Postal Code filled (First Name and Last Name empty).
-    - expect: Error: 'Error: First Name is required' is shown (first missing mandatory field in DOM order), confirming First Name is enforced as mandatory even when a later field is filled.
-  2. Fill First Name, leave Last Name empty, keep Zip filled. Click 'Continue'.
-    - expect: Error: 'Error: Last Name is required' is shown, confirming Last Name is independently mandatory regardless of Zip being filled.
-  3. Fill First Name and Last Name, clear Zip/Postal Code. Click 'Continue'.
-    - expect: Error: 'Error: Postal Code is required' is shown, confirming all three fields are independently mandatory per BR1.
+  1. Without logging in (or after explicitly logging out via the hamburger menu 'Logout' link), navigate directly to https://www.saucedemo.com/checkout-step-one.html
+    - expect: User is redirected to the login page ('/')
+    - expect: An error alert is shown reading: "Epic sadface: You can only access '/checkout-step-one.html' when you are logged in."
+
+#### 6.2. DISCREPANCY: Checking out with an empty cart is not blocked and can be completed with a $0.00 total
+
+**File:** `tests/saucedemo-checkout/business-rules.spec.js`
+
+**Steps:**
+  1. Log in as standard_user with a guaranteed-empty cart (e.g., immediately after logging in fresh, or after completing/clearing a prior order), open the Cart page
+    - expect: 'Checkout' button is present and enabled even though the cart has zero items
+  2. Click 'Checkout'
+    - expect: User is unexpectedly redirected to /checkout-step-one.html instead of being blocked or shown an empty-cart message — this contradicts BR3/FR19
+  3. Fill in valid First Name, Last Name, and Zip, then click 'Continue'
+    - expect: User reaches /checkout-step-two.html showing 'Item total: $0', 'Tax: $0.00', 'Total: $0.00', and no line items
+  4. Click 'Finish'
+    - expect: Order completes successfully and /checkout-complete.html is shown, confirming an order with zero items was allowed end-to-end — flag as a confirmed defect against BR3/FR19
+
+#### 6.3. Logged-in session persists across checkout steps for a valid multi-step flow
+
+**File:** `tests/saucedemo-checkout/business-rules.spec.js`
+
+**Steps:**
+  1. Log in as standard_user, add an item, and progress through Cart -> Checkout Info -> Overview -> Complete without logging out
+    - expect: No re-authentication is required at any step
+    - expect: Each page transition succeeds without redirect to login
+
+#### 6.4. Attempting to check out again immediately after order completion (empty cart) reproduces the same empty-cart defect
+
+**File:** `tests/saucedemo-checkout/business-rules.spec.js`
+
+**Steps:**
+  1. Complete a full order for one item so the cart becomes empty, then click 'Checkout' again from the now-empty cart page
+    - expect: The application again allows navigation to checkout-step-one.html despite zero items, reproducing the BR3/FR19 gap rather than showing any 'cart is empty' guard message
+
+### 7. Navigation and Cancel Flows (BR5, OQ2, OQ6, OQ9)
+
+**Seed:** `tests/seed.spec.ts`
+
+#### 7.1. Cancel from Checkout Information page returns to Cart page with items preserved
+
+**File:** `tests/saucedemo-checkout/navigation.spec.js`
+
+**Steps:**
+  1. Log in, add two items to the cart, click 'Checkout' to reach checkout-step-one.html
+  2. Click 'Cancel' on the Checkout Information page
+    - expect: User is redirected to /cart.html (Your Cart)
+    - expect: Both items are still present in the cart with correct quantities and prices
+
+#### 7.2. DISCREPANCY: Cancel from Checkout Overview page returns to Products page, not the Cart page
+
+**File:** `tests/saucedemo-checkout/navigation.spec.js`
+
+**Steps:**
+  1. Log in, add two items to the cart, proceed through valid checkout information to reach checkout-step-two.html
+  2. Click 'Cancel' on the Checkout Overview page
+    - expect: User is redirected to /inventory.html (Products page), NOT /cart.html — this is inconsistent with the step-one Cancel destination and with the implied 'return to cart' behavior in BR5
+    - expect: Cart badge still shows the original item count, confirming cart contents are preserved even though the landing page differs
+
+#### 7.3. Browser back button after order confirmation shows a stale Overview page whose Finish button is still clickable
+
+**File:** `tests/saucedemo-checkout/navigation.spec.js`
+
+**Steps:**
+  1. Complete a full order for one item to reach checkout-complete.html
+  2. Click the browser Back button
+    - expect: Browser navigates to /checkout-step-two.html showing an empty/zero-value order summary (cart already cleared)
+    - expect: 'Finish' button is still present and enabled
+  3. Click 'Finish' again
+    - expect: User is redirected back to /checkout-complete.html without any error, confirming no safeguard exists against re-submitting after order completion via back navigation
+
+### 8. Non-Functional Exploratory (NFR2 Mobile Responsiveness, NFR5 Validation Messaging)
+
+**Seed:** `tests/seed.spec.ts`
+
+#### 8.1. Full checkout flow renders and completes at a mobile viewport (375x667)
+
+**File:** `tests/saucedemo-checkout/mobile-responsiveness.spec.js`
+
+**Steps:**
+  1. Set the browser viewport to 375x667 (e.g., iPhone SE dimensions), log in as standard_user
+    - expect: Login form and hamburger menu icon render without horizontal overflow
+  2. Add an item to the cart and proceed through Cart -> Checkout Info -> Overview -> Complete at this viewport
+    - expect: All buttons and form fields remain visible, tappable, and functional at each step
+    - expect: No layout element is clipped or overlapping such that a user could not complete checkout
+
+#### 8.2. All checkout-flow validation and success messages are captured for content review
+
+**File:** `tests/saucedemo-checkout/checkout-info-validation.spec.js`
+
+**Steps:**
+  1. Trigger each of: First Name required, Last Name required, Postal Code required, and the order-confirmation success message, capturing the exact text of each
+    - expect: 'Error: First Name is required'
+    - expect: 'Error: Last Name is required'
+    - expect: 'Error: Postal Code is required'
+    - expect: 'Thank you for your order!' success heading on checkout-complete.html
+    - expect: All messages are recorded verbatim in the automated assertions per NFR5 (validate all checkout form validation messages)
