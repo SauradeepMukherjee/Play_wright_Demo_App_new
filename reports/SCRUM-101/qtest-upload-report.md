@@ -1,69 +1,48 @@
 # qTest Upload Preparation Report — SCRUM-101
 
-## Status: Payload prepared. NOT uploaded.
+## Status: Payload Prepared — No Live Upload Has Occurred
 
-This report documents a **payload preparation step only**. No network call to qTest has been made, no qTest
-test-case IDs exist yet, and nothing has been pushed to any qTest instance. This agent (`qtest-upload-agent`)
-has no HTTP tool and never attempts one — that is by design.
+This report documents a **payload preparation** step only. The qTest Upload Agent has **not** pushed any test
+case to qTest, has not contacted any qTest instance, and has not generated or seen any real qTest test-case ID.
+Nothing described below should be read as evidence of a completed upload.
 
----
+## Approval Check
 
-## Source
+- Source: `reports/SCRUM-101/generated-testcases.md` — present, 34 approved manual test cases (TC-001–TC-034).
+- Checkpoint: `checkpoints["manual-test-cases"].status` in `qa-workflow-dashboard/status.json` = `APPROVED`
+  (approved via dashboard at 2026-09-17T11:05:38.414Z).
 
-- `reports/SCRUM-101/generated-testcases.md`
-- Checkpoint verified: `checkpoints["manual-test-cases"].status` = `APPROVED` in
-  `qa-workflow-dashboard/status.json` (approved 2026-09-16T12:10:40.692Z).
+Approval confirmed before any mapping work began, per this agent's Step 1.
 
-## What was done
+## Mapping Summary
 
-The `qtest-upload` skill was invoked (via the `Skill` tool) to reshape all **31 approved manual test cases**
-(TC-001 through TC-031) from `reports/SCRUM-101/generated-testcases.md` into qTest's test-case payload shape.
-This is a pure reshape:
+- **34 of 34** manual test cases were mapped into qTest's test-case payload shape using the `qtest-upload` skill.
+- Each mapped entry preserves the source content exactly (name, description, precondition, priority, and every
+  step's action/expected-result text) — this was a reshape, not a rewrite. No steps, expected results, or
+  priorities were invented or altered.
+- Every mapped entry carries a `sourceTestCaseId` field (`TC-001` through `TC-034`) for traceability back to
+  `reports/SCRUM-101/generated-testcases.md`.
+- Output written to: `reports/SCRUM-101/qtest-upload-payload.json` (a JSON array of 34 objects).
 
-- Test case title → `name`
-- Description/objective → `description`
-- Preconditions → `precondition`
-- Source Priority → a `Priority` property, mapped to qTest's supported values (`High` / `Medium` / `Low`). The
-  source document's `Critical` priority values (TC-001, TC-002, TC-018, TC-020, TC-021, TC-022) were mapped to
-  `High`, since qTest's payload schema in this skill only supports High/Medium/Low — no content was invented,
-  only the label was normalized to the closest available bucket.
-- Each numbered test step's Action/Expected Result → `test_steps[].description` / `expected_result`
-- For the 7 confirmed-defect test cases that use an Expected-vs-Observed split in the source
-  (TC-005, TC-011, TC-012, TC-013, TC-022, TC-024, TC-026), both the "Expected Result (Per Requirement)" and
-  "Observed Result (Live Application)" text plus the recorded Step Status were preserved verbatim and combined
-  into the single `expected_result` field (labeled `Expected (Per Requirement): ... | Observed (Live
-  Application): ... | Step Status: ...`), since qTest's step schema has only one expected-result field. No
-  wording was altered or invented.
-- Every mapped entry carries a `sourceTestCaseId` field holding the original `TC-xxx` id from
-  `generated-testcases.md`, preserving full traceability back to the source.
+## What Happens Next (Not Done Here)
 
-No test steps, expected results, or requirement content were added, removed, or rewritten beyond this
-structural reshape.
-
-## Output
-
-- **31 of 31** manual test cases mapped successfully.
-- Payload written to: `reports/SCRUM-101/qtest-upload-payload.json` (JSON array, 31 objects).
-
-## What has NOT happened
-
-- Nothing has been sent to qTest. No qTest project, module, or test-case ID has been created or referenced.
-- This repo has no qTest credentials configured (`config/qtest.config.json` does not exist here — only the
-  gitignored template `config/qtest.config.example.json` is present).
-
-## Next step (not performed by this agent)
-
-A live push requires a separate, explicit step run by the orchestrator or a human, with real credentials:
+Preparing this payload is not the same as uploading it. A live push to qTest requires a separate, explicit step
+that this agent has no ability to perform (it has no HTTP tool and does not read or write credentials):
 
 ```
 node scripts/qtest-upload.js reports/SCRUM-101/qtest-upload-payload.json
 ```
 
-This script needs either:
+That script requires real credentials, which do **not** exist anywhere in this repository. It needs either:
 
-- `config/qtest.config.json` (copy `config/qtest.config.example.json` and fill in real values), or
-- the environment variables `QTEST_BASE_URL`, `QTEST_API_TOKEN`, `QTEST_PROJECT_ID`
+- `config/qtest.config.json` (copied from `config/qtest.config.example.json` and filled in with a real
+  qTest base URL, API token, and project ID), or
+- the environment variables `QTEST_BASE_URL`, `QTEST_API_TOKEN`, and `QTEST_PROJECT_ID`.
 
-Neither of these exists in this repository as of this run, and this agent has no access to and makes no
-assumption about them. Until that script is run successfully against a real qTest instance, the 31 test cases
-above exist only in this repo's `qtest-upload-payload.json` — they are not present in qTest.
+Until one of those is supplied by a human or the orchestrator, no qTest test-case IDs exist, no test case has
+been created in qTest, and this agent will not claim otherwise.
+
+## Files Produced
+
+- `reports/SCRUM-101/qtest-upload-payload.json` — 34-entry mapped payload array.
+- `reports/SCRUM-101/qtest-upload-report.md` — this report.

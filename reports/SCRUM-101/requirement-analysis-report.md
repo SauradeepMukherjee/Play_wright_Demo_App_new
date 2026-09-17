@@ -1,6 +1,6 @@
 # Requirement Analysis Report
 
-## Document Data Full Information
+## Document Information
 
 | Field | Value |
 |---|---|
@@ -11,14 +11,14 @@
 | Application Under Test | SauceDemo (https://www.saucedemo.com) |
 | Test Credentials Provided | `standard_user` / `secret_sauce` |
 | Analyzed By | Requirement Analysis Agent |
-| Analysis Date | 2026-09-16 |
-| Report Version | 1.1 (re-run — regenerated from unchanged source input, no feedback provided) |
+| Analysis Date | 2026-09-17 |
+| Report Version | 1.2 (re-run — regenerated from unchanged source input, no feedback provided) |
 
 ---
 
 ## Business Objective
 
-Enable a logged-in customer to complete an online purchase through a checkout process that lets them: review the cart, enter shipping information, review order/payment details, and confirm the order — with the process being intuitive, secure, and providing clear feedback at every step.
+Enable a logged-in customer to complete an online purchase through a checkout process that lets them review the cart, enter shipping information, review order/payment details, and confirm the order — with the process being intuitive, secure, and providing clear feedback at every step.
 
 ---
 
@@ -127,13 +127,13 @@ Preserved verbatim from the source document.
 
 ## Business Rules
 
-Preserved verbatim from the source document.
-
-1. All checkout form fields are mandatory
-2. Users must be logged in to access checkout
-3. Cart cannot be empty when proceeding to checkout
-4. Order confirmation should clear the cart
-5. Users can cancel checkout at any step and return to cart
+| ID | Rule |
+|---|---|
+| BR1 | All checkout form fields are mandatory |
+| BR2 | Users must be logged in to access checkout |
+| BR3 | Cart cannot be empty when proceeding to checkout |
+| BR4 | Order confirmation should clear the cart |
+| BR5 | Users can cancel checkout at any step and return to cart |
 
 ---
 
@@ -141,9 +141,9 @@ Preserved verbatim from the source document.
 
 | ID | Dependency | Notes |
 |---|---|---|
-| DEP1 | User authentication / login feature | BR2 requires login before checkout access; login flow itself is not specified in this document. |
+| DEP1 | User authentication / login feature | BR2 requires login before checkout access; the login flow itself is not specified in this document. |
 | DEP2 | Cart / product catalog feature | AC1 assumes items already exist in the cart; the add-to-cart flow is out of scope of this story. |
-| DEP3 | SauceDemo test environment and credentials | Testing depends on availability of `https://www.saucedemo.com` and the `standard_user` / `secret_sauce` account. |
+| DEP3 | SauceDemo test environment and credentials | Testing depends on availability of https://www.saucedemo.com and the `standard_user` / `secret_sauce` account. |
 | DEP4 | Playwright automation framework and multi-browser test infrastructure | Required per Technical Notes to execute automated checks across Chrome, Firefox, and Safari. |
 
 ---
@@ -156,8 +156,6 @@ Preserved verbatim from the source document.
 | A2 | The checkout flow implemented in the SauceDemo application maps to: Cart page → Checkout: Your Information → Checkout: Overview → Checkout: Complete, matching AC1–AC4. | Standard SauceDemo behavior; not explicitly re-described step-by-step beyond the ACs. |
 | A3 | No real payment is processed; "payment information" shown on the overview page (AC3) is static/demo data rather than user-entered payment details. | The document defines no payment-entry step or payment form fields anywhere in the checkout flow. |
 | A4 | Only one currency and no discount/coupon/promo-code logic is in scope. | Not mentioned anywhere in the story. |
-
-These are flagged as assumptions, not requirements — they should be confirmed with the product owner before being treated as fact, per the "highlight ambiguity instead of assuming" rule.
 
 ---
 
@@ -209,7 +207,7 @@ These are flagged as assumptions, not requirements — they should be confirmed 
 
 ## Requirement Traceability
 
-| Extracted Item | Type | Source Section |
+| Item | Type | Source Section |
 |---|---|---|
 | FR1–FR3 | Functional Requirement | AC1: Cart Review |
 | FR4–FR7 | Functional Requirement | AC2: Checkout Information Entry |
@@ -238,14 +236,14 @@ These are flagged as assumptions, not requirements — they should be confirmed 
 
 ## QA Coverage Recommendations
 
-1. **Positive-path coverage** for the full checkout flow: Cart Review → Checkout Information → Order Overview → Order Completion (AC1–AC4), as a smoke/regression test.
-2. **Mandatory-field validation coverage** for AC2: each of First Name, Last Name, Zip/Postal Code left empty individually, in pairs, and all together.
-3. **Negative/format validation coverage** for AC5: special characters, whitespace-only input, and boundary-length input — pending clarification in OQ1 before exact pass/fail rules can be finalized.
-4. **Cart-state verification**: total price accuracy on the cart page (AC1) and subtotal/tax/total accuracy on the overview page (AC3), across single-item and multi-item/multi-quantity carts.
-5. **Business-rule negative tests**: attempt checkout with an empty cart (BR3) and attempt to access checkout while logged out (BR2).
-6. **Cancel-flow coverage**: cancel from the overview page (AC3) and, pending OQ2, cancel from the information page — verify cart contents are preserved in both cases (BR5, OQ9).
-7. **Post-completion state check**: verify the cart is cleared after order confirmation (BR4) and that "Back Home" (AC4) returns to the products page correctly.
-8. **Cross-browser execution** of the above on Chrome, Firefox, and Safari (NFR1).
-9. **Mobile-responsiveness pass** of the full checkout flow (NFR2), scope pending OQ8.
-10. **Exploratory testing** around browser back/forward navigation during checkout (Technical Notes, OQ6) and around the undefined "secure"/"intuitive" qualities (NFR3, NFR4, OQ3) — flag findings rather than asserting pass/fail against an undocumented standard.
+1. Positive-path coverage for the full checkout flow: Cart Review → Checkout Information → Order Overview → Order Completion (AC1–AC4), as a smoke/regression test.
+2. Mandatory-field validation coverage for AC2: each of First Name, Last Name, Zip/Postal Code left empty individually, in pairs, and all together.
+3. Negative/format validation coverage for AC5: special characters, whitespace-only input, and boundary-length input — pending clarification in OQ1 before exact pass/fail rules can be finalized.
+4. Cart-state verification: total price accuracy on the cart page (AC1) and subtotal/tax/total accuracy on the overview page (AC3), across single-item and multi-item/multi-quantity carts.
+5. Business-rule negative tests: attempt checkout with an empty cart (BR3) and attempt to access checkout while logged out (BR2).
+6. Cancel-flow coverage: cancel from the overview page (AC3) and, pending OQ2, cancel from the information page — verify cart contents are preserved in both cases (BR5, OQ9).
+7. Post-completion state check: verify the cart is cleared after order confirmation (BR4) and that "Back Home" (AC4) returns to the products page correctly.
+8. Cross-browser execution of the above on Chrome, Firefox, and Safari (NFR1).
+9. Mobile-responsiveness pass of the full checkout flow (NFR2), scope pending OQ8.
+10. Exploratory testing around browser back/forward navigation during checkout (Technical Notes, OQ6) and around the undefined "secure"/"intuitive" qualities (NFR3, NFR4, OQ3) — flag findings rather than asserting pass/fail against an undocumented standard.
 11. Do not write automated assertions against tax calculation values, Zip/Postal Code format limits, or Cancel destination from the information page until OQ1, OQ2, and OQ4 are resolved with the product owner.

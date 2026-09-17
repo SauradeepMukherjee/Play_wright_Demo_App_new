@@ -1,426 +1,440 @@
 [
   {
-    "name": "Complete Checkout with a Single Item (End-to-End Happy Path)",
-    "description": "Verify a logged-in user can complete the full checkout flow (Cart → Checkout Info → Overview → Confirmation) for a single item.",
-    "precondition": "Fresh browser context; SauceDemo available at https://www.saucedemo.com.",
+    "name": "Complete checkout with a single item (happy path)",
+    "description": "Validates the complete four-stage checkout flow end-to-end for a single-item cart, confirming every stage transition and required page element specified across AC1–AC4.",
+    "precondition": "Browser session is fresh (not logged in); user has valid credentials; cart is empty.",
     "properties": [
       { "field_name": "Priority", "field_value": "High" }
     ],
     "test_steps": [
-      { "description": "Navigate to https://www.saucedemo.com and log in with `standard_user` / `secret_sauce`.", "expected_result": "User is redirected to `/inventory.html` (Products page)." },
-      { "description": "Click \"Add to cart\" for Sauce Labs Backpack.", "expected_result": "Cart badge shows \"1\"; button changes to \"Remove\"." },
-      { "description": "Click the cart icon to open the Cart page.", "expected_result": "Cart page (`cart.html`) lists Sauce Labs Backpack with quantity 1, description, and price $29.99." },
-      { "description": "Click \"Checkout\".", "expected_result": "User is redirected to `/checkout-step-one.html` (\"Checkout: Your Information\")." },
-      { "description": "Enter First Name \"Jane\", Last Name \"Smith\", Zip \"12345\", click \"Continue\".", "expected_result": "User is redirected to `/checkout-step-two.html` (\"Checkout: Overview\")." },
-      { "description": "Review the Overview page.", "expected_result": "Sauce Labs Backpack line item (qty 1, $29.99) shown; Payment Information \"SauceCard #31337\"; Shipping Information \"Free Pony Express Delivery!\"; Item total $29.99, Tax $2.40 (8%), Total $32.39." },
-      { "description": "Click \"Finish\".", "expected_result": "User is redirected to `/checkout-complete.html`; heading \"Thank you for your order!\" displayed; cart badge shows empty." },
-      { "description": "Click \"Back Home\".", "expected_result": "User is redirected to `/inventory.html` (Products page)." }
+      { "description": "Navigate to https://www.saucedemo.com and log in with `standard_user` / `secret_sauce`", "expected_result": "User is redirected to `/inventory.html` (Products page)" },
+      { "description": "Click \"Add to cart\" for Sauce Labs Backpack", "expected_result": "Cart badge shows \"1\"; button changes to \"Remove\"" },
+      { "description": "Click the cart icon to open the Cart page", "expected_result": "Cart page (`cart.html`) lists Sauce Labs Backpack with quantity 1, description, and price $29.99" },
+      { "description": "Click \"Checkout\"", "expected_result": "User is redirected to `/checkout-step-one.html` (\"Checkout: Your Information\")" },
+      { "description": "Enter First Name \"Jane\", Last Name \"Smith\", Zip \"12345\", then click \"Continue\"", "expected_result": "User is redirected to `/checkout-step-two.html` (\"Checkout: Overview\")" },
+      { "description": "Review the Overview page", "expected_result": "Sauce Labs Backpack line item (qty 1, $29.99) is shown; Payment Information \"SauceCard #31337\" is shown; Shipping Information \"Free Pony Express Delivery!\" is shown; Item total: $29.99, Tax: $2.40 (8%), Total: $32.39" },
+      { "description": "Click \"Finish\"", "expected_result": "User is redirected to `/checkout-complete.html`; heading \"Thank you for your order!\" is displayed; cart badge shows empty (no count)" },
+      { "description": "Click \"Back Home\"", "expected_result": "User is redirected to `/inventory.html` (Products page)" }
     ],
     "sourceTestCaseId": "TC-001"
   },
   {
-    "name": "Complete Checkout with Multiple Items and Verify Price Arithmetic",
-    "description": "Verify multi-item checkout completes correctly and that subtotal/tax/total arithmetic on the Overview page is accurate.",
-    "precondition": "Logged in as `standard_user`; fresh cart.",
+    "name": "Complete checkout with multiple items and verify price arithmetic",
+    "description": "Validates checkout with a multi-item cart and confirms Item total / Tax (8%) / Total arithmetic on the Overview page per the resolved OQ4 tax rate.",
+    "precondition": "Fresh login; cart is empty.",
     "properties": [
       { "field_name": "Priority", "field_value": "High" }
     ],
     "test_steps": [
-      { "description": "Add Sauce Labs Backpack and Sauce Labs Bike Light to the cart.", "expected_result": "Cart badge shows \"2\"." },
-      { "description": "Open the Cart page.", "expected_result": "Both items are listed with quantity 1 each and correct individual prices." },
-      { "description": "Click \"Checkout\", fill in valid First Name, Last Name, and Zip, click \"Continue\".", "expected_result": "User reaches the Overview page listing both items." },
-      { "description": "Read the \"Item total\", \"Tax\", and \"Total\" values on the Overview page.", "expected_result": "Item total = $39.98 (29.99 + 9.99); Tax = $3.20 (8% of $39.98, rounded); Total = $43.18." },
-      { "description": "Click \"Finish\".", "expected_result": "Order completes successfully and cart is cleared." }
+      { "description": "Log in as `standard_user`; add Sauce Labs Backpack ($29.99) and Sauce Labs Bike Light ($9.99) to the cart", "expected_result": "Cart badge shows \"2\"" },
+      { "description": "Open the Cart page", "expected_result": "Both items are listed with quantity 1 each and correct individual prices" },
+      { "description": "Click \"Checkout\", fill in valid First Name, Last Name, and Zip, then click \"Continue\"", "expected_result": "User reaches the Overview page listing both items" },
+      { "description": "Read the \"Item total\", \"Tax\", and \"Total\" values on the Overview page", "expected_result": "Item total = $39.98 (29.99 + 9.99); Tax = $3.20 (8% of $39.98, rounded); Total = $43.18 (Item total + Tax)" },
+      { "description": "Click \"Finish\"", "expected_result": "Order completes successfully; cart is cleared" }
     ],
     "sourceTestCaseId": "TC-002"
   },
   {
-    "name": "Cart Page Displays Full Item Details for Each Product",
-    "description": "Verify the Cart page displays name, description, price, and quantity for each added item.",
-    "precondition": "Logged in as `standard_user`; Sauce Labs Backpack added to cart.",
+    "name": "Cart page displays full item details for each product",
+    "description": "Confirms each cart line item shows name, description, price, and quantity per AC1.",
+    "precondition": "Fresh login; cart is empty.",
     "properties": [
       { "field_name": "Priority", "field_value": "High" }
     ],
     "test_steps": [
-      { "description": "Open the Cart page.", "expected_result": "Item name \"Sauce Labs Backpack\" is visible; item description text is visible; item price \"$29.99\" is visible; item quantity \"1\" is visible." }
+      { "description": "Log in as `standard_user` and add Sauce Labs Backpack to the cart", "expected_result": "Item added; cart badge shows \"1\"" },
+      { "description": "Open the Cart page", "expected_result": "Item name \"Sauce Labs Backpack\" is visible; item description text is visible; item price \"$29.99\" is visible; item quantity \"1\" is visible" }
     ],
     "sourceTestCaseId": "TC-003"
   },
   {
-    "name": "Cart Page Offers Continue Shopping and Checkout Options",
-    "description": "Verify the Cart page exposes both \"Continue Shopping\" and \"Checkout\" controls, and that \"Continue Shopping\" preserves cart state.",
-    "precondition": "Logged in as `standard_user`; any item added to cart; Cart page open.",
+    "name": "Cart page offers Continue Shopping and Checkout options",
+    "description": "Confirms the Cart page exposes both the \"continue shopping\" and \"proceed to checkout\" paths required by AC1, and that Continue Shopping preserves cart state.",
+    "precondition": "Fresh login; cart is empty.",
     "properties": [
-      { "field_name": "Priority", "field_value": "High" }
+      { "field_name": "Priority", "field_value": "Medium" }
     ],
     "test_steps": [
-      { "description": "Verify \"Continue Shopping\" and \"Checkout\" buttons on the Cart page.", "expected_result": "Both buttons are visible and enabled." },
-      { "description": "Click \"Continue Shopping\".", "expected_result": "User is redirected to `/inventory.html`; cart badge count is unchanged (item still in cart)." }
+      { "description": "Log in as `standard_user`, add any item, and open the Cart page", "expected_result": "\"Continue Shopping\" button is visible and enabled; \"Checkout\" button is visible and enabled" },
+      { "description": "Click \"Continue Shopping\"", "expected_result": "User is redirected to `/inventory.html`; cart badge count is unchanged (item still in cart)" }
     ],
     "sourceTestCaseId": "TC-004"
   },
   {
-    "name": "[DEFECT] Cart Page Does Not Display a Total/Subtotal Price",
-    "description": "Verify whether the Cart page displays a total/subtotal price calculation as required by FR2/AC1. Defect Status: Confirmed Defect — live exploration 2026-09-16 (see Structured Test Plan discrepancy #1).",
-    "precondition": "Logged in as `standard_user`; two items with different prices added to cart.",
+    "name": "DISCREPANCY: Cart page does not display a total/subtotal price",
+    "description": "Confirms the live-application gap where the Cart page shows no subtotal/tax/total element, contradicting FR2's requirement to display the total price calculation on the cart page.",
+    "precondition": "Fresh login; cart is empty.",
     "properties": [
-      { "field_name": "Priority", "field_value": "High" }
+      { "field_name": "Priority", "field_value": "Medium" }
     ],
     "test_steps": [
-      {
-        "description": "Open the Cart page and inspect for any subtotal/tax/total price element.",
-        "expected_result": "Expected (Per Requirement): The Cart page displays the total price calculation for all items in the cart (FR2, AC1). | Observed (Live Application): No subtotal, tax, or total price element is present anywhere on `cart.html` — only the two individual item prices are shown. Total/subtotal/tax only appear later, on the Overview page. | Step Status: Fail — Confirmed Defect. Flag as a requirement-vs-implementation gap for defect triage; do not silently skip."
-      }
+      { "description": "Log in as `standard_user`, add two items with different prices, and open the Cart page", "expected_result": "**Per Requirement (Expected):** Per FR2/AC1, the Cart page should display the total price calculation for the items in the cart. **Observed (Live Application):** No subtotal, tax, or total price element is present anywhere on `cart.html` — only the two individual item prices are shown. This is a confirmed requirement-vs-implementation gap (FR2), to be flagged for AI Failure Classification / defect triage, not silently skipped." }
     ],
     "sourceTestCaseId": "TC-005"
   },
   {
-    "name": "Submitting an Entirely Empty Form Shows First Name Required Error First",
-    "description": "Verify mandatory-field validation fires for First Name when the checkout information form is submitted entirely empty, and that the required form fields are present.",
-    "precondition": "Logged in as `standard_user`; one item added to cart; user has clicked \"Checkout\" and is on `checkout-step-one.html`.",
+    "name": "Submitting an entirely empty form shows First Name required error first",
+    "description": "Confirms mandatory-field enforcement when all three checkout information fields are left empty; validates the field-specific error-priority order.",
+    "precondition": "Fresh login; cart has at least one item.",
     "properties": [
       { "field_name": "Priority", "field_value": "High" }
     ],
     "test_steps": [
-      { "description": "Verify First Name, Last Name, and Zip/Postal Code fields are present on the page, then leave all three empty and click \"Continue\".", "expected_result": "Fields for First Name, Last Name, and Zip/Postal Code are displayed (FR5). An error alert is shown reading \"Error: First Name is required\"; user remains on `checkout-step-one.html`." }
+      { "description": "Log in as `standard_user`, add an item, open Cart, click \"Checkout\" to reach `checkout-step-one.html`", "expected_result": "User is on the Checkout: Your Information page" },
+      { "description": "Leave all three fields empty and click \"Continue\"", "expected_result": "An error alert is shown reading \"Error: First Name is required\"; user remains on `checkout-step-one.html`" }
     ],
     "sourceTestCaseId": "TC-006"
   },
   {
-    "name": "Leaving Only Last Name Empty Shows Last Name Required Error",
-    "description": "Verify mandatory-field validation fires specifically for Last Name when only that field is left empty.",
-    "precondition": "On `checkout-step-one.html`.",
+    "name": "Leaving only Last Name empty shows Last Name required error",
+    "description": "Confirms field-specific mandatory validation when only Last Name is left empty.",
+    "precondition": "Fresh login; cart has at least one item; user is on `checkout-step-one.html`.",
     "properties": [
       { "field_name": "Priority", "field_value": "High" }
     ],
     "test_steps": [
-      { "description": "Enter First Name only, leave Last Name and Zip empty, click \"Continue\".", "expected_result": "Error alert reads \"Error: Last Name is required\"; user remains on `checkout-step-one.html`." }
+      { "description": "Enter First Name only, leave Last Name and Zip empty, click \"Continue\"", "expected_result": "Error alert reads \"Error: Last Name is required\"; user remains on `checkout-step-one.html`" }
     ],
     "sourceTestCaseId": "TC-007"
   },
   {
-    "name": "Leaving Only Zip/Postal Code Empty Shows Postal Code Required Error",
-    "description": "Verify mandatory-field validation fires specifically for Zip/Postal Code when only that field is left empty.",
-    "precondition": "On `checkout-step-one.html`.",
+    "name": "Leaving only Zip/Postal Code empty shows Postal Code required error",
+    "description": "Confirms field-specific mandatory validation when only Zip/Postal Code is left empty.",
+    "precondition": "Fresh login; cart has at least one item; user is on `checkout-step-one.html`.",
     "properties": [
       { "field_name": "Priority", "field_value": "High" }
     ],
     "test_steps": [
-      { "description": "Enter First Name and Last Name, leave Zip empty, click \"Continue\".", "expected_result": "Error alert reads \"Error: Postal Code is required\"; user remains on `checkout-step-one.html`." }
+      { "description": "Enter First Name and Last Name, leave Zip empty, click \"Continue\"", "expected_result": "Error alert reads \"Error: Postal Code is required\"; user remains on `checkout-step-one.html`" }
     ],
     "sourceTestCaseId": "TC-008"
   },
   {
-    "name": "Valid First Name, Last Name, and Zip Proceed to Overview Page",
-    "description": "Verify that submitting fully valid checkout information successfully advances the user to the Overview page with no error.",
-    "precondition": "On `checkout-step-one.html`.",
+    "name": "Valid First Name, Last Name, and Zip proceed to Overview page",
+    "description": "Confirms the positive path where all three mandatory fields are populated with valid data and the user progresses to the Overview page.",
+    "precondition": "Fresh login; cart has at least one item; user is on `checkout-step-one.html`.",
     "properties": [
       { "field_name": "Priority", "field_value": "High" }
     ],
     "test_steps": [
-      { "description": "Enter First Name \"Jane\", Last Name \"Smith\", Zip \"12345\", click \"Continue\".", "expected_result": "User is redirected to `/checkout-step-two.html` with no error alert shown." }
+      { "description": "Enter First Name \"Jane\", Last Name \"Smith\", Zip \"12345\", click \"Continue\"", "expected_result": "User is redirected to `/checkout-step-two.html`; no error alert is shown" }
     ],
     "sourceTestCaseId": "TC-009"
   },
   {
-    "name": "Error Alert Can Be Dismissed via Its Close Control",
-    "description": "Verify the required-field error alert can be dismissed and that the form remains usable afterward.",
-    "precondition": "On `checkout-step-one.html`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "Medium" }
-    ],
-    "test_steps": [
-      { "description": "Click \"Continue\" with all fields empty to trigger the required-field error.", "expected_result": "Error alert is visible." },
-      { "description": "Click the \"Dismiss error\" (X) control on the alert.", "expected_result": "The error alert is no longer visible; form fields remain empty and editable." }
-    ],
-    "sourceTestCaseId": "TC-010"
-  },
-  {
-    "name": "[DEFECT] Special Characters in Zip/Postal Code Are Accepted Without a Format Validation Error",
-    "description": "Verify whether entering special characters in the Zip/Postal Code field is rejected with a validation error, per AC5/FR16/FR17. Defect Status: Confirmed Defect — live exploration 2026-09-16 (see Structured Test Plan discrepancy #2).",
-    "precondition": "On `checkout-step-one.html`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      {
-        "description": "Enter First Name \"John\", Last Name \"Doe\", Zip \"!@#$%\", click \"Continue\".",
-        "expected_result": "Expected (Per Requirement): A format-validation error is shown for the invalid Zip value; user cannot proceed until it is corrected (AC5, FR16, FR17). | Observed (Live Application): No format-validation error is shown; user is redirected to `/checkout-step-two.html` despite the non-numeric, special-character Zip value. | Step Status: Fail — Confirmed Defect. Contradicts AC5/FR16/FR17, which expect a validation error for invalid data such as special characters."
-      }
-    ],
-    "sourceTestCaseId": "TC-011"
-  },
-  {
-    "name": "[DEFECT] Whitespace-Only First Name Is Accepted as Valid",
-    "description": "Verify whether a First Name consisting only of whitespace is correctly rejected as a blank mandatory field. Defect Status: Confirmed Defect — live exploration 2026-09-16 (see Structured Test Plan discrepancy #2).",
-    "precondition": "On `checkout-step-one.html`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      {
-        "description": "Enter First Name as three spaces \"   \", Last Name \"Doe\", Zip \"12345\", click \"Continue\".",
-        "expected_result": "Expected (Per Requirement): A \"First Name is required\" error is shown, since the field is effectively blank (FR6/FR7 mandatory-field enforcement; AC5 rejects incomplete information). | Observed (Live Application): No \"First Name is required\" error is shown; user is redirected to `/checkout-step-two.html`. | Step Status: Fail — Confirmed Defect. Contradicts the spirit of FR6/FR7 and AC5."
-      }
-    ],
-    "sourceTestCaseId": "TC-012"
-  },
-  {
-    "name": "[DEFECT] Oversized Name Input and Special-Character Last Name Are Both Accepted",
-    "description": "Verify whether an oversized First Name and a special-character/digit Last Name are rejected with length-limit or character-format validation errors. Defect Status: Confirmed Defect — live exploration 2026-09-16 (see Structured Test Plan discrepancy #2).",
-    "precondition": "On `checkout-step-one.html`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      {
-        "description": "Enter a First Name of 90+ characters, a Last Name containing digits and special characters (\"Doe123!@#\"), and a valid Zip, then click \"Continue\".",
-        "expected_result": "Expected (Per Requirement): A length-limit or character-format error is shown for one or both fields (AC5, FR16, FR17). | Observed (Live Application): No length-limit or character-format error is shown for either field; user is redirected to `/checkout-step-two.html`. | Step Status: Fail — Confirmed Defect. Confirms no max-length or allowed-character validation exists, contradicting the intent of AC5/FR16/FR17."
-      }
-    ],
-    "sourceTestCaseId": "TC-013"
-  },
-  {
-    "name": "Numeric 5-Digit Zip/Postal Code Is Accepted (Happy-Path Boundary)",
-    "description": "Verify a well-formed 5-digit numeric Zip/Postal Code is accepted without error, as a boundary/control case against the negative scenarios above.",
-    "precondition": "On `checkout-step-one.html`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "Medium" }
-    ],
-    "test_steps": [
-      { "description": "Enter valid First Name and Last Name, enter Zip \"99999\", click \"Continue\".", "expected_result": "User is redirected to `/checkout-step-two.html` with no errors." }
-    ],
-    "sourceTestCaseId": "TC-014"
-  },
-  {
-    "name": "Overview Page Lists All Cart Items with Correct Details",
-    "description": "Verify the Overview page correctly summarizes all items carried over from the cart, as a read-only summary.",
-    "precondition": "Logged in; Sauce Labs Backpack and Sauce Labs Bike Light added to cart; valid checkout information submitted; user is on `checkout-step-two.html`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      { "description": "Review the Overview page item list.", "expected_result": "Both items are listed with correct name, quantity (1 each), and price; no \"Add to cart\" / \"Remove\" controls are shown on this read-only summary." }
-    ],
-    "sourceTestCaseId": "TC-015"
-  },
-  {
-    "name": "Overview Page Displays Payment and Shipping Information Sections",
-    "description": "Verify Payment Information and Shipping Information sections render on the Overview page (per Assumption A3, this is static demo data, not user-entered).",
-    "precondition": "User is on `checkout-step-two.html` with at least one item in the cart.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      { "description": "Inspect the Payment Information and Shipping Information sections.", "expected_result": "\"Payment Information:\" section shows \"SauceCard #31337\"; \"Shipping Information:\" section shows \"Free Pony Express Delivery!\"." }
-    ],
-    "sourceTestCaseId": "TC-016"
-  },
-  {
-    "name": "Overview Page Provides Cancel and Finish Controls",
-    "description": "Verify both \"Cancel\" and \"Finish\" controls are present and enabled on the Overview page.",
-    "precondition": "User is on `checkout-step-two.html` with at least one item in the cart.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      { "description": "Verify the Overview page controls.", "expected_result": "\"Cancel\" button is visible and enabled; \"Finish\" button is visible and enabled." }
-    ],
-    "sourceTestCaseId": "TC-017"
-  },
-  {
-    "name": "Finish Redirects to Confirmation Page with Success Message",
-    "description": "Verify clicking \"Finish\" completes the order and displays the confirmation page with a success message and navigation option.",
-    "precondition": "Checkout information completed; user is on `checkout-step-two.html` with at least one item.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      { "description": "Click \"Finish\".", "expected_result": "User is redirected to `/checkout-complete.html`; heading \"Thank you for your order!\" is displayed; descriptive dispatch/delivery text is displayed; \"Back Home\" button is visible." }
-    ],
-    "sourceTestCaseId": "TC-018"
-  },
-  {
-    "name": "Back Home Button Returns to the Products Page",
-    "description": "Verify \"Back Home\" on the confirmation page correctly returns the user to the Products page.",
-    "precondition": "User is on `checkout-complete.html` (order just completed).",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      { "description": "Click \"Back Home\".", "expected_result": "User is redirected to `/inventory.html` (Products page); product grid is displayed." }
-    ],
-    "sourceTestCaseId": "TC-019"
-  },
-  {
-    "name": "Cart Is Cleared After Order Confirmation",
-    "description": "Verify the cart is fully cleared (badge and contents) after an order is completed.",
-    "precondition": "Logged in as `standard_user`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      { "description": "Add two items to the cart, complete checkout through \"Finish\" to reach `checkout-complete.html`.", "expected_result": "Cart icon shows no item count badge (\"Cart, empty\")." },
-      { "description": "Open the Cart page directly.", "expected_result": "Cart page shows zero line items." }
-    ],
-    "sourceTestCaseId": "TC-020"
-  },
-  {
-    "name": "Unauthenticated Direct Access to Checkout Is Blocked and Redirected to Login",
-    "description": "Verify direct URL access to the checkout information page is blocked for unauthenticated users.",
-    "precondition": "Not logged in (fresh context, or explicitly logged out via the hamburger menu \"Logout\" link).",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      { "description": "Without logging in (or after explicitly logging out), navigate directly to `https://www.saucedemo.com/checkout-step-one.html`.", "expected_result": "User is redirected to the login page (\"/\"); an error alert is shown reading: \"Epic sadface: You can only access '/checkout-step-one.html' when you are logged in.\"" }
-    ],
-    "sourceTestCaseId": "TC-021"
-  },
-  {
-    "name": "[DEFECT] Checking Out with an Empty Cart Is Not Blocked and Can Be Completed with a $0.00 Total",
-    "description": "Verify whether the application blocks a user from checking out with zero items in the cart, per BR3/FR19. Defect Status: Confirmed Defect — live exploration 2026-09-16 (see Structured Test Plan discrepancy #3).",
-    "precondition": "Logged in as `standard_user` with a guaranteed-empty cart (e.g., immediately after fresh login, or after completing/clearing a prior order).",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      {
-        "description": "Open the Cart page with zero items.",
-        "expected_result": "Expected (Per Requirement): \"Checkout\" should be disabled, hidden, or otherwise prevent proceeding when the cart is empty (BR3, FR19). | Observed (Live Application): \"Checkout\" button is present and enabled even though the cart has zero items. | Step Status: Fail — Confirmed Defect."
-      },
-      {
-        "description": "Click \"Checkout\".",
-        "expected_result": "Expected (Per Requirement): User should be blocked from reaching `checkout-step-one.html`, or shown an empty-cart message. | Observed (Live Application): User is unexpectedly redirected to `/checkout-step-one.html`. | Step Status: Fail — Confirmed Defect."
-      },
-      {
-        "description": "Fill in valid First Name, Last Name, and Zip, then click \"Continue\".",
-        "expected_result": "Expected (Per Requirement): This step should be unreachable per BR3/FR19. | Observed (Live Application): User reaches `/checkout-step-two.html` showing \"Item total: $0\", \"Tax: $0.00\", \"Total: $0.00\", and no line items. | Step Status: Fail — Confirmed Defect."
-      },
-      {
-        "description": "Click \"Finish\".",
-        "expected_result": "Expected (Per Requirement): An order with zero items should not be completable. | Observed (Live Application): Order completes successfully and `/checkout-complete.html` is shown, confirming an order with zero items was allowed end-to-end. | Step Status: Fail — Confirmed Defect. Flag as a confirmed defect against BR3/FR19 for triage."
-      }
-    ],
-    "sourceTestCaseId": "TC-022"
-  },
-  {
-    "name": "Logged-In Session Persists Across Checkout Steps for a Valid Multi-Step Flow",
-    "description": "Verify no re-authentication is required as the user progresses through all four checkout steps in one continuous session.",
-    "precondition": "Logged in as `standard_user`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "Medium" }
-    ],
-    "test_steps": [
-      { "description": "Add an item, and progress through Cart → Checkout Info → Overview → Complete without logging out.", "expected_result": "No re-authentication is required at any step; each page transition succeeds without redirect to login." }
-    ],
-    "sourceTestCaseId": "TC-023"
-  },
-  {
-    "name": "[DEFECT] Attempting to Check Out Again Immediately After Order Completion Reproduces the Same Empty-Cart Defect",
-    "description": "Verify whether the TC-022 empty-cart-checkout defect is a one-off or a consistently reproducible gap, by immediately re-attempting checkout on a freshly emptied cart. Defect Status: Confirmed Defect (repeatable) — live exploration 2026-09-16 (see Structured Test Plan discrepancy #3).",
-    "precondition": "One item added to cart; a full order has just been completed so the cart is now empty.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      {
-        "description": "From the now-empty cart page, click \"Checkout\" again.",
-        "expected_result": "Expected (Per Requirement): The application should block checkout or show a \"cart is empty\" guard message (BR3, FR19). | Observed (Live Application): The application again allows navigation to `checkout-step-one.html` despite zero items, reproducing the BR3/FR19 gap rather than showing any guard message. | Step Status: Fail — Confirmed Defect (regression-confirmed, repeatable)."
-      }
-    ],
-    "sourceTestCaseId": "TC-024"
-  },
-  {
-    "name": "Cancel from Checkout Information Page Returns to Cart Page with Items Preserved",
-    "description": "Verify Cancel on the Checkout Information page returns the user to the Cart page without losing cart contents.",
-    "precondition": "Logged in; two items added to cart; user has clicked \"Checkout\" and is on `checkout-step-one.html`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "High" }
-    ],
-    "test_steps": [
-      { "description": "Click \"Cancel\" on the Checkout Information page.", "expected_result": "User is redirected to `/cart.html` (Your Cart); both items are still present in the cart with correct quantities and prices." }
-    ],
-    "sourceTestCaseId": "TC-025"
-  },
-  {
-    "name": "[DEFECT] Cancel from Checkout Overview Page Returns to Products Page, Not the Cart Page",
-    "description": "Verify whether Cancel on the Overview page returns to the Cart page consistently with the step-one Cancel behavior (per BR5's implied \"return to cart\" intent). Defect Status: Confirmed Defect — live exploration 2026-09-16 (see Structured Test Plan discrepancy #4).",
-    "precondition": "Logged in; two items added to cart; valid checkout information submitted; user is on `checkout-step-two.html`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "Medium" }
-    ],
-    "test_steps": [
-      {
-        "description": "Click \"Cancel\" on the Checkout Overview page.",
-        "expected_result": "Expected (Per Requirement): User is redirected to `/cart.html`, consistent with the step-one Cancel destination and the \"return to cart\" intent implied by BR5. | Observed (Live Application): User is redirected to `/inventory.html` (Products page), NOT `/cart.html`. Cart badge still shows the original item count, confirming cart contents are preserved even though the landing page differs. | Step Status: Fail — Confirmed Defect. Inconsistent with the step-one Cancel destination; flag as a UX/navigation defect for triage, not a data-loss defect (contents are preserved)."
-      }
-    ],
-    "sourceTestCaseId": "TC-026"
-  },
-  {
-    "name": "Browser Back Button After Order Confirmation Shows a Stale Overview Page Whose Finish Button Is Still Clickable",
-    "description": "Verify what happens when the browser Back button is used after reaching the order confirmation page, and whether the stale Overview page can be used to re-submit the order. Known-Issue Status: Recorded as an informational finding per the Structured Test Plan's discrepancy log (item 8). Not one of the 7 scenarios explicitly designated for the strict Expected/Observed defect split, but the observed behavior is confirmed live-application behavior and should be flagged for defect triage rather than asserted pass/fail against an undocumented requirement (OQ6 is unresolved).",
-    "precondition": "One item added to cart; a full order has just been completed to reach `checkout-complete.html`.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "Medium" }
-    ],
-    "test_steps": [
-      { "description": "Click the browser Back button.", "expected_result": "Browser navigates to `/checkout-step-two.html` showing an empty/zero-value order summary (cart already cleared); \"Finish\" button is still present and enabled." },
-      { "description": "Click \"Finish\" again.", "expected_result": "User is redirected back to `/checkout-complete.html` without any error, confirming no safeguard exists against re-submitting/re-visiting a completed order via back navigation. Record as a known issue for defect triage — no documented requirement defines correct behavior here (OQ6)." }
-    ],
-    "sourceTestCaseId": "TC-027"
-  },
-  {
-    "name": "Full Checkout Flow Renders and Completes at a Mobile Viewport (375x667)",
-    "description": "Verify the entire checkout flow is usable and completable at a mobile viewport with no blocking layout issues.",
-    "precondition": "Browser viewport set to 375x667 (e.g., iPhone SE dimensions).",
-    "properties": [
-      { "field_name": "Priority", "field_value": "Medium" }
-    ],
-    "test_steps": [
-      { "description": "Set the browser viewport to 375x667 and log in as `standard_user`.", "expected_result": "Login form and hamburger menu icon render without horizontal overflow." },
-      { "description": "Add an item to the cart and proceed through Cart → Checkout Info → Overview → Complete at this viewport.", "expected_result": "All buttons and form fields remain visible, tappable, and functional at each step; no layout element is clipped or overlapping such that a user could not complete checkout." }
-    ],
-    "sourceTestCaseId": "TC-028"
-  },
-  {
-    "name": "All Checkout-Flow Validation and Success Messages Are Captured for Content Review",
-    "description": "Verify the exact wording of every mandatory-field validation message and the order-confirmation success message, so all messages are formally documented and regression-checkable.",
-    "precondition": "Access to trigger each validation state and the confirmation page.",
-    "properties": [
-      { "field_name": "Priority", "field_value": "Medium" }
-    ],
-    "test_steps": [
-      { "description": "Trigger each of: First Name required, Last Name required, Postal Code required, and the order-confirmation success message, capturing the exact text of each.", "expected_result": "Messages match verbatim: \"Error: First Name is required\"; \"Error: Last Name is required\"; \"Error: Postal Code is required\"; \"Thank you for your order!\" success heading on `checkout-complete.html\". All messages are recorded verbatim per NFR5." }
-    ],
-    "sourceTestCaseId": "TC-029"
-  },
-  {
-    "name": "[SUPPLEMENTAL] Cross-Browser Execution of the Smoke Checkout Flow",
-    "description": "Verify the full checkout happy path (TC-001) behaves identically across the three browsers named in NFR1. This test case is added to ensure NFR1 is not left completely untested, since the current test plan does not include a dedicated cross-browser scenario.",
-    "precondition": "Access to Chrome, Firefox, and Safari (or Playwright-equivalent engines: Chromium, Firefox, WebKit).",
-    "properties": [
-      { "field_name": "Priority", "field_value": "Medium" }
-    ],
-    "test_steps": [
-      { "description": "Execute the TC-001 happy-path checkout flow on Chrome.", "expected_result": "Full checkout flow completes with identical behavior/results to the Chrome baseline in TC-001." },
-      { "description": "Execute the TC-001 happy-path checkout flow on Firefox.", "expected_result": "Full checkout flow completes with identical behavior/results." },
-      { "description": "Execute the TC-001 happy-path checkout flow on Safari/WebKit.", "expected_result": "Full checkout flow completes with identical behavior/results." }
-    ],
-    "sourceTestCaseId": "TC-030"
-  },
-  {
-    "name": "[SUPPLEMENTAL] Exploratory Review of \"Secure\" and \"Intuitive\" Checkout Qualities",
-    "description": "Exploratory pass to record observations about checkout \"security\" and \"intuitiveness\"/\"clear feedback\", since neither NFR has a measurable, testable acceptance threshold (OQ3, and the report's Note under Non-Functional Requirements). Findings only — not asserted as pass/fail against an undocumented standard.",
-    "precondition": "Logged in as `standard_user`.",
+    "name": "Error alert can be dismissed via its close control",
+    "description": "Confirms the required-field error alert's dismiss (\"X\") control functions correctly and the form remains usable afterward, supporting the \"clear feedback\" quality referenced in NFR4.",
+    "precondition": "Fresh login; cart has at least one item; user is on `checkout-step-one.html`.",
     "properties": [
       { "field_name": "Priority", "field_value": "Low" }
     ],
     "test_steps": [
-      { "description": "Perform the full checkout flow while observing for any exposed sensitive data, non-HTTPS transitions, or session-handling concerns.", "expected_result": "Observations recorded as findings; no pass/fail threshold is defined (NFR3, OQ3)." },
-      { "description": "Perform the full checkout flow while assessing clarity of feedback/messaging at each step.", "expected_result": "Observations recorded as findings against NFR4 (\"intuitive\", \"clear feedback\"); no measurable threshold is defined." }
+      { "description": "Click \"Continue\" with all fields empty to trigger the required-field error", "expected_result": "Error alert is visible" },
+      { "description": "Click the \"Dismiss error\" (X) control on the alert", "expected_result": "The error alert is no longer visible; the form fields remain empty and editable" }
+    ],
+    "sourceTestCaseId": "TC-010"
+  },
+  {
+    "name": "DISCREPANCY: Special characters in Zip/Postal Code accepted without format validation error",
+    "description": "Confirms the live-application gap where special-character input in Zip/Postal Code is silently accepted rather than rejected, contradicting AC5's requirement to validate invalid data. Note: exact allowed-format boundaries remain unresolved per Open Question OQ1; this test documents observed behavior against the AC5 intent, not a specific format spec.",
+    "precondition": "Fresh login; cart has at least one item; user is on `checkout-step-one.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "High" }
+    ],
+    "test_steps": [
+      { "description": "Enter First Name \"John\", Last Name \"Doe\", Zip \"!@#$%\", click \"Continue\"", "expected_result": "**Per Requirement (Expected):** Per AC5/FR16/FR17, entering invalid data such as special characters should produce a validation error message and block progression. **Observed (Live Application):** No format-validation error is shown; user is redirected to `/checkout-step-two.html` despite the non-numeric, special-character Zip value. Confirmed defect against AC5/FR16/FR17." }
+    ],
+    "sourceTestCaseId": "TC-011"
+  },
+  {
+    "name": "DISCREPANCY: Whitespace-only First Name accepted as valid",
+    "description": "Confirms the live-application gap where a First Name consisting only of whitespace is accepted as if non-empty, contradicting the mandatory-field intent of FR6/FR7 and the incomplete-data rejection intent of AC5.",
+    "precondition": "Fresh login; cart has at least one item; user is on `checkout-step-one.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "High" }
+    ],
+    "test_steps": [
+      { "description": "Enter First Name as three spaces \"   \", Last Name \"Doe\", Zip \"12345\", click \"Continue\"", "expected_result": "**Per Requirement (Expected):** Per FR6/FR7 (mandatory field enforcement) and AC5 (incomplete information should be rejected), a whitespace-only First Name should be treated as effectively empty and trigger the \"First Name is required\" error. **Observed (Live Application):** No \"First Name is required\" error is shown even though the field is effectively blank; user is redirected to `/checkout-step-two.html`. Confirmed defect against FR6/FR7/AC5." }
+    ],
+    "sourceTestCaseId": "TC-012"
+  },
+  {
+    "name": "DISCREPANCY: Oversized name input and special-character Last Name both accepted",
+    "description": "Confirms the live-application gap where there is no maximum-length or allowed-character enforcement on name fields, contradicting the intent of AC5/FR16/FR17. Exact length/character boundaries remain unresolved per OQ1.",
+    "precondition": "Fresh login; cart has at least one item; user is on `checkout-step-one.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Enter a First Name of 90+ characters, a Last Name containing digits and special characters (\"Doe123!@#\"), and a valid Zip, then click \"Continue\"", "expected_result": "**Per Requirement (Expected):** Per AC5/FR16/FR17, oversized or malformed name input should trigger a length-limit or character-format validation error. **Observed (Live Application):** No length-limit or character-format error is shown for either field; user is redirected to `/checkout-step-two.html`. This confirms no max-length or allowed-character validation exists, contradicting the intent of AC5/FR16/FR17." }
+    ],
+    "sourceTestCaseId": "TC-013"
+  },
+  {
+    "name": "Numeric 5-digit Zip/Postal Code is accepted (happy-path boundary)",
+    "description": "Confirms a standard, well-formed 5-digit numeric Zip is accepted without error, as a boundary/control case against the discrepancy cases (TC-011–TC-013).",
+    "precondition": "Fresh login; cart has at least one item; user is on `checkout-step-one.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Enter valid First Name and Last Name, enter Zip \"99999\", click \"Continue\"", "expected_result": "User is redirected to `/checkout-step-two.html` with no errors" }
+    ],
+    "sourceTestCaseId": "TC-014"
+  },
+  {
+    "name": "Overview page lists all cart items with correct details",
+    "description": "Confirms the Overview page presents a correct, read-only order summary per AC3.",
+    "precondition": "Fresh login; valid checkout information entered; user is on `checkout-step-two.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "High" }
+    ],
+    "test_steps": [
+      { "description": "Log in, add Sauce Labs Backpack and Sauce Labs Bike Light to the cart, and proceed through checkout information with valid data to reach `checkout-step-two.html`", "expected_result": "Both items are listed with correct name, quantity (1 each), and price; no \"Add to cart\" / \"Remove\" controls are shown on this read-only summary" }
+    ],
+    "sourceTestCaseId": "TC-015"
+  },
+  {
+    "name": "Overview page displays Payment and Shipping information sections",
+    "description": "Confirms the static Payment and Shipping Information sections required by AC3/FR10 are displayed. Per Assumption A3/Open Question OQ5, this payment information is treated as static demo data, not a user-entered payment form.",
+    "precondition": "Fresh login; valid checkout information entered; user is on `checkout-step-two.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Reach `checkout-step-two.html` with at least one item in the cart", "expected_result": "\"Payment Information:\" section shows \"SauceCard #31337\"; \"Shipping Information:\" section shows \"Free Pony Express Delivery!\"" }
+    ],
+    "sourceTestCaseId": "TC-016"
+  },
+  {
+    "name": "Overview page provides Cancel and Finish controls",
+    "description": "Confirms both required action controls are present and enabled on the Overview page per AC3.",
+    "precondition": "Fresh login; valid checkout information entered; user is on `checkout-step-two.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Reach `checkout-step-two.html` with at least one item in the cart", "expected_result": "\"Cancel\" button is visible and enabled; \"Finish\" button is visible and enabled" }
+    ],
+    "sourceTestCaseId": "TC-017"
+  },
+  {
+    "name": "Finish redirects to confirmation page with success message",
+    "description": "Confirms clicking Finish completes the order and displays the confirmation content required by AC4.",
+    "precondition": "Fresh login; user is on `checkout-step-two.html` with at least one item.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "High" }
+    ],
+    "test_steps": [
+      { "description": "Complete checkout information and reach `checkout-step-two.html` with at least one item, then click \"Finish\"", "expected_result": "User is redirected to `/checkout-complete.html`; heading \"Thank you for your order!\" is displayed; descriptive text about dispatch/delivery is displayed; \"Back Home\" button is visible" }
+    ],
+    "sourceTestCaseId": "TC-018"
+  },
+  {
+    "name": "Back Home button returns to the Products page",
+    "description": "Confirms the \"Back Home\" control on the confirmation page navigates correctly per AC4.",
+    "precondition": "Fresh login; order just completed; user is on `checkout-complete.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Reach `checkout-complete.html` by completing an order", "expected_result": "Confirmation page is displayed" },
+      { "description": "Click \"Back Home\"", "expected_result": "User is redirected to `/inventory.html` (Products page); product grid is displayed" }
+    ],
+    "sourceTestCaseId": "TC-019"
+  },
+  {
+    "name": "Cart is cleared after order confirmation",
+    "description": "Confirms BR4 (order confirmation clears the cart) by checking both the cart badge and the Cart page content post-completion.",
+    "precondition": "Fresh login; cart has at least two items before completing the order.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "High" }
+    ],
+    "test_steps": [
+      { "description": "Add two items to the cart, complete checkout through \"Finish\" to reach `checkout-complete.html`", "expected_result": "Cart icon shows no item count badge (\"Cart, empty\")" },
+      { "description": "Open the Cart page directly", "expected_result": "Cart page shows zero line items" }
+    ],
+    "sourceTestCaseId": "TC-020"
+  },
+  {
+    "name": "Unauthenticated direct access to checkout is blocked and redirected to login",
+    "description": "Confirms BR2 (login required for checkout access) is enforced via direct URL navigation, and that the login-gate error message is shown.",
+    "precondition": "User is logged out (either never logged in this session, or explicitly logged out via the hamburger menu \"Logout\" link).",
+    "properties": [
+      { "field_name": "Priority", "field_value": "High" }
+    ],
+    "test_steps": [
+      { "description": "Without logging in (or after explicitly logging out), navigate directly to `https://www.saucedemo.com/checkout-step-one.html`", "expected_result": "User is redirected to the login page (\"/\"); an error alert is shown reading: \"Epic sadface: You can only access '/checkout-step-one.html' when you are logged in.\"" }
+    ],
+    "sourceTestCaseId": "TC-021"
+  },
+  {
+    "name": "DISCREPANCY: Checking out with an empty cart is not blocked and can be completed with a $0.00 total",
+    "description": "Confirms the live-application gap where BR3/FR19 (cart cannot be empty when proceeding to checkout) is not enforced, allowing a full end-to-end order with zero items and a $0.00 total.",
+    "precondition": "Fresh login with a guaranteed-empty cart (immediately after logging in, or after completing/clearing a prior order).",
+    "properties": [
+      { "field_name": "Priority", "field_value": "High" }
+    ],
+    "test_steps": [
+      { "description": "Log in as `standard_user` with a guaranteed-empty cart, open the Cart page", "expected_result": "**Per Requirement (Expected):** Per BR3/FR19, the \"Checkout\" button should not be present, should be disabled, or should be blocked with an empty-cart message when the cart has zero items. **Observed (Live Application):** \"Checkout\" button is present and enabled even though the cart has zero items." },
+      { "description": "Click \"Checkout\"", "expected_result": "**Per Requirement (Expected):** User should be blocked from proceeding. **Observed (Live Application):** User is unexpectedly redirected to `/checkout-step-one.html`." },
+      { "description": "Fill in valid First Name, Last Name, and Zip, then click \"Continue\"", "expected_result": "**Observed (Live Application):** User reaches `/checkout-step-two.html` showing \"Item total: $0\", \"Tax: $0.00\", \"Total: $0.00\", and no line items." },
+      { "description": "Click \"Finish\"", "expected_result": "**Per Requirement (Expected):** An order with zero items should never be able to complete, per BR3/FR19. **Observed (Live Application):** Order completes successfully and `/checkout-complete.html` is shown, confirming an order with zero items was allowed end-to-end. Confirmed defect against BR3/FR19 — flag for downstream AI Failure Classification as an application/business-logic defect." }
+    ],
+    "sourceTestCaseId": "TC-022"
+  },
+  {
+    "name": "Logged-in session persists across checkout steps for a valid multi-step flow",
+    "description": "Confirms the user's authenticated session is not lost or challenged again at any point during a normal checkout flow.",
+    "precondition": "Fresh login; cart has at least one item.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Log in as `standard_user`, add an item, and progress through Cart -> Checkout Info -> Overview -> Complete without logging out", "expected_result": "No re-authentication is required at any step; each page transition succeeds without redirect to login" }
+    ],
+    "sourceTestCaseId": "TC-023"
+  },
+  {
+    "name": "DISCREPANCY: Attempting to check out again immediately after order completion reproduces the empty-cart defect",
+    "description": "Confirms the BR3/FR19 gap identified in TC-022 also reproduces immediately after a legitimate order completion leaves the cart empty, rather than being a one-off/edge condition.",
+    "precondition": "An order has just been completed for one item, leaving the cart empty.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "High" }
+    ],
+    "test_steps": [
+      { "description": "Complete a full order for one item so the cart becomes empty, then click \"Checkout\" again from the now-empty cart page", "expected_result": "**Per Requirement (Expected):** Per BR3/FR19, the application should show a \"cart is empty\" guard message and prevent navigation to checkout-step-one.html. **Observed (Live Application):** The application again allows navigation to `checkout-step-one.html` despite zero items, reproducing the BR3/FR19 gap rather than showing any guard message." }
+    ],
+    "sourceTestCaseId": "TC-024"
+  },
+  {
+    "name": "Cancel from Checkout Information page returns to Cart page with items preserved",
+    "description": "Confirms BR5 (cancel at any step, return to cart) for the checkout information (step-one) page, and confirms cart contents are preserved (OQ9 area).",
+    "precondition": "Fresh login; cart has at least two items; user is on `checkout-step-one.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Log in, add two items to the cart, click \"Checkout\" to reach `checkout-step-one.html`", "expected_result": "User is on the Checkout: Your Information page" },
+      { "description": "Click \"Cancel\" on the Checkout Information page", "expected_result": "User is redirected to `/cart.html` (Your Cart); both items are still present in the cart with correct quantities and prices" }
+    ],
+    "sourceTestCaseId": "TC-025"
+  },
+  {
+    "name": "DISCREPANCY: Cancel from Checkout Overview page returns to Products page, not the Cart page",
+    "description": "Confirms the asymmetry between the two Cancel controls: step-one Cancel returns to the cart (TC-025), but step-two (Overview) Cancel returns to the Products page instead, which is inconsistent with the implied \"return to cart\" behavior in BR5. Cart preservation itself is unaffected.",
+    "precondition": "Fresh login; cart has at least two items; valid checkout information entered; user is on `checkout-step-two.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Log in, add two items to the cart, proceed through valid checkout information to reach `checkout-step-two.html`", "expected_result": "User is on the Checkout: Overview page" },
+      { "description": "Click \"Cancel\" on the Checkout Overview page", "expected_result": "**Per Requirement (Expected):** Per BR5's \"return to cart\" intent (and for consistency with the step-one Cancel behavior in TC-025), Cancel should return the user to `/cart.html`. **Observed (Live Application):** User is redirected to `/inventory.html` (Products page), NOT `/cart.html` — inconsistent with the step-one Cancel destination. Cart badge still shows the original item count, confirming cart contents are preserved even though the landing page differs. Confirmed inconsistency against BR5, flagged for defect triage." }
+    ],
+    "sourceTestCaseId": "TC-026"
+  },
+  {
+    "name": "DISCREPANCY: Browser back button after order confirmation shows a stale Overview page whose Finish button is still clickable",
+    "description": "Confirms there is no safeguard preventing re-submission/re-navigation to a completed order via the browser Back button, which risks appearing to duplicate a \"Finish\" action against an already-cleared cart.",
+    "precondition": "An order has just been completed for one item; user is on `checkout-complete.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Complete a full order for one item to reach `checkout-complete.html`", "expected_result": "Confirmation page is displayed" },
+      { "description": "Click the browser Back button", "expected_result": "**Per Requirement (Expected):** No documented expectation exists for this action (OQ6 was open); at minimum BR4 implies the cart should remain cleared and no further order actions should be possible without re-adding items. **Observed (Live Application):** Browser navigates to `/checkout-step-two.html` showing an empty/zero-value order summary (cart already cleared); \"Finish\" button is still present and enabled." },
+      { "description": "Click \"Finish\" again", "expected_result": "**Observed (Live Application):** User is redirected back to `/checkout-complete.html` without any error, confirming no safeguard exists against re-submitting/re-visiting a completed order via back navigation. Flagged as a defect-candidate for triage given the absence of a resubmission guard." }
+    ],
+    "sourceTestCaseId": "TC-027"
+  },
+  {
+    "name": "Full checkout flow renders and completes at a mobile viewport (375x667)",
+    "description": "Confirms the entire checkout flow is usable at a representative mobile viewport, per NFR2's mobile-responsiveness requirement. Exact breakpoints/devices remain unresolved per OQ8; 375x667 is used as the specific viewport already specified in the approved Structured Test Plan.",
+    "precondition": "Fresh login; viewport set to 375x667 (e.g., iPhone SE dimensions) before login.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Set the browser viewport to 375x667, log in as `standard_user`", "expected_result": "Login form and hamburger menu icon render without horizontal overflow" },
+      { "description": "Add an item to the cart and proceed through Cart -> Checkout Info -> Overview -> Complete at this viewport", "expected_result": "All buttons and form fields remain visible, tappable, and functional at each step; no layout element is clipped or overlapping such that a user could not complete checkout" }
+    ],
+    "sourceTestCaseId": "TC-028"
+  },
+  {
+    "name": "All checkout-flow validation and success messages are captured verbatim for content review",
+    "description": "Consolidates the exact text of every checkout-flow validation and success message for a single content-accuracy review pass, per NFR5's requirement that all validation messages be validated as part of testing.",
+    "precondition": "Fresh login; access to checkout-step-one.html and checkout-complete.html.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Low" }
+    ],
+    "test_steps": [
+      { "description": "Trigger each of: First Name required, Last Name required, Postal Code required, and the order-confirmation success message, capturing the exact text of each", "expected_result": "Message text is exactly: \"Error: First Name is required\"; \"Error: Last Name is required\"; \"Error: Postal Code is required\"; \"Thank you for your order!\" success heading on `checkout-complete.html`. All messages are recorded verbatim in test evidence per NFR5." }
+    ],
+    "sourceTestCaseId": "TC-029"
+  },
+  {
+    "name": "DISCREPANCY: Undocumented \"Generate PDF order\" button appears on the confirmation page",
+    "description": "Confirms and records the presence of a \"Generate PDF order\" control on the order confirmation page that is not referenced anywhere in FR13–FR15 or AC4, so that its existence is visible to product/requirements owners rather than silently observed and dropped. This test case does not assert pass/fail against any requirement — none exists to test against — it only confirms the control's presence and that clicking it does not break the documented AC4 flow.",
+    "precondition": "An order has just been completed; user is on `checkout-complete.html`.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Low" }
+    ],
+    "test_steps": [
+      { "description": "Reach `checkout-complete.html` by completing an order", "expected_result": "**Per Requirement (Expected):** Per AC4/FR13–FR15, only a \"Back Home\" button is documented on the confirmation page. **Observed (Live Application):** An additional \"Generate PDF order\" button is also present, which is not documented anywhere in the Requirement Analysis Report's functional requirements." },
+      { "description": "Click \"Generate PDF order\"", "expected_result": "Confirm the click does not error out or block the documented \"Back Home\" control from still functioning; record actual behavior (e.g., file download, new tab, no-op) as an evidence note for product-owner review, since no documented expected behavior exists for this control." }
+    ],
+    "sourceTestCaseId": "TC-030"
+  },
+  {
+    "name": "DISCREPANCY: No quantity-selector control exists anywhere in the product/cart UI",
+    "description": "Confirms that the product catalog and cart offer no quantity-selector or stepper control, meaning each product can only be added as a single unit per line item. This confirms the \"varying quantities\" edge case in the Requirement Analysis Report's Edge Cases section is not achievable through the current UI, and documents this as a UI/functionality gap rather than a test-design omission.",
+    "precondition": "Fresh login.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Low" }
+    ],
+    "test_steps": [
+      { "description": "Log in as `standard_user`, view a product's detail page and the inventory grid", "expected_result": "No quantity input, stepper, or \"+/-\" control is present anywhere alongside \"Add to cart\"" },
+      { "description": "Add the product to the cart and open the Cart page", "expected_result": "Cart line item quantity is fixed at \"1\" with no control to increase or decrease it. **Per Requirement (Expected):** The Report's Edge Cases section anticipates verifying \"varying quantities\" arithmetic. **Observed (Live Application):** No UI path exists to create a quantity greater than 1 for a single line item, so that edge case cannot be executed as originally anticipated — confirmed as a scope limitation, not a defect against any specific FR." }
     ],
     "sourceTestCaseId": "TC-031"
+  },
+  {
+    "name": "Cross-browser regression of the full checkout happy path (Chrome, Firefox, Safari)",
+    "description": "Re-executes the TC-001 happy-path checkout flow on each of the three browsers named in NFR1, to confirm cross-browser compatibility of the checkout flow. This reuses the already-documented TC-001 flow; it does not introduce new functionality, only a new execution environment per browser.",
+    "precondition": "Fresh login; cart is empty; test executed once per browser (Chrome, Firefox, Safari).",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Medium" }
+    ],
+    "test_steps": [
+      { "description": "Repeat the TC-001 full checkout flow (login -> add to cart -> cart -> checkout info -> overview -> finish -> back home) in Chrome", "expected_result": "All TC-001 expected results hold identically in Chrome" },
+      { "description": "Repeat the same flow in Firefox", "expected_result": "All TC-001 expected results hold identically in Firefox" },
+      { "description": "Repeat the same flow in Safari (or WebKit-based equivalent)", "expected_result": "All TC-001 expected results hold identically in Safari; any browser-specific rendering or functional deviation is recorded as a defect candidate" }
+    ],
+    "sourceTestCaseId": "TC-032"
+  },
+  {
+    "name": "Exploratory observation of checkout \"security\" controls",
+    "description": "Records observable, checkable security-adjacent facts about the checkout flow (e.g., use of HTTPS, whether any sensitive-looking field values are echoed insecurely) without asserting pass/fail against a threshold, since NFR3 provides no concrete, testable security requirement and OQ3 remains unresolved.",
+    "precondition": "Fresh login; access to the full checkout flow.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Low" }
+    ],
+    "test_steps": [
+      { "description": "Observe the protocol/scheme used to load every checkout-flow page (login, inventory, cart, checkout-step-one, checkout-step-two, checkout-complete)", "expected_result": "Record whether HTTPS is used consistently; this is an observation, not a pass/fail assertion, since no concrete security control is documented (NFR3, OQ3)" },
+      { "description": "Observe whether the checkout information fields (First Name, Last Name, Zip) are transmitted or rendered in any obviously insecure way (e.g., visible in plaintext URL parameters)", "expected_result": "Record findings for product-owner review; flag any concerning observation as a candidate for a future, concretely-scoped security requirement rather than a confirmed defect against an undocumented standard" }
+    ],
+    "sourceTestCaseId": "TC-033"
+  },
+  {
+    "name": "Exploratory observation of checkout \"intuitiveness\" and step-by-step feedback clarity",
+    "description": "Records observable usability/feedback-clarity findings across the checkout flow (e.g., whether each step communicates its outcome clearly) without asserting pass/fail against a measurable threshold, since NFR4 is stated qualitatively with no defined acceptance criterion.",
+    "precondition": "Fresh login; access to the full checkout flow.",
+    "properties": [
+      { "field_name": "Priority", "field_value": "Low" }
+    ],
+    "test_steps": [
+      { "description": "Walk through Cart -> Checkout Info -> Overview -> Complete, noting whether each transition provides clear on-screen feedback of what just happened and what to do next", "expected_result": "Record observations (e.g., error alert clarity, absence of a subtotal on the cart page per TC-005, Cancel-destination asymmetry per TC-026) as qualitative findings for product-owner review, not as pass/fail defects against a measurable NFR4 threshold" }
+    ],
+    "sourceTestCaseId": "TC-034"
   }
 ]

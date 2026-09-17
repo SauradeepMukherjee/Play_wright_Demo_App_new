@@ -1,10 +1,10 @@
 # SCRUM-101 Checkout Test Report
 
 ## Execution Metadata
-- Execution Identifier: 2026-09-16_18-35-25
-- Execution Start Time: 2026-09-16T13:05:25.420Z
-- Execution End Time: 2026-09-16T13:08:32.857Z
-- Total Execution Duration: 3m 7s
+- Execution Identifier: 2026-09-17_17-19-37
+- Execution Start Time: 2026-09-17T11:49:37.263Z
+- Execution End Time: 2026-09-17T11:51:44.550Z
+- Total Execution Duration: 2m 7s
 - Historical Mode: Enabled
 
 ## Execution Summary
@@ -56,11 +56,11 @@
 | DISCREPANCY: Whitespace-only First Name is accepted as valid | saucedemo-checkout\checkout-info-validation.spec.js | chromium, firefox, webkit |
 | DISCREPANCY: Oversized name input and special-character Last Name are both accepted | saucedemo-checkout\checkout-info-validation.spec.js | chromium, firefox, webkit |
 | Numeric 5-digit Zip/Postal Code is accepted (happy-path boundary) | saucedemo-checkout\checkout-info-validation.spec.js | chromium, firefox, webkit |
+| All checkout-flow validation and success messages are captured for content review | saucedemo-checkout\checkout-info-validation.spec.js | chromium, firefox, webkit |
+| Full checkout flow renders and completes at a mobile viewport (375x667) | saucedemo-checkout\mobile-responsiveness.spec.js | chromium, firefox, webkit |
 | Cancel from Checkout Information page returns to Cart page with items preserved | saucedemo-checkout\navigation.spec.js | chromium, firefox, webkit |
 | DISCREPANCY: Cancel from Checkout Overview page returns to Products page, not the Cart page | saucedemo-checkout\navigation.spec.js | chromium, firefox, webkit |
 | Browser back button after order confirmation shows a stale Overview page whose Finish button is still clickable | saucedemo-checkout\navigation.spec.js | chromium, firefox, webkit |
-| Full checkout flow renders and completes at a mobile viewport (375x667) | saucedemo-checkout\non-functional-exploratory.spec.js | chromium, firefox, webkit |
-| All checkout-flow validation and success messages are captured for content review | saucedemo-checkout\non-functional-exploratory.spec.js | chromium, firefox, webkit |
 | Finish redirects to confirmation page with success message | saucedemo-checkout\order-completion.spec.js | chromium, firefox, webkit |
 | Back Home button returns to the Products page | saucedemo-checkout\order-completion.spec.js | chromium, firefox, webkit |
 | Cart is cleared after order confirmation | saucedemo-checkout\order-completion.spec.js | chromium, firefox, webkit |
