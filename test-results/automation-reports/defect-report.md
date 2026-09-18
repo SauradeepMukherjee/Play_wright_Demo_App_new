@@ -5,7 +5,7 @@ contradicts a documented requirement or acceptance criterion. Sourced from the P
 per-failure classification (`test-results/failure-diagnosis.json`, `category: "application"`); tests marked
 this way are left as `test.fixme()` rather than force-passed.
 
-Generated: 2026-09-17T11:51:56.391Z
+Generated: 2026-09-18T00:23:24.231Z
 
 ## Application Defects
 | Defect | Test Case | Browser | Expected vs. Actual | Failure Detail |

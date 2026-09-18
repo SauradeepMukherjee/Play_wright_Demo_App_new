@@ -14,12 +14,11 @@ test.describe('Cart Review (AC1)', () => {
 
     // 2. Open the Cart page
     await page.locator('[data-test="shopping-cart-link"]').click();
-    await expect(page).toHaveURL(/\/cart\.html/);
-    const cartItem = page.locator('[data-test="inventory-item"]').filter({ hasText: 'Sauce Labs Backpack' });
-    await expect(cartItem.locator('[data-test="item-4-title-link"]')).toHaveText('Sauce Labs Backpack');
-    await expect(cartItem.locator('[data-test="inventory-item-desc"]')).toBeVisible();
-    await expect(cartItem.locator('[data-test="inventory-item-price"]')).toHaveText('$29.99');
-    await expect(cartItem.locator('[data-test="item-quantity"]')).toHaveText('1');
+    await expect(page).toHaveURL(/.*\/cart\.html/);
+    await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText('Sauce Labs Backpack');
+    await expect(page.locator('[data-test="inventory-item-desc"]')).toBeVisible();
+    await expect(page.locator('[data-test="inventory-item-price"]')).toHaveText('$29.99');
+    await expect(page.locator('[data-test="item-quantity"]')).toHaveText('1');
   });
 
   test('Cart page offers Continue Shopping and Checkout options', async ({ page }) => {
@@ -30,6 +29,7 @@ test.describe('Cart Review (AC1)', () => {
     await page.locator('[data-test="login-button"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await page.locator('[data-test="shopping-cart-link"]').click();
+    await expect(page).toHaveURL(/.*\/cart\.html/);
     await expect(page.locator('[data-test="continue-shopping"]')).toBeVisible();
     await expect(page.locator('[data-test="continue-shopping"]')).toBeEnabled();
     await expect(page.locator('[data-test="checkout"]')).toBeVisible();
@@ -37,8 +37,9 @@ test.describe('Cart Review (AC1)', () => {
 
     // 2. Click 'Continue Shopping'
     await page.locator('[data-test="continue-shopping"]').click();
-    await expect(page).toHaveURL(/\/inventory\.html/);
-    await expect(page.locator('[data-test="shopping-cart-link"]')).toHaveText('1');
+    await expect(page).toHaveURL(/.*\/inventory\.html/);
+    await expect(page.locator('[data-test="title"]')).toHaveText('Products');
+    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
   });
 
   test('DISCREPANCY: Cart page does not display a total/subtotal price', async ({ page }) => {
@@ -50,13 +51,14 @@ test.describe('Cart Review (AC1)', () => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
     await page.locator('[data-test="shopping-cart-link"]').click();
-    await expect(page).toHaveURL(/\/cart\.html/);
+    await expect(page).toHaveURL(/.*\/cart\.html/);
 
-    // expect: No subtotal, tax, or total price element is present anywhere on cart.html - only the two individual item prices are shown
-    await expect(page.getByText('$29.99')).toBeVisible();
-    await expect(page.getByText('$9.99')).toBeVisible();
+    // expect: No subtotal, tax, or total price element is present anywhere on cart.html — only the two individual item prices are shown
+    await expect(page.locator('[data-test="inventory-item-price"]')).toHaveText(['$29.99', '$9.99']);
     await expect(page.locator('[data-test="subtotal-label"]')).toHaveCount(0);
     await expect(page.locator('[data-test="tax-label"]')).toHaveCount(0);
     await expect(page.locator('[data-test="total-label"]')).toHaveCount(0);
+    // This contradicts FR2 of the Requirement Analysis Report ('display the total price calculation on the cart page')
+    // and is flagged here as a confirmed requirement-vs-implementation gap rather than silently skipped.
   });
 });

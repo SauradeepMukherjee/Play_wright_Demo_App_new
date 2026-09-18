@@ -1,38 +1,38 @@
 {
   ".claude/agents/requirement-analysis-agent.md": {
     "status": "completed",
-    "lastRun": "2026-09-17T10:50:34.000Z",
-    "note": "requirement-analysis-report.md/.json/.pdf regenerated for SCRUM-101"
+    "lastRun": "2026-09-17T13:36:40.000Z",
+    "note": "requirement-analysis-report.md/.json/.pdf generated for story 10345"
   },
   ".claude/agents/playwright-test-planner.md": {
     "status": "completed",
-    "lastRun": "2026-09-17T10:51:26.000Z",
+    "lastRun": "2026-09-17T13:39:24.000Z",
     "note": "Skipped this run at user request — reusing the existing specs/saucedemo-checkout-test-plan.md unchanged"
   },
   ".claude/agents/testcase-generator-agent.md": {
     "status": "completed",
-    "lastRun": "2026-09-17T11:02:15.000Z",
-    "note": "34 manual test cases generated; xlsx converted to native workbook"
+    "lastRun": "2026-09-17T13:47:08.000Z",
+    "note": "34 manual test cases generated for story 10345; xlsx converted to native workbook"
   },
   ".claude/agents/playwright-test-generator.md": {
     "status": "completed",
-    "lastRun": "2026-09-17T11:41:42.000Z",
-    "note": "8 spec files, 29 tests generated; no live-app drift found vs. the reused plan"
+    "lastRun": "2026-09-17T14:14:02.000Z",
+    "note": "8 spec files, 29 tests generated; no live-app drift found; self-hardened since Healer is skipped this run"
   },
   ".claude/agents/playwright-test-healer.md": {
     "status": "completed",
-    "lastRun": "2026-09-17T11:52:02.000Z",
-    "note": "87/87 passed (real CLI, full load); 0 fixme; 0 leftover debug artifacts"
+    "lastRun": "2026-09-17T13:48:31.000Z",
+    "note": "Skipped this run at user request — automation will run raw, unhealed"
   },
   ".claude/agents/qtest-upload-agent.md": {
     "status": "completed",
-    "lastRun": "2026-09-17T11:09:49.000Z",
-    "note": "34/34 test cases mapped to qtest-upload-payload.json; no live push"
+    "lastRun": "2026-09-17T13:51:48.000Z",
+    "note": "34/34 test cases mapped to qtest-upload-payload.json for story 10345; no live push"
   },
   ".claude/skills/run-qa-pipeline": {
     "status": "in-progress",
     "lastRun": null,
-    "note": "SCRUM-101 run: reusing existing test plan, skipping the planner stage"
+    "note": "Story 10345 (ADO-imported): reusing existing test plan, skipping planner AND healer per user request"
   },
   ".claude/skills/test-case-generation": {
     "status": "pending",
@@ -41,8 +41,8 @@
   },
   ".claude/skills/generate-qa-report": {
     "status": "completed",
-    "lastRun": "2026-09-17T11:52:02.000Z",
-    "note": "execution-report.html/.pdf, test-cases.xlsx, script-issue-report.xlsx (0), defect-report.md/.pdf (0) all generated"
+    "lastRun": "2026-09-18T00:23:33.000Z",
+    "note": "87/87 passed, run without Healer per user request; execution-report.html/.pdf, script-issue-report.xlsx (0), defect-report.md/.pdf (0) all generated"
   },
   ".claude/skills/qtest-upload": {
     "status": "pending",
@@ -54,9 +54,9 @@
       "stage": "Requirement Analysis",
       "status": "APPROVED",
       "artifact": [
-        "reports/SCRUM-101/requirement-analysis-report.md",
-        "reports/SCRUM-101/requirement-analysis-report.json",
-        "reports/SCRUM-101/requirement-analysis-report.pdf"
+        "reports/10345/requirement-analysis-report.md",
+        "reports/10345/requirement-analysis-report.json",
+        "reports/10345/requirement-analysis-report.pdf"
       ],
       "available_actions": [
         "APPROVE",
@@ -68,13 +68,13 @@
         {
           "action": "APPROVE",
           "feedback": null,
-          "at": "2026-09-17T10:51:15.169Z",
+          "at": "2026-09-17T13:39:11.967Z",
           "source": "dashboard"
         }
       ],
       "rerun_count": 0,
       "rejection_count": 0,
-      "at": "2026-09-17T10:51:15.169Z"
+      "at": "2026-09-17T13:39:11.967Z"
     },
     "test-plan": {
       "stage": "Test Plan",
@@ -92,20 +92,20 @@
         {
           "action": "APPROVE",
           "feedback": null,
-          "at": "2026-09-17T10:51:26.000Z",
+          "at": "2026-09-17T13:39:24.000Z",
           "source": "orchestrator (reused unchanged from a prior run at user request — planner not dispatched this run)"
         }
       ],
       "rerun_count": 0,
       "rejection_count": 0,
-      "at": "2026-09-17T10:51:26.000Z"
+      "at": "2026-09-17T13:39:24.000Z"
     },
     "manual-test-cases": {
       "stage": "Manual Test Cases",
       "status": "APPROVED",
       "artifact": [
-        "reports/SCRUM-101/generated-testcases.md",
-        "reports/SCRUM-101/generated-testcases.xlsx"
+        "reports/10345/generated-testcases.md",
+        "reports/10345/generated-testcases.xlsx"
       ],
       "available_actions": [
         "APPROVE",
@@ -117,13 +117,13 @@
         {
           "action": "APPROVE",
           "feedback": null,
-          "at": "2026-09-17T11:05:38.414Z",
+          "at": "2026-09-17T13:48:17.251Z",
           "source": "dashboard"
         }
       ],
       "rerun_count": 0,
       "rejection_count": 0,
-      "at": "2026-09-17T11:05:38.414Z"
+      "at": "2026-09-17T13:48:17.251Z"
     }
   }
 }
